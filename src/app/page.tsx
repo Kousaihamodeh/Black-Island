@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { ensureSeeded } from '@/lib/autoSeed';
 import { HeroSection } from '@/components/home/HeroSection';
 import { CategoryGrid } from '@/components/home/CategoryGrid';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
@@ -13,6 +14,7 @@ export const revalidate = 0; // Dynamic real-time loading for new product update
 export default async function HomePage() {
   let featuredProducts: any[] = [];
   try {
+    await ensureSeeded(prisma);
     featuredProducts = await prisma.product.findMany({
       where: { featured: true, isActive: true },
       include: {

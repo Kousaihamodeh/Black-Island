@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { ensureSeeded } from '@/lib/autoSeed';
 import { notFound } from 'next/navigation';
 import { ShopClientPage } from '@/app/shop/ShopClientPage';
 
@@ -16,6 +17,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   let currentCategory = null;
 
   try {
+    await ensureSeeded(prisma);
     const normalizedSlug = decodeURIComponent(slug).toLowerCase().trim();
 
     // Match category by slug or normalized slug

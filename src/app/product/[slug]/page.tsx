@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { ensureSeeded } from '@/lib/autoSeed';
 import { notFound } from 'next/navigation';
 import { ProductDetailClient } from './ProductDetailClient';
 
@@ -13,6 +14,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   let relatedProducts: any[] = [];
 
   try {
+    await ensureSeeded(prisma);
     product = await prisma.product.findUnique({
       where: { slug },
       include: {

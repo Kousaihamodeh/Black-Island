@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { ensureSeeded } from '@/lib/autoSeed';
 import { ShopClientPage } from './ShopClientPage';
 
 export const revalidate = 0; // Dynamic real-time loading
@@ -8,6 +9,7 @@ export default async function ShopPage() {
   let categories: any[] = [];
 
   try {
+    await ensureSeeded(prisma);
     products = await prisma.product.findMany({
       where: { isActive: true },
       include: {
