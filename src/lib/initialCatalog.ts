@@ -621,7 +621,7 @@ export const INITIAL_PRODUCTS: any[] = [
     "isNew": true,
     "isSale": false,
     "isActive": true,
-    "categorySlug": "hoodies-sweatshirts",
+    "categorySlug": "pants-cargo",
     "createdAt": "2026-09-06T16:45:07.173Z",
     "updatedAt": "2026-09-06T16:45:07.173Z",
     "images": [
