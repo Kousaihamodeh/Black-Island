@@ -47,7 +47,7 @@ export default async function HomePage() {
   }
 
   // Guaranteed catalog fallback if database is empty or uninitialized on Vercel
-  if (!featuredProducts || featuredProducts.length === 0) {
+  if (!featuredProducts || featuredProducts.length < 8) {
     featuredProducts = INITIAL_PRODUCTS.slice(0, 8);
   }
 
