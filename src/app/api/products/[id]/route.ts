@@ -9,7 +9,7 @@ export async function GET(
   try {
     const { id } = await params;
 
-    const product = await prisma.product.findFirst({
+    let product: any = await prisma.product.findFirst({
       where: {
         OR: [{ id }, { slug: id }],
       },
@@ -19,6 +19,11 @@ export async function GET(
         category: true,
       },
     });
+
+    if (!product) {
+      const { INITIAL_PRODUCTS } = await import('@/lib/autoSeed');
+      product = INITIAL_PRODUCTS.find((p) => p.id === id || p.slug === id);
+    }
 
     if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
