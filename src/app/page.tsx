@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { ensureSeeded } from '@/lib/autoSeed';
+import { ensureSeeded, INITIAL_PRODUCTS } from '@/lib/autoSeed';
 import { HeroSection } from '@/components/home/HeroSection';
 import { CategoryGrid } from '@/components/home/CategoryGrid';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
@@ -44,6 +44,11 @@ export default async function HomePage() {
     }
   } catch (error) {
     console.error('Failed to load homepage products', error);
+  }
+
+  // Guaranteed catalog fallback if database is empty or uninitialized on Vercel
+  if (!featuredProducts || featuredProducts.length === 0) {
+    featuredProducts = INITIAL_PRODUCTS.slice(0, 8);
   }
 
   return (

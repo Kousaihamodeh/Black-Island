@@ -38,9 +38,11 @@ export function HeroSection() {
             </div>
 
             <div className="space-y-3">
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight uppercase leading-[0.95] text-white">
-                {t.heroTitle.split(' ')[0]} <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-brand-gold">
+              <h1 className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tight uppercase text-white font-display">
+                <span className="block text-white leading-tight mb-1 sm:mb-2">
+                  {t.heroTitle.split(' ')[0]}
+                </span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-brand-gold leading-tight">
                   {t.heroTitle.split(' ').slice(1).join(' ')}
                 </span>
               </h1>

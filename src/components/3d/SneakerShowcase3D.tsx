@@ -135,10 +135,22 @@ export default function SneakerShowcase3D() {
   }, []);
 
   return (
-    <div ref={containerRef} className="w-full h-[400px] relative rounded-2xl overflow-hidden bg-gradient-to-b from-brand-900 to-black border border-brand-800 shadow-2xl">
-      <canvas ref={canvasRef} className="w-full h-full block" />
-      <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md px-3 py-1 rounded-md text-xs font-mono text-brand-gold border border-brand-gold/30">
-        360° INTERACTIVE SHOWCASE
+    <div ref={containerRef} className="w-full h-[280px] sm:h-[400px] relative rounded-2xl overflow-hidden bg-gradient-to-b from-brand-900 to-black border border-brand-800 shadow-2xl">
+      {/* Mobile fast-loader image fallback */}
+      <div className="block sm:hidden w-full h-full relative">
+        <img
+          src="https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop"
+          alt="360 Sneaker Spotlight"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+      </div>
+
+      {/* Desktop 3D Canvas */}
+      <canvas ref={canvasRef} className="hidden sm:block w-full h-full" />
+
+      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] sm:text-xs font-mono text-brand-gold border border-brand-gold/30">
+        360° SNEAKER SPOTLIGHT
       </div>
     </div>
   );

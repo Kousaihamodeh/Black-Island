@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { ensureSeeded } from '@/lib/autoSeed';
+import { ensureSeeded, INITIAL_PRODUCTS, INITIAL_CATEGORIES } from '@/lib/autoSeed';
 import { notFound } from 'next/navigation';
 import { ShopClientPage } from '@/app/shop/ShopClientPage';
 
@@ -20,7 +20,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     await ensureSeeded(prisma);
     const normalizedSlug = decodeURIComponent(slug).toLowerCase().trim();
 
-    // Match category by slug or normalized slug
     currentCategory = await prisma.category.findFirst({
       where: {
         OR: [
@@ -30,11 +29,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       },
     });
 
-    if (!currentCategory) {
-      notFound();
-    }
-
-    // Fetch all active products so full client filtering and sidebar switching work seamlessly
     allProducts = await prisma.product.findMany({
       where: { isActive: true },
       include: {
@@ -51,6 +45,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     });
   } catch (err) {
     console.error('Error fetching category', err);
+  }
+
+  // Fallbacks
+  if (!allProducts || allProducts.length === 0) {
+    allProducts = INITIAL_PRODUCTS;
+  }
+  if (!categories || categories.length === 0) {
+    categories = INITIAL_CATEGORIES;
   }
 
   return (

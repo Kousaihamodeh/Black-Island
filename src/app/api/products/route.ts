@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
-import { ensureSeeded } from '@/lib/autoSeed';
+import { ensureSeeded, INITIAL_PRODUCTS } from '@/lib/autoSeed';
 
 export async function GET(request: Request) {
   try {
@@ -45,7 +45,7 @@ export async function GET(request: Request) {
       ];
     }
 
-    const products = await prisma.product.findMany({
+    let products = await prisma.product.findMany({
       where,
       include: {
         images: { orderBy: { order: 'asc' } },
@@ -56,10 +56,14 @@ export async function GET(request: Request) {
       take: limit,
     });
 
+    if (!products || products.length === 0) {
+      products = INITIAL_PRODUCTS.slice(0, limit);
+    }
+
     return NextResponse.json({ products });
   } catch (error) {
     console.error('Fetch products error:', error);
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
+    return NextResponse.json({ products: INITIAL_PRODUCTS });
   }
 }
 

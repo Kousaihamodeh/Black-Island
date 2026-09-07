@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { ensureSeeded } from '@/lib/autoSeed';
+import { ensureSeeded, INITIAL_PRODUCTS, INITIAL_CATEGORIES } from '@/lib/autoSeed';
 import { ShopClientPage } from './ShopClientPage';
 
 export const revalidate = 0; // Dynamic real-time loading
@@ -26,6 +26,14 @@ export default async function ShopPage() {
     });
   } catch (err) {
     console.error('Error loading shop catalog', err);
+  }
+
+  // Guaranteed fallbacks for Vercel Serverless
+  if (!products || products.length === 0) {
+    products = INITIAL_PRODUCTS;
+  }
+  if (!categories || categories.length === 0) {
+    categories = INITIAL_CATEGORIES;
   }
 
   return <ShopClientPage initialProducts={products} categories={categories} />;

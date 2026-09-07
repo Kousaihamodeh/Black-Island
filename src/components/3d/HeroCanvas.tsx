@@ -152,9 +152,16 @@ export default function HeroCanvas() {
   }
 
   return (
-    <div ref={containerRef} className="w-full h-[450px] lg:h-[550px] relative rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing">
-      <canvas ref={canvasRef} className="w-full h-full block" />
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 text-[11px] text-gray-300 pointer-events-none tracking-widest uppercase flex items-center gap-2 font-mono">
+    <div ref={containerRef} className="w-full h-[280px] sm:h-[450px] lg:h-[550px] relative rounded-2xl overflow-hidden cursor-grab active:cursor-grabbing">
+      {/* Mobile fast-loader fallback - zero WebGL lag on phone GPUs */}
+      <div className="block sm:hidden w-full h-full flex items-center justify-center bg-gradient-to-tr from-brand-950 via-brand-900 to-black rounded-2xl border border-brand-800/80 p-6 shadow-2xl">
+        <img src="/logo.png" alt="BLACK ISLAND" className="w-32 h-32 object-contain drop-shadow-[0_0_25px_rgba(212,175,55,0.4)]" />
+      </div>
+
+      {/* Desktop WebGL Interactive 3D Canvas */}
+      <canvas ref={canvasRef} className="hidden sm:block w-full h-full" />
+      
+      <div className="hidden sm:flex absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 text-[11px] text-gray-300 pointer-events-none tracking-widest uppercase items-center gap-2 font-mono">
         <span className="w-2 h-2 rounded-full bg-brand-gold animate-ping" />
         Interactive 3D Identity • Drag to Rotate
       </div>
