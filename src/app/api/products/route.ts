@@ -59,7 +59,7 @@ export async function GET(request: Request) {
       take: limit,
     });
 
-    if (!products || (products.length < INITIAL_PRODUCTS.length && Object.keys(where).length <= 1)) {
+    if (!products || products.length < INITIAL_PRODUCTS.length) {
       let filtered = INITIAL_PRODUCTS;
       if (category && category !== 'all') {
         filtered = filtered.filter((p) => p.categorySlug === category);
