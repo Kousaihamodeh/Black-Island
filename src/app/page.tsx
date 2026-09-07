@@ -9,6 +9,7 @@ import { GoogleMapSection } from '@/components/home/GoogleMapSection';
 import { InstagramSection } from '@/components/home/InstagramSection';
 import { WhatsappCta } from '@/components/home/WhatsappCta';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 0; // Dynamic real-time loading for new product updates
 
 export default async function HomePage() {

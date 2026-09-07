@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS, INITIAL_CATEGORIES } from '@/lib/autoSeed';
 import { ShopClientPage } from './ShopClientPage';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 0; // Dynamic real-time loading
 
 export default async function ShopPage() {

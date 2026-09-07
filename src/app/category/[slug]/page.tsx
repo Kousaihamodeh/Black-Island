@@ -1,9 +1,9 @@
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS, INITIAL_CATEGORIES } from '@/lib/autoSeed';
-import { notFound } from 'next/navigation';
 import { ShopClientPage } from '@/app/shop/ShopClientPage';
 
-export const revalidate = 0; // Dynamic real-time loading
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
@@ -12,8 +12,8 @@ interface CategoryPageProps {
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
 
-  let allProducts: any[] = INITIAL_PRODUCTS;
-  let categories: any[] = INITIAL_CATEGORIES;
+  let allProducts: any[] = [];
+  let categories: any[] = [];
   let currentCategory = null;
 
   try {
@@ -22,35 +22,36 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
     currentCategory = await prisma.category.findFirst({
       where: {
-        OR: [
-          { slug: normalizedSlug },
-          { slug: slug },
-        ],
+        OR: [{ slug: normalizedSlug }, { slug }],
       },
     });
 
     const dbProds = await prisma.product.findMany({
       where: { isActive: true },
       include: {
-        images: true,
+        images: { orderBy: { order: 'asc' } },
         variants: true,
         category: true,
       },
       orderBy: { createdAt: 'desc' },
     });
-    if (dbProds && dbProds.length > INITIAL_PRODUCTS.length) {
-      allProducts = dbProds;
-    }
 
     const dbCats = await prisma.category.findMany({
       where: { isHidden: false },
       orderBy: { order: 'asc' },
     });
-    if (dbCats && dbCats.length > INITIAL_CATEGORIES.length) {
-      categories = dbCats;
-    }
+
+    const initialProdMap = new Map<string, any>(INITIAL_PRODUCTS.map((p: any) => [p.id, p]));
+    const dbProdMap = new Map<string, any>((dbProds || []).map((p: any) => [p.id, p]));
+    allProducts = Array.from(new Map<string, any>([...initialProdMap, ...dbProdMap]).values());
+
+    const initialCatMap = new Map<string, any>(INITIAL_CATEGORIES.map((c: any) => [c.id, c]));
+    const dbCatMap = new Map<string, any>((dbCats || []).map((c: any) => [c.id, c]));
+    categories = Array.from(new Map<string, any>([...initialCatMap, ...dbCatMap]).values());
   } catch (err) {
     console.error('Error fetching category', err);
+    allProducts = INITIAL_PRODUCTS;
+    categories = INITIAL_CATEGORIES;
   }
 
   return (
@@ -61,3 +62,4 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     />
   );
 }
+
