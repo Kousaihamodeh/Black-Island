@@ -48,9 +48,9 @@ export async function GET(request: Request) {
       ];
     }
 
-    let dbProducts: any[] = [];
+    let products = INITIAL_PRODUCTS;
     try {
-      dbProducts = await prisma.product.findMany({
+      const dbProducts = await prisma.product.findMany({
         where,
         include: {
           images: { orderBy: { order: 'asc' } },
@@ -59,14 +59,12 @@ export async function GET(request: Request) {
         },
         orderBy: { createdAt: 'desc' },
       });
+      if (dbProducts && dbProducts.length > INITIAL_PRODUCTS.length) {
+        products = dbProducts;
+      }
     } catch (e) {}
 
-    // Combine DB products with INITIAL_PRODUCTS (avoiding duplicates)
-    const dbIds = new Set((dbProducts || []).map((p) => p.id));
-    const extraInitial = INITIAL_PRODUCTS.filter((p) => !dbIds.has(p.id));
-    let combined = [...(dbProducts || []), ...extraInitial];
-
-    // Apply filtering
+    let combined = products;
     if (!allStatus) {
       combined = combined.filter((p) => p.isActive !== false);
     }
@@ -92,8 +90,8 @@ export async function GET(request: Request) {
       );
     }
 
-    const products = limit ? combined.slice(0, limit) : combined;
-    return NextResponse.json({ products });
+    const result = limit ? combined.slice(0, limit) : combined;
+    return NextResponse.json({ products: result });
   } catch (error) {
     console.error('Fetch products error:', error);
     return NextResponse.json({ products: INITIAL_PRODUCTS });

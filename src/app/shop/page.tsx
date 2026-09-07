@@ -5,12 +5,12 @@ import { ShopClientPage } from './ShopClientPage';
 export const revalidate = 0; // Dynamic real-time loading
 
 export default async function ShopPage() {
-  let products: any[] = [];
-  let categories: any[] = [];
+  let products: any[] = INITIAL_PRODUCTS;
+  let categories: any[] = INITIAL_CATEGORIES;
 
   try {
     await ensureSeeded(prisma);
-    products = await prisma.product.findMany({
+    const dbProds = await prisma.product.findMany({
       where: { isActive: true },
       include: {
         images: true,
@@ -19,23 +19,20 @@ export default async function ShopPage() {
       },
       orderBy: { createdAt: 'desc' },
     });
+    if (dbProds && dbProds.length > INITIAL_PRODUCTS.length) {
+      products = dbProds;
+    }
 
-    categories = await prisma.category.findMany({
+    const dbCats = await prisma.category.findMany({
       where: { isHidden: false },
       orderBy: { order: 'asc' },
     });
+    if (dbCats && dbCats.length > INITIAL_CATEGORIES.length) {
+      categories = dbCats;
+    }
   } catch (err) {
     console.error('Error loading shop catalog', err);
   }
 
-  // Combine DB products & categories with INITIAL_PRODUCTS (ensuring zero data loss on Vercel)
-  const dbProdIds = new Set((products || []).map((p) => p.id));
-  const extraProducts = INITIAL_PRODUCTS.filter((p) => !dbProdIds.has(p.id));
-  const allProducts = [...(products || []), ...extraProducts];
-
-  const dbCatIds = new Set((categories || []).map((c) => c.id));
-  const extraCategories = INITIAL_CATEGORIES.filter((c) => !dbCatIds.has(c.id));
-  const allCategories = [...(categories || []), ...extraCategories];
-
-  return <ShopClientPage initialProducts={allProducts} categories={allCategories} />;
+  return <ShopClientPage initialProducts={products} categories={categories} />;
 }

@@ -12,8 +12,8 @@ interface CategoryPageProps {
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
 
-  let allProducts: any[] = [];
-  let categories: any[] = [];
+  let allProducts: any[] = INITIAL_PRODUCTS;
+  let categories: any[] = INITIAL_CATEGORIES;
   let currentCategory = null;
 
   try {
@@ -29,7 +29,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       },
     });
 
-    allProducts = await prisma.product.findMany({
+    const dbProds = await prisma.product.findMany({
       where: { isActive: true },
       include: {
         images: true,
@@ -38,29 +38,26 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       },
       orderBy: { createdAt: 'desc' },
     });
+    if (dbProds && dbProds.length > INITIAL_PRODUCTS.length) {
+      allProducts = dbProds;
+    }
 
-    categories = await prisma.category.findMany({
+    const dbCats = await prisma.category.findMany({
       where: { isHidden: false },
       orderBy: { order: 'asc' },
     });
+    if (dbCats && dbCats.length > INITIAL_CATEGORIES.length) {
+      categories = dbCats;
+    }
   } catch (err) {
     console.error('Error fetching category', err);
   }
 
-  // Combine DB products & categories with INITIAL_PRODUCTS
-  const dbProdIds = new Set((allProducts || []).map((p) => p.id));
-  const extraProducts = INITIAL_PRODUCTS.filter((p) => !dbProdIds.has(p.id));
-  const combinedProducts = [...(allProducts || []), ...extraProducts];
-
-  const dbCatIds = new Set((categories || []).map((c) => c.id));
-  const extraCategories = INITIAL_CATEGORIES.filter((c) => !dbCatIds.has(c.id));
-  const combinedCategories = [...(categories || []), ...extraCategories];
-
   return (
     <ShopClientPage
-      initialProducts={combinedProducts}
+      initialProducts={allProducts}
       initialCategory={currentCategory ? currentCategory.slug : slug}
-      categories={combinedCategories}
+      categories={categories}
     />
   );
 }
