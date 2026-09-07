@@ -46,16 +46,16 @@ export default async function HomePage() {
     console.error('Failed to load homepage products', error);
   }
 
-  // Guaranteed catalog fallback if database is empty or uninitialized on Vercel
-  if (!featuredProducts || featuredProducts.length < 8) {
-    featuredProducts = INITIAL_PRODUCTS.slice(0, 8);
-  }
+  // Guaranteed catalog fallback with merged INITIAL_PRODUCTS for Vercel
+  const dbProdIds = new Set((featuredProducts || []).map((p) => p.id));
+  const extraProducts = INITIAL_PRODUCTS.filter((p) => !dbProdIds.has(p.id));
+  const finalFeatured = [...(featuredProducts || []), ...extraProducts].slice(0, 8);
 
   return (
     <div className="space-y-0">
       <HeroSection />
       <CategoryGrid />
-      <FeaturedProducts products={featuredProducts} />
+      <FeaturedProducts products={finalFeatured} />
       <SneakerSpotlightSection />
       <BrandStory />
       <GoogleMapSection />

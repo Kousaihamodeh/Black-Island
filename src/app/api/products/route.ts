@@ -48,38 +48,51 @@ export async function GET(request: Request) {
       ];
     }
 
-    let products = await prisma.product.findMany({
-      where,
-      include: {
-        images: { orderBy: { order: 'asc' } },
-        variants: true,
-        category: true,
-      },
-      orderBy: { createdAt: 'desc' },
-      take: limit,
-    });
+    let dbProducts: any[] = [];
+    try {
+      dbProducts = await prisma.product.findMany({
+        where,
+        include: {
+          images: { orderBy: { order: 'asc' } },
+          variants: true,
+          category: true,
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+    } catch (e) {}
 
-    if (!products || products.length < INITIAL_PRODUCTS.length) {
-      let filtered = INITIAL_PRODUCTS;
-      if (category && category !== 'all') {
-        filtered = filtered.filter((p) => p.categorySlug === category);
-      }
-      if (featured === 'true') {
-        filtered = filtered.filter((p) => p.featured);
-      }
-      if (isNew === 'true') {
-        filtered = filtered.filter((p) => p.isNew);
-      }
-      if (isSale === 'true') {
-        filtered = filtered.filter((p) => p.isSale);
-      }
-      if (search) {
-        const s = search.toLowerCase();
-        filtered = filtered.filter((p) => (p.nameEn && p.nameEn.toLowerCase().includes(s)) || (p.nameAr && p.nameAr.includes(s)) || (p.sku && p.sku.toLowerCase().includes(s)));
-      }
-      products = filtered.slice(0, limit);
+    // Combine DB products with INITIAL_PRODUCTS (avoiding duplicates)
+    const dbIds = new Set((dbProducts || []).map((p) => p.id));
+    const extraInitial = INITIAL_PRODUCTS.filter((p) => !dbIds.has(p.id));
+    let combined = [...(dbProducts || []), ...extraInitial];
+
+    // Apply filtering
+    if (!allStatus) {
+      combined = combined.filter((p) => p.isActive !== false);
+    }
+    if (category && category !== 'all') {
+      combined = combined.filter((p) => p.categorySlug === category);
+    }
+    if (featured === 'true') {
+      combined = combined.filter((p) => p.featured);
+    }
+    if (isNew === 'true') {
+      combined = combined.filter((p) => p.isNew);
+    }
+    if (isSale === 'true') {
+      combined = combined.filter((p) => p.isSale);
+    }
+    if (search) {
+      const s = search.toLowerCase();
+      combined = combined.filter(
+        (p) =>
+          (p.nameEn && p.nameEn.toLowerCase().includes(s)) ||
+          (p.nameAr && p.nameAr.includes(s)) ||
+          (p.sku && p.sku.toLowerCase().includes(s))
+      );
     }
 
+    const products = limit ? combined.slice(0, limit) : combined;
     return NextResponse.json({ products });
   } catch (error) {
     console.error('Fetch products error:', error);

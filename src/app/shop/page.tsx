@@ -28,13 +28,14 @@ export default async function ShopPage() {
     console.error('Error loading shop catalog', err);
   }
 
-  // Guaranteed fallbacks for Vercel Serverless
-  if (!products || products.length < INITIAL_PRODUCTS.length) {
-    products = INITIAL_PRODUCTS;
-  }
-  if (!categories || categories.length < INITIAL_CATEGORIES.length) {
-    categories = INITIAL_CATEGORIES;
-  }
+  // Combine DB products & categories with INITIAL_PRODUCTS (ensuring zero data loss on Vercel)
+  const dbProdIds = new Set((products || []).map((p) => p.id));
+  const extraProducts = INITIAL_PRODUCTS.filter((p) => !dbProdIds.has(p.id));
+  const allProducts = [...(products || []), ...extraProducts];
 
-  return <ShopClientPage initialProducts={products} categories={categories} />;
+  const dbCatIds = new Set((categories || []).map((c) => c.id));
+  const extraCategories = INITIAL_CATEGORIES.filter((c) => !dbCatIds.has(c.id));
+  const allCategories = [...(categories || []), ...extraCategories];
+
+  return <ShopClientPage initialProducts={allProducts} categories={allCategories} />;
 }

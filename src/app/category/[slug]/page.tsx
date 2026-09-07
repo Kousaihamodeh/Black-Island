@@ -47,19 +47,20 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     console.error('Error fetching category', err);
   }
 
-  // Fallbacks
-  if (!allProducts || allProducts.length < INITIAL_PRODUCTS.length) {
-    allProducts = INITIAL_PRODUCTS;
-  }
-  if (!categories || categories.length < INITIAL_CATEGORIES.length) {
-    categories = INITIAL_CATEGORIES;
-  }
+  // Combine DB products & categories with INITIAL_PRODUCTS
+  const dbProdIds = new Set((allProducts || []).map((p) => p.id));
+  const extraProducts = INITIAL_PRODUCTS.filter((p) => !dbProdIds.has(p.id));
+  const combinedProducts = [...(allProducts || []), ...extraProducts];
+
+  const dbCatIds = new Set((categories || []).map((c) => c.id));
+  const extraCategories = INITIAL_CATEGORIES.filter((c) => !dbCatIds.has(c.id));
+  const combinedCategories = [...(categories || []), ...extraCategories];
 
   return (
     <ShopClientPage
-      initialProducts={allProducts}
+      initialProducts={combinedProducts}
       initialCategory={currentCategory ? currentCategory.slug : slug}
-      categories={categories}
+      categories={combinedCategories}
     />
   );
 }
