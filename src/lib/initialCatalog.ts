@@ -62,7 +62,7 @@ export const INITIAL_CATEGORIES = [
   }
 ];
 
-const rawProductsData = [
+export const INITIAL_PRODUCTS: any[] = [
   {
     "id": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
     "slug": "oversized-black-island-hoodie",
@@ -78,18 +78,18 @@ const rawProductsData = [
     "isSale": true,
     "isActive": true,
     "categorySlug": "hoodies",
-    "createdAt": "2026-09-07T15:50:30.096Z",
-    "updatedAt": "2026-09-07T15:50:30.096Z",
+    "createdAt": "2026-09-07T16:58:43.175Z",
+    "updatedAt": "2026-09-07T16:58:43.175Z",
     "images": [
       {
-        "id": "3c0cdeaf-7245-4938-a300-b69025347f75",
+        "id": "237dee58-0478-448a-83b5-88ae76b9b871",
         "productId": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
         "url": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop",
         "isMain": true,
         "order": 0
       },
       {
-        "id": "4d46b4fc-d7f4-46e3-b75d-d4b10140f686",
+        "id": "80b6d03c-8dcc-4ae0-b1f0-bb7e92f29b08",
         "productId": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
         "url": "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=1000&auto=format&fit=crop",
         "isMain": false,
@@ -98,7 +98,7 @@ const rawProductsData = [
     ],
     "variants": [
       {
-        "id": "d7b443d8-e58b-489e-82f2-32db4b43631d",
+        "id": "498a8c25-22a1-4036-b477-ffe330bd2c16",
         "productId": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
         "size": "S",
         "colorName": "Obsidian Black",
@@ -108,7 +108,7 @@ const rawProductsData = [
         "stock": 15
       },
       {
-        "id": "18e47d8b-d023-4f99-aa57-23744a63dc56",
+        "id": "616b67c1-d2f0-4a49-96fd-10b10610f1e6",
         "productId": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
         "size": "M",
         "colorName": "Obsidian Black",
@@ -118,7 +118,7 @@ const rawProductsData = [
         "stock": 25
       },
       {
-        "id": "66941417-2668-4bb2-9140-6af49779a314",
+        "id": "d34b45da-657f-4584-a601-31ff2a6a3766",
         "productId": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
         "size": "L",
         "colorName": "Obsidian Black",
@@ -128,7 +128,7 @@ const rawProductsData = [
         "stock": 20
       },
       {
-        "id": "a99ee9bd-92cb-4a08-a20f-5b2089b70358",
+        "id": "1a9fa154-720e-472c-8526-619e529fed8f",
         "productId": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
         "size": "XL",
         "colorName": "Obsidian Black",
@@ -138,7 +138,7 @@ const rawProductsData = [
         "stock": 10
       },
       {
-        "id": "93fd0948-657a-4fc0-9bc1-33b73536f495",
+        "id": "4d82b17d-32ca-48f8-b116-0617995b041f",
         "productId": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
         "size": "XXL",
         "colorName": "Obsidian Black",
@@ -148,7 +148,7 @@ const rawProductsData = [
         "stock": 5
       },
       {
-        "id": "aa669488-ee7f-4683-bdcc-e5a65ae4fa17",
+        "id": "1a221068-de69-4129-b061-74c34238bf82",
         "productId": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
         "size": "M",
         "colorName": "Charcoal Gray",
@@ -156,17 +156,39 @@ const rawProductsData = [
         "colorImage": null,
         "colorImages": null,
         "stock": 18
+      },
+      {
+        "id": "1dd424fd-5241-47d8-b2eb-ce948cb4afd9",
+        "productId": "156ac7b7-8cbc-4d98-97c1-09a53614c24f",
+        "size": "L",
+        "colorName": "Charcoal Gray",
+        "colorHex": "#262626",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 14
       }
-    ]
+    ],
+    "category": {
+      "id": "9e635a86-affe-4f4a-9110-65ce699daa66",
+      "slug": "hoodies",
+      "nameEn": "Hoodies & Sweatshirts",
+      "nameAr": "الهوديات والسويت شيرت",
+      "descriptionEn": "Heavyweight cotton oversized hoodies imported from Turkey.",
+      "descriptionAr": "هوديات قطن ثقيل أوفرسايز صُنعت في تركيا.",
+      "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop",
+      "order": 1,
+      "isHidden": false,
+      "createdAt": "2026-09-07T15:50:30.071Z"
+    }
   },
   {
-    "id": "e2f7b8a1-4321-4d98-88b1-12a53614c250",
-    "slug": "acid-wash-vintage-tee",
-    "nameEn": "BLACK ISLAND Vintage Acid Wash Tee",
-    "nameAr": "تيشيرت فنتج غسيل حمضي اوفرسايز",
-    "descEn": "Custom 280GSM heavy jersey. Unique hand-finished acid wash technique. Relaxed boxy streetwear fit.",
-    "descAr": "قطن ثقيل 280 غرام مع معالجة غسيل حمضي فنتج وفاخرة. قصات واسعة مريحة.",
-    "price": 180000,
+    "id": "dc9d237d-898e-4a7e-88d6-e2684c8fdd77",
+    "slug": "matrix-graphic-oversized-tee",
+    "nameEn": "Matrix Vintage Graphic Tee",
+    "nameAr": "تيشيرت ماتركس اوفرسايز فينتاج",
+    "descEn": "Acid-washed 240GSM cotton t-shirt with screenprinted back graphic. Made in Turkey for maximum comfort and durability.",
+    "descAr": "قطن مغسول 240 غرام بطباعة شاشة حريرية غرافيك على الظهر. خامة تركية عالية التحمل.",
+    "price": 195000,
     "salePrice": null,
     "sku": "BI-TS-002",
     "featured": true,
@@ -174,61 +196,110 @@ const rawProductsData = [
     "isSale": false,
     "isActive": true,
     "categorySlug": "tshirts",
-    "createdAt": "2026-09-07T15:50:30.100Z",
-    "updatedAt": "2026-09-07T15:50:30.100Z",
+    "createdAt": "2026-09-07T16:58:43.181Z",
+    "updatedAt": "2026-09-07T16:58:43.181Z",
     "images": [
       {
-        "id": "5e0cdeaf-8245-4938-a300-b69025347f76",
-        "productId": "e2f7b8a1-4321-4d98-88b1-12a53614c250",
+        "id": "90454499-c43f-472b-bbbc-fd4b33a47a91",
+        "productId": "dc9d237d-898e-4a7e-88d6-e2684c8fdd77",
         "url": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1000&auto=format&fit=crop",
         "isMain": true,
         "order": 0
+      },
+      {
+        "id": "e3283eca-b8d5-4a50-ba51-c9937a14d046",
+        "productId": "dc9d237d-898e-4a7e-88d6-e2684c8fdd77",
+        "url": "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=1000&auto=format&fit=crop",
+        "isMain": false,
+        "order": 1
       }
     ],
     "variants": [
       {
-        "id": "e8b443d8-e58b-489e-82f2-32db4b43631e",
-        "productId": "e2f7b8a1-4321-4d98-88b1-12a53614c250",
-        "size": "M",
-        "colorName": "Vintage Grey",
-        "colorHex": "#4a4a4a",
+        "id": "100ec72f-d510-4615-b159-e70801ada443",
+        "productId": "dc9d237d-898e-4a7e-88d6-e2684c8fdd77",
+        "size": "S",
+        "colorName": "Washed Black",
+        "colorHex": "#1a1a1a",
         "colorImage": null,
         "colorImages": null,
-        "stock": 20
+        "stock": 12
       },
       {
-        "id": "f8b443d8-e58b-489e-82f2-32db4b43631f",
-        "productId": "e2f7b8a1-4321-4d98-88b1-12a53614c250",
+        "id": "69489ac3-ea6f-450a-8918-30321633f844",
+        "productId": "dc9d237d-898e-4a7e-88d6-e2684c8fdd77",
+        "size": "M",
+        "colorName": "Washed Black",
+        "colorHex": "#1a1a1a",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 30
+      },
+      {
+        "id": "ea271d84-bebd-4628-9eb4-f63a0611b2ef",
+        "productId": "dc9d237d-898e-4a7e-88d6-e2684c8fdd77",
         "size": "L",
-        "colorName": "Vintage Grey",
-        "colorHex": "#4a4a4a",
+        "colorName": "Washed Black",
+        "colorHex": "#1a1a1a",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 25
+      },
+      {
+        "id": "0d619bf1-8056-4c40-8580-c53adc046b32",
+        "productId": "dc9d237d-898e-4a7e-88d6-e2684c8fdd77",
+        "size": "XL",
+        "colorName": "Washed Black",
+        "colorHex": "#1a1a1a",
         "colorImage": null,
         "colorImages": null,
         "stock": 15
+      },
+      {
+        "id": "d9de437b-0c1b-4997-89c5-1961ed02a5b0",
+        "productId": "dc9d237d-898e-4a7e-88d6-e2684c8fdd77",
+        "size": "M",
+        "colorName": "Bone White",
+        "colorHex": "#f0ede6",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 10
       }
-    ]
+    ],
+    "category": {
+      "id": "70101b99-8473-4d74-a38b-293219f14e7c",
+      "slug": "tshirts",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1000&auto=format&fit=crop",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-09-07T15:50:30.076Z"
+    }
   },
   {
-    "id": "f3a8c9b2-5432-4e09-99c2-23b64725d361",
-    "slug": "tactical-cargo-pants-black",
-    "nameEn": "Tactical Multi-Pocket Cargo Pants",
-    "nameAr": "بنطال كارغو تكتيكي جيوب متعددة",
-    "descEn": "Heavy-duty ripstop cotton blend. 6 functional utility pockets, adjustable ankle cuffs, and reinforced knees.",
-    "descAr": "مصنوع من قطن تكتيكي مقاوم مع 6 جيوب عملية وتطريز متين عند الركبتين.",
+    "id": "bf20d8d8-836c-4b44-bfe4-1da08f2b6602",
+    "slug": "tactical-cargo-pants-v1",
+    "nameEn": "Stealth Tactical Cargo Pants",
+    "nameAr": "بنطال ستيلث كارغو تكتيكي",
+    "descEn": "Heavyweight ripstop stretch cotton with 6 utility pockets, adjustable ankle straps, and custom metallic hardware.",
+    "descAr": "قماش ريبستوب مقاوم للتآكل مع 6 جيوب تكتيكية وأربطة تضييق عند الكاحل.",
     "price": 290000,
-    "salePrice": 240000,
+    "salePrice": 245000,
     "sku": "BI-PT-003",
     "featured": true,
     "isNew": false,
     "isSale": true,
     "isActive": true,
     "categorySlug": "pants",
-    "createdAt": "2026-09-07T15:50:30.110Z",
-    "updatedAt": "2026-09-07T15:50:30.110Z",
+    "createdAt": "2026-09-07T16:58:43.187Z",
+    "updatedAt": "2026-09-07T16:58:43.187Z",
     "images": [
       {
-        "id": "6f0cdeaf-9245-4938-a300-b69025347f77",
-        "productId": "f3a8c9b2-5432-4e09-99c2-23b64725d361",
+        "id": "e06b2a82-435a-446f-8a85-10da565549f6",
+        "productId": "bf20d8d8-836c-4b44-bfe4-1da08f2b6602",
         "url": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1000&auto=format&fit=crop",
         "isMain": true,
         "order": 0
@@ -236,110 +307,439 @@ const rawProductsData = [
     ],
     "variants": [
       {
-        "id": "g9b443d8-e58b-489e-82f2-32db4b436320",
-        "productId": "f3a8c9b2-5432-4e09-99c2-23b64725d361",
-        "size": "30",
-        "colorName": "Black",
+        "id": "bdcb15eb-be2c-4fcd-a797-c4913105fc1f",
+        "productId": "bf20d8d8-836c-4b44-bfe4-1da08f2b6602",
+        "size": "S",
+        "colorName": "Stealth Black",
+        "colorHex": "#0f0f12",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 8
+      },
+      {
+        "id": "fed07085-13fb-42f8-a383-89cd17b0b162",
+        "productId": "bf20d8d8-836c-4b44-bfe4-1da08f2b6602",
+        "size": "M",
+        "colorName": "Stealth Black",
+        "colorHex": "#0f0f12",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 16
+      },
+      {
+        "id": "320a60a0-8659-4708-9d49-8ca00edffb08",
+        "productId": "bf20d8d8-836c-4b44-bfe4-1da08f2b6602",
+        "size": "L",
+        "colorName": "Stealth Black",
+        "colorHex": "#0f0f12",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 14
+      },
+      {
+        "id": "c58ab549-9d94-46fb-878c-3929de196d57",
+        "productId": "bf20d8d8-836c-4b44-bfe4-1da08f2b6602",
+        "size": "XL",
+        "colorName": "Stealth Black",
+        "colorHex": "#0f0f12",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 6
+      }
+    ],
+    "category": {
+      "id": "a3cd6180-a0a1-46ad-ab4b-8f9323f47f12",
+      "slug": "pants",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1000&auto=format&fit=crop",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-09-07T15:50:30.080Z"
+    }
+  },
+  {
+    "id": "b4bf57d3-3c9b-4570-977b-e2a01658e354",
+    "slug": "black-island-hyper-sneaker-01",
+    "nameEn": "BLACK ISLAND Hyper Sneaker - Triple Black",
+    "nameAr": "حذاء سنيكرز هايبر - أسود كامل",
+    "descEn": "Architectural streetwear sneaker crafted with genuine full-grain leather, chunky TPU sole, and gold engraved heel identity.",
+    "descAr": "سنيكرز معماري مصنع من الجلد الطبيعي مع نعل TPU سميك وتطريز ذهبي فاخر عند الكعب.",
+    "price": 490000,
+    "salePrice": 420000,
+    "sku": "BI-SNK-004",
+    "featured": true,
+    "isNew": true,
+    "isSale": true,
+    "isActive": true,
+    "categorySlug": "sneakers",
+    "createdAt": "2026-09-07T16:58:43.190Z",
+    "updatedAt": "2026-09-07T16:58:43.190Z",
+    "images": [
+      {
+        "id": "78af494b-1eef-49fd-945a-5bdf768794eb",
+        "productId": "b4bf57d3-3c9b-4570-977b-e2a01658e354",
+        "url": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+        "isMain": true,
+        "order": 0
+      },
+      {
+        "id": "d131acdb-e219-4e61-b495-4d406bf35cb9",
+        "productId": "b4bf57d3-3c9b-4570-977b-e2a01658e354",
+        "url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1000&auto=format&fit=crop",
+        "isMain": false,
+        "order": 1
+      }
+    ],
+    "variants": [
+      {
+        "id": "a6ad1093-b596-455f-aa05-f1c27f2b3000",
+        "productId": "b4bf57d3-3c9b-4570-977b-e2a01658e354",
+        "size": "40",
+        "colorName": "Triple Black",
         "colorHex": "#000000",
         "colorImage": null,
         "colorImages": null,
-        "stock": 10
+        "stock": 6
       },
       {
-        "id": "h9b443d8-e58b-489e-82f2-32db4b436321",
-        "productId": "f3a8c9b2-5432-4e09-99c2-23b64725d361",
-        "size": "32",
-        "colorName": "Black",
+        "id": "7b7f852c-07ce-42ea-96ef-736a017b176b",
+        "productId": "b4bf57d3-3c9b-4570-977b-e2a01658e354",
+        "size": "41",
+        "colorName": "Triple Black",
         "colorHex": "#000000",
         "colorImage": null,
         "colorImages": null,
         "stock": 12
       },
       {
-        "id": "i9b443d8-e58b-489e-82f2-32db4b436322",
-        "productId": "f3a8c9b2-5432-4e09-99c2-23b64725d361",
-        "size": "34",
-        "colorName": "Black",
+        "id": "f1b7a57b-a84b-45aa-bafe-41e731112e5c",
+        "productId": "b4bf57d3-3c9b-4570-977b-e2a01658e354",
+        "size": "42",
+        "colorName": "Triple Black",
+        "colorHex": "#000000",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 15
+      },
+      {
+        "id": "1383d7e9-0f8c-48e8-9815-71305b6ddff1",
+        "productId": "b4bf57d3-3c9b-4570-977b-e2a01658e354",
+        "size": "43",
+        "colorName": "Triple Black",
+        "colorHex": "#000000",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 10
+      },
+      {
+        "id": "ca7da023-bc3e-41cd-8b2b-1b35cb22567a",
+        "productId": "b4bf57d3-3c9b-4570-977b-e2a01658e354",
+        "size": "44",
+        "colorName": "Triple Black",
         "colorHex": "#000000",
         "colorImage": null,
         "colorImages": null,
         "stock": 8
+      },
+      {
+        "id": "20355065-ceec-4829-abd5-f0d9cd5980a3",
+        "productId": "b4bf57d3-3c9b-4570-977b-e2a01658e354",
+        "size": "45",
+        "colorName": "Triple Black",
+        "colorHex": "#000000",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 4
       }
-    ]
+    ],
+    "category": {
+      "id": "b85a4604-56d7-41ee-b1e1-b0f0c14bc865",
+      "slug": "sneakers",
+      "nameEn": "Sneakers & Shoes",
+      "nameAr": "الأحذية والسنيكرز",
+      "descriptionEn": "Premium luxury sneakers and chunky street silhouettes.",
+      "descriptionAr": "سنيكرز فاخرة وقصات متميزة للشارع.",
+      "image": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+      "order": 4,
+      "isHidden": false,
+      "createdAt": "2026-09-07T15:50:30.085Z"
+    }
   },
   {
-    "id": "a4b9d0c3-6543-4f10-00d3-34c75836e472",
-    "slug": "black-island-hyper-sneaker-01",
-    "nameEn": "BLACK ISLAND Luxury Chunky Sneaker",
-    "nameAr": "سنيكرز بلاك آيلاند جلد طبيعي فاخر",
-    "descEn": "Crafted in Turkey with premium full-grain Italian leather accents, high-density shock-absorbing outsole, and metallic gold logo branding.",
-    "descAr": "صُنع في تركيا من الجلد الطبيعي الفاخر، نعل ممتص للصدمات وشعار بلاك آيلاند الذهبي.",
-    "price": 450000,
-    "salePrice": 390000,
-    "sku": "BI-SN-004",
-    "featured": true,
+    "id": "56f9360a-3729-442c-bf05-b5d0bb1f1fad",
+    "slug": "minimalist-embroidered-cap",
+    "nameEn": "BLACK ISLAND 3D Embroidered Cap",
+    "nameAr": "كاب بلاك آيلاند تطريز ثلاثي الأبعاد",
+    "descEn": "Premium 6-panel twill cap with 3D puff embroidery logo. Metal buckle strap adjustment.",
+    "descAr": "كاب 6 طبقات قطن تويل مع تطريز بارز لشعار بلاك آيلاند ومشتاك معدني خلفي.",
+    "price": 95000,
+    "salePrice": null,
+    "sku": "BI-CAP-005",
+    "featured": false,
     "isNew": true,
-    "isSale": true,
+    "isSale": false,
     "isActive": true,
-    "categorySlug": "sneakers",
-    "createdAt": "2026-09-07T15:50:30.120Z",
-    "updatedAt": "2026-09-07T15:50:30.120Z",
+    "categorySlug": "caps",
+    "createdAt": "2026-09-07T16:58:43.195Z",
+    "updatedAt": "2026-09-07T16:58:43.195Z",
     "images": [
       {
-        "id": "7g0cdeaf-0245-4938-a300-b69025347f78",
-        "productId": "a4b9d0c3-6543-4f10-00d3-34c75836e472",
-        "url": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+        "id": "097a2c24-d8e5-40d7-8e45-100b77e7dc00",
+        "productId": "56f9360a-3729-442c-bf05-b5d0bb1f1fad",
+        "url": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=1000&auto=format&fit=crop",
         "isMain": true,
         "order": 0
       }
     ],
     "variants": [
       {
-        "id": "j0c554e9-f69c-490f-93f3-43ec5b547433",
-        "productId": "a4b9d0c3-6543-4f10-00d3-34c75836e472",
-        "size": "41",
-        "colorName": "Obsidian White",
-        "colorHex": "#ffffff",
+        "id": "e8763073-86cb-49bb-85b6-8a3a84db9a7c",
+        "productId": "56f9360a-3729-442c-bf05-b5d0bb1f1fad",
+        "size": "One Size",
+        "colorName": "Jet Black",
+        "colorHex": "#000000",
         "colorImage": null,
         "colorImages": null,
-        "stock": 5
+        "stock": 35
       },
       {
-        "id": "k0c554e9-f69c-490f-93f3-43ec5b547434",
-        "productId": "a4b9d0c3-6543-4f10-00d3-34c75836e472",
-        "size": "42",
-        "colorName": "Obsidian White",
-        "colorHex": "#ffffff",
+        "id": "1a2cfacb-59fe-4a13-969e-427a10deb028",
+        "productId": "56f9360a-3729-442c-bf05-b5d0bb1f1fad",
+        "size": "One Size",
+        "colorName": "Slate Gray",
+        "colorHex": "#475569",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 20
+      }
+    ],
+    "category": {
+      "id": "030d18f2-3701-42a0-9dd4-70131213d0b3",
+      "slug": "caps",
+      "nameEn": "Caps & Accessories",
+      "nameAr": "القبعات والإكسسوارات",
+      "descriptionEn": "Embroidered dad hats, beanies, and silver jewelry.",
+      "descriptionAr": "قبعات مطرزة، طواقي، وإكسسوارات أنيقة.",
+      "image": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=1000&auto=format&fit=crop",
+      "order": 5,
+      "isHidden": false,
+      "createdAt": "2026-09-07T15:50:30.090Z"
+    }
+  },
+  {
+    "id": "d1eee20b-ec69-4690-80cc-cb2662139154",
+    "slug": "signature-sweatshirt-charcoal",
+    "nameEn": "Minimalist Heavyweight Sweatshirt",
+    "nameAr": "سويت شيرت أوفرسايز قطن ثقيل",
+    "descEn": "Clean cut heavyweight sweatshirt with ribbed collar and cuffs. Ideal layering essential for Damascus evenings.",
+    "descAr": "سويت شيرت بياقة وأسورة محبوكة. قطعة أساسية للأمسيات الباردة.",
+    "price": 310000,
+    "salePrice": 275000,
+    "sku": "BI-SW-006",
+    "featured": false,
+    "isNew": false,
+    "isSale": true,
+    "isActive": true,
+    "categorySlug": "hoodies",
+    "createdAt": "2026-09-07T16:58:43.199Z",
+    "updatedAt": "2026-09-07T16:58:43.199Z",
+    "images": [
+      {
+        "id": "650ab753-8957-4a7a-b5f6-cd88f2243045",
+        "productId": "d1eee20b-ec69-4690-80cc-cb2662139154",
+        "url": "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=1000&auto=format&fit=crop",
+        "isMain": true,
+        "order": 0
+      }
+    ],
+    "variants": [
+      {
+        "id": "d61391f0-6950-4432-95ce-b3552bd0a2c4",
+        "productId": "d1eee20b-ec69-4690-80cc-cb2662139154",
+        "size": "M",
+        "colorName": "Charcoal",
+        "colorHex": "#2d2d2d",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 14
+      },
+      {
+        "id": "e45210f2-861b-4a24-89e7-a4480e12b7fc",
+        "productId": "d1eee20b-ec69-4690-80cc-cb2662139154",
+        "size": "L",
+        "colorName": "Charcoal",
+        "colorHex": "#2d2d2d",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 18
+      },
+      {
+        "id": "ff13026d-cc83-40f0-aab3-bbd8a4016352",
+        "productId": "d1eee20b-ec69-4690-80cc-cb2662139154",
+        "size": "XL",
+        "colorName": "Charcoal",
+        "colorHex": "#2d2d2d",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 9
+      }
+    ],
+    "category": {
+      "id": "9e635a86-affe-4f4a-9110-65ce699daa66",
+      "slug": "hoodies",
+      "nameEn": "Hoodies & Sweatshirts",
+      "nameAr": "الهوديات والسويت شيرت",
+      "descriptionEn": "Heavyweight cotton oversized hoodies imported from Turkey.",
+      "descriptionAr": "هوديات قطن ثقيل أوفرسايز صُنعت في تركيا.",
+      "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop",
+      "order": 1,
+      "isHidden": false,
+      "createdAt": "2026-09-07T15:50:30.071Z"
+    }
+  },
+  {
+    "id": "9cd2ff43-c11c-4eb6-8828-423eff8e5fd6",
+    "slug": "oversized-streetwear-women-crop-hoodie",
+    "nameEn": "BLACK ISLAND Women Crop Heavy Hoodie",
+    "nameAr": "هودي نسائي كروب أوفرسايز",
+    "descEn": "Tailored oversized cropped hoodie designed with heavyweight Turkish fleece cotton.",
+    "descAr": "هودي نسائي أوفرسايز بقصة كروب عصرية ومصنع من القطن التركي الفاخر.",
+    "price": 330000,
+    "salePrice": 285000,
+    "sku": "BI-WHD-007",
+    "featured": true,
+    "isNew": true,
+    "isSale": true,
+    "isActive": true,
+    "categorySlug": "hoodies",
+    "createdAt": "2026-09-07T16:58:43.202Z",
+    "updatedAt": "2026-09-07T16:58:43.202Z",
+    "images": [
+      {
+        "id": "83b0c79a-5e8e-412c-a82c-d580114fe4b2",
+        "productId": "9cd2ff43-c11c-4eb6-8828-423eff8e5fd6",
+        "url": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop",
+        "isMain": true,
+        "order": 0
+      }
+    ],
+    "variants": [
+      {
+        "id": "f7e5955c-d7f2-4898-997d-58cde55a4e31",
+        "productId": "9cd2ff43-c11c-4eb6-8828-423eff8e5fd6",
+        "size": "S",
+        "colorName": "Matte Black",
+        "colorHex": "#000000",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 10
+      },
+      {
+        "id": "ca207f59-c58c-49d4-8aef-25731f1f55c0",
+        "productId": "9cd2ff43-c11c-4eb6-8828-423eff8e5fd6",
+        "size": "M",
+        "colorName": "Matte Black",
+        "colorHex": "#000000",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 15
+      },
+      {
+        "id": "9f18375d-cf20-4ad9-8b22-13e7c5d2450a",
+        "productId": "9cd2ff43-c11c-4eb6-8828-423eff8e5fd6",
+        "size": "L",
+        "colorName": "Matte Black",
+        "colorHex": "#000000",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 8
+      }
+    ],
+    "category": {
+      "id": "9e635a86-affe-4f4a-9110-65ce699daa66",
+      "slug": "hoodies",
+      "nameEn": "Hoodies & Sweatshirts",
+      "nameAr": "الهوديات والسويت شيرت",
+      "descriptionEn": "Heavyweight cotton oversized hoodies imported from Turkey.",
+      "descriptionAr": "هوديات قطن ثقيل أوفرسايز صُنعت في تركيا.",
+      "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop",
+      "order": 1,
+      "isHidden": false,
+      "createdAt": "2026-09-07T15:50:30.071Z"
+    }
+  },
+  {
+    "id": "b3d054ce-b695-4344-ae88-5a8287a1cbf8",
+    "slug": "vintage-washed-denim-jeans",
+    "nameEn": "Obsidian Wide-Leg Denim Jeans",
+    "nameAr": "بنطال جينز واسع مغسول بالحمض",
+    "descEn": "Heavy 14oz Turkish denim relaxed fit with raw distress details.",
+    "descAr": "جينز 14 أونصة قطن ثقيل بقصة واسعة وتفاصيل معتقة عصرية.",
+    "price": 360000,
+    "salePrice": null,
+    "sku": "BI-JN-008",
+    "featured": false,
+    "isNew": true,
+    "isSale": false,
+    "isActive": true,
+    "categorySlug": "pants",
+    "createdAt": "2026-09-07T16:58:43.207Z",
+    "updatedAt": "2026-09-07T16:58:43.207Z",
+    "images": [
+      {
+        "id": "0283d883-39f4-49f6-8ab9-ea47022b8a20",
+        "productId": "b3d054ce-b695-4344-ae88-5a8287a1cbf8",
+        "url": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000&auto=format&fit=crop",
+        "isMain": true,
+        "order": 0
+      }
+    ],
+    "variants": [
+      {
+        "id": "dee94946-4063-4627-96b3-c172b78e7a21",
+        "productId": "b3d054ce-b695-4344-ae88-5a8287a1cbf8",
+        "size": "S",
+        "colorName": "Dark Indigo",
+        "colorHex": "#1e293b",
         "colorImage": null,
         "colorImages": null,
         "stock": 7
       },
       {
-        "id": "l0c554e9-f69c-490f-93f3-43ec5b547435",
-        "productId": "a4b9d0c3-6543-4f10-00d3-34c75836e472",
-        "size": "43",
-        "colorName": "Obsidian White",
-        "colorHex": "#ffffff",
+        "id": "9c9068d0-b432-48b7-a926-0d42a57ba281",
+        "productId": "b3d054ce-b695-4344-ae88-5a8287a1cbf8",
+        "size": "M",
+        "colorName": "Dark Indigo",
+        "colorHex": "#1e293b",
         "colorImage": null,
         "colorImages": null,
-        "stock": 4
+        "stock": 12
+      },
+      {
+        "id": "af196454-5424-4c93-b582-4d3be2750c30",
+        "productId": "b3d054ce-b695-4344-ae88-5a8287a1cbf8",
+        "size": "L",
+        "colorName": "Dark Indigo",
+        "colorHex": "#1e293b",
+        "colorImage": null,
+        "colorImages": null,
+        "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "a3cd6180-a0a1-46ad-ab4b-8f9323f47f12",
+      "slug": "pants",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1000&auto=format&fit=crop",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-09-07T15:50:30.080Z"
+    }
   }
 ];
-
-export const INITIAL_PRODUCTS: any[] = rawProductsData.map((p) => ({
-  ...p,
-  category: INITIAL_CATEGORIES.find((c) => c.slug === p.categorySlug) || {
-    id: 'cat-default',
-    slug: p.categorySlug,
-    nameEn: p.categorySlug,
-    nameAr: p.categorySlug,
-    descriptionEn: '',
-    descriptionAr: '',
-    image: '',
-    order: 1,
-    isHidden: false,
-    createdAt: new Date().toISOString(),
-  },
-}));

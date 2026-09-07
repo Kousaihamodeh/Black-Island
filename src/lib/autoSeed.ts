@@ -5,13 +5,14 @@ export { INITIAL_CATEGORIES, INITIAL_PRODUCTS };
 
 export async function ensureSeeded(prisma: PrismaClient) {
   try {
-    const productCount = await prisma.product.count().catch(() => -1);
-    if (productCount > 0) {
-      return;
+    try {
+      const productCount = await prisma.product.count().catch(() => -1);
+      if (productCount > 0) {
+        return;
+      }
+    } catch (e) {
+      // continue to create tables & seed
     }
-  } catch (e) {
-    // continue to create tables & seed
-  }
 
   console.log('[AutoSeed] SQLite database empty or uninitialized. Initializing schema tables and seeding catalog...');
 
@@ -197,4 +198,7 @@ export async function ensureSeeded(prisma: PrismaClient) {
   } catch (err) {
     console.error('[AutoSeed] Failed auto-seeding:', err);
   }
+} catch (outerErr) {
+  console.error('[AutoSeed] Top level error ignored:', outerErr);
+}
 }
