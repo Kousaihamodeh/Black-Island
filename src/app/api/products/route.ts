@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
+import { ensureSeeded } from '@/lib/autoSeed';
 
 export async function GET(request: Request) {
   try {
+    await ensureSeeded(prisma);
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const featured = searchParams.get('featured');
