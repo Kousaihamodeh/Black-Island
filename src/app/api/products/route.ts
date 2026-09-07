@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS } from '@/lib/autoSeed';
 
+// Force rebuild 34 product catalog v2 - timestamp 2026-09-07
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
