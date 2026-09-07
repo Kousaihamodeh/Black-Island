@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Eye, EyeOff, Upload, Image as ImageIcon, Save, CheckCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { uploadFiles } from '@/lib/uploadHelper';
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<any[]>([]);
@@ -13,10 +14,15 @@ export default function AdminCategoriesPage() {
   // Form fields
   const [nameEn, setNameEn] = useState('');
   const [nameAr, setNameAr] = useState('');
+  const [descEn, setDescEn] = useState('');
+  const [descAr, setDescAr] = useState('');
   const [image, setImage] = useState('');
   const [order, setOrder] = useState('0');
   const [isHidden, setIsHidden] = useState(false);
+  const [isActive, setIsActive] = useState(true);
+
   const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const fetchCategories = async () => {
@@ -42,9 +48,12 @@ export default function AdminCategoriesPage() {
     setEditingId(null);
     setNameEn('');
     setNameAr('');
-    setImage('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000');
+    setDescEn('');
+    setDescAr('');
+    setImage('');
     setOrder(String(categories.length + 1));
     setIsHidden(false);
+    setIsActive(true);
     setErrorMsg('');
     setModalOpen(true);
   };
@@ -53,9 +62,12 @@ export default function AdminCategoriesPage() {
     setEditingId(cat.id);
     setNameEn(cat.nameEn);
     setNameAr(cat.nameAr);
-    setImage(cat.image);
-    setOrder(String(cat.order));
+    setDescEn(cat.descEn || '');
+    setDescAr(cat.descAr || '');
+    setImage(cat.image || '');
+    setOrder(String(cat.order || 0));
     setIsHidden(cat.isHidden || false);
+    setIsActive(cat.isActive ?? true);
     setErrorMsg('');
     setModalOpen(true);
   };
@@ -63,15 +75,11 @@ export default function AdminCategoriesPage() {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
     setUploading(true);
-    const formData = new FormData();
-    formData.append('files', e.target.files[0]);
-
     try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const data = await res.json();
+      const urls = await uploadFiles(e.target.files);
       setUploading(false);
-      if (data.success && data.urls[0]) {
-        setImage(data.urls[0]);
+      if (urls[0]) {
+        setImage(urls[0]);
       }
     } catch (e) {
       setUploading(false);
@@ -96,8 +104,8 @@ export default function AdminCategoriesPage() {
           nameEn,
           nameAr,
           image,
-          order: parseInt(order),
-          isHidden,
+          order: 0,
+          isHidden: !isActive,
         }),
       });
 

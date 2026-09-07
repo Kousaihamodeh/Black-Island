@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload, Plus, Trash2, ArrowLeft, CheckCircle, Image as ImageIcon, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { uploadFiles } from '@/lib/uploadHelper';
 
 interface ColorVariantCard {
   id: string;
@@ -59,15 +60,11 @@ export default function AddProductPage() {
   const handleMainCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
     setUploadingMain(true);
-    const formData = new FormData();
-    formData.append('files', e.target.files[0]);
-
     try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const data = await res.json();
+      const urls = await uploadFiles(e.target.files);
       setUploadingMain(false);
-      if (data.success && data.urls[0]) {
-        setMainCoverImage(data.urls[0]);
+      if (urls[0]) {
+        setMainCoverImage(urls[0]);
       }
     } catch (err) {
       setUploadingMain(false);
@@ -94,21 +91,15 @@ export default function AddProductPage() {
   const handleCreateColorGroup = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
     setUploadingNewColorGroup(true);
-    const formData = new FormData();
-    for (let i = 0; i < e.target.files.length; i++) {
-      formData.append('files', e.target.files[i]);
-    }
-
     try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const data = await res.json();
+      const urls = await uploadFiles(e.target.files);
       setUploadingNewColorGroup(false);
-      if (data.success && data.urls) {
+      if (urls.length > 0) {
         const newCard: ColorVariantCard = {
           id: `color-card-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
           colorName: `Color Option ${colorCards.length + 1}`,
           colorHex: '#000000',
-          images: data.urls,
+          images: urls,
           sizes: [
             { size: 'S', stock: 10 },
             { size: 'M', stock: 15 },
@@ -126,18 +117,12 @@ export default function AddProductPage() {
   const handleAddPhotosToColorCard = async (cardId: string, e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
     setUploadingColorCardId(cardId);
-    const formData = new FormData();
-    for (let i = 0; i < e.target.files.length; i++) {
-      formData.append('files', e.target.files[i]);
-    }
-
     try {
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const data = await res.json();
+      const urls = await uploadFiles(e.target.files);
       setUploadingColorCardId(null);
-      if (data.success && data.urls) {
+      if (urls.length > 0) {
         setColorCards((prev) =>
-          prev.map((c) => (c.id === cardId ? { ...c, images: [...c.images, ...data.urls] } : c))
+          prev.map((c) => (c.id === cardId ? { ...c, images: [...c.images, ...urls] } : c))
         );
       }
     } catch (err) {
