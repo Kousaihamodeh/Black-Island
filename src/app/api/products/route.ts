@@ -92,7 +92,7 @@ export async function GET(request: Request) {
     }
 
     const result = limit ? combined.slice(0, limit) : combined;
-    return NextResponse.json({ products: result });
+    return NextResponse.json({ products: result, _debug: { initialCount: INITIAL_PRODUCTS.length, dbCount: dbProducts.length } });
   } catch (error) {
     console.error('Fetch products error:', error);
     return NextResponse.json({ products: INITIAL_PRODUCTS });
