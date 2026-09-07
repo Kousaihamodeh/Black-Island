@@ -7,6 +7,18 @@ import { ensureSeeded, INITIAL_PRODUCTS } from '@/lib/autoSeed';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+function getCanonicalSlug(str: string | null | undefined): string {
+  if (!str) return '';
+  const norm = str.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+  if (norm.includes('hoodie') || norm.includes('sweat')) return 'hoodies';
+  if (norm.includes('tshirt') || norm.includes('tee') || norm.includes('oversized')) return 'tshirts';
+  if (norm.includes('pant') || norm.includes('cargo') || norm.includes('jean') || norm.includes('trouser')) return 'pants';
+  if (norm.includes('sneaker') || norm.includes('shoe') || norm.includes('footwear')) return 'sneakers';
+  if (norm.includes('cap') || norm.includes('hat') || norm.includes('accessory')) return 'caps';
+  if (norm.includes('short')) return 'shorts';
+  return norm;
+}
+
 export async function GET(request: Request) {
   try {
     await ensureSeeded(prisma);
@@ -19,40 +31,9 @@ export async function GET(request: Request) {
     const allStatus = searchParams.get('allStatus') === 'true';
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
 
-    const where: any = {};
-
-    if (!allStatus) {
-      where.isActive = true;
-    }
-
-    if (category && category !== 'all') {
-      where.categorySlug = category;
-    }
-
-    if (featured === 'true') {
-      where.featured = true;
-    }
-
-    if (isNew === 'true') {
-      where.isNew = true;
-    }
-
-    if (isSale === 'true') {
-      where.isSale = true;
-    }
-
-    if (search) {
-      where.OR = [
-        { nameEn: { contains: search } },
-        { nameAr: { contains: search } },
-        { sku: { contains: search } },
-      ];
-    }
-
     let dbProducts: any[] = [];
     try {
       dbProducts = await prisma.product.findMany({
-        where,
         include: {
           images: { orderBy: { order: 'asc' } },
           variants: true,
@@ -62,25 +43,35 @@ export async function GET(request: Request) {
       });
     } catch (e) {}
 
-    const initialMap = new Map(INITIAL_PRODUCTS.map((p) => [p.id, p]));
-    const dbMap = new Map((dbProducts || []).map((p) => [p.id, p]));
-    const mergedMap = new Map([...initialMap, ...dbMap]);
+    const initialMap = new Map<string, any>(INITIAL_PRODUCTS.map((p) => [p.id, p]));
+    const dbMap = new Map<string, any>((dbProducts || []).map((p) => [p.id, p]));
+    const mergedMap = new Map<string, any>([...initialMap, ...dbMap]);
     let combined = Array.from(mergedMap.values());
+
     if (!allStatus) {
       combined = combined.filter((p) => p.isActive !== false);
     }
+
     if (category && category !== 'all') {
-      combined = combined.filter((p) => p.categorySlug === category);
+      const targetCanonical = getCanonicalSlug(category);
+      combined = combined.filter((p) => {
+        const prodCatSlug = p.categorySlug || p.category?.slug;
+        return getCanonicalSlug(prodCatSlug) === targetCanonical;
+      });
     }
+
     if (featured === 'true') {
       combined = combined.filter((p) => p.featured);
     }
+
     if (isNew === 'true') {
       combined = combined.filter((p) => p.isNew);
     }
+
     if (isSale === 'true') {
       combined = combined.filter((p) => p.isSale);
     }
+
     if (search) {
       const s = search.toLowerCase();
       combined = combined.filter(
