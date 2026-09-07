@@ -29,10 +29,10 @@ export default async function ShopPage() {
   }
 
   // Guaranteed fallbacks for Vercel Serverless
-  if (!products || products.length === 0) {
+  if (!products || products.length < INITIAL_PRODUCTS.length) {
     products = INITIAL_PRODUCTS;
   }
-  if (!categories || categories.length === 0) {
+  if (!categories || categories.length < INITIAL_CATEGORIES.length) {
     categories = INITIAL_CATEGORIES;
   }
 

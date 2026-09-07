@@ -48,10 +48,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   // Fallbacks
-  if (!allProducts || allProducts.length === 0) {
+  if (!allProducts || allProducts.length < INITIAL_PRODUCTS.length) {
     allProducts = INITIAL_PRODUCTS;
   }
-  if (!categories || categories.length === 0) {
+  if (!categories || categories.length < INITIAL_CATEGORIES.length) {
     categories = INITIAL_CATEGORIES;
   }
 

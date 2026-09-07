@@ -56,8 +56,25 @@ export async function GET(request: Request) {
       take: limit,
     });
 
-    if (!products || products.length === 0) {
-      products = INITIAL_PRODUCTS.slice(0, limit);
+    if (!products || (products.length < INITIAL_PRODUCTS.length && Object.keys(where).length <= 1)) {
+      let filtered = INITIAL_PRODUCTS;
+      if (category && category !== 'all') {
+        filtered = filtered.filter((p) => p.categorySlug === category);
+      }
+      if (featured === 'true') {
+        filtered = filtered.filter((p) => p.featured);
+      }
+      if (isNew === 'true') {
+        filtered = filtered.filter((p) => p.isNew);
+      }
+      if (isSale === 'true') {
+        filtered = filtered.filter((p) => p.isSale);
+      }
+      if (search) {
+        const s = search.toLowerCase();
+        filtered = filtered.filter((p) => (p.nameEn && p.nameEn.toLowerCase().includes(s)) || (p.nameAr && p.nameAr.includes(s)) || (p.sku && p.sku.toLowerCase().includes(s)));
+      }
+      products = filtered.slice(0, limit);
     }
 
     return NextResponse.json({ products });

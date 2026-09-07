@@ -7,7 +7,7 @@ export async function ensureSeeded(prisma: PrismaClient) {
   try {
     try {
       const productCount = await prisma.product.count().catch(() => -1);
-      if (productCount > 0) {
+      if (productCount >= INITIAL_PRODUCTS.length) {
         return;
       }
     } catch (e) {
