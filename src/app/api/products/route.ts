@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS } from '@/lib/autoSeed';
+import { applyOverrides } from '@/lib/runtimeStore';
 
 // Force rebuild 34 product catalog v2 - timestamp 2026-09-07
 export const dynamic = 'force-dynamic';
@@ -46,7 +47,7 @@ export async function GET(request: Request) {
     const initialMap = new Map<string, any>(INITIAL_PRODUCTS.map((p) => [p.id, p]));
     const dbMap = new Map<string, any>((dbProducts || []).map((p) => [p.id, p]));
     const mergedMap = new Map<string, any>([...initialMap, ...dbMap]);
-    let combined = Array.from(mergedMap.values());
+    let combined = applyOverrides(Array.from(mergedMap.values()));
 
     if (!allStatus) {
       combined = combined.filter((p) => p.isActive !== false);

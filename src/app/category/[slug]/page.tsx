@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS, INITIAL_CATEGORIES } from '@/lib/autoSeed';
 import { ShopClientPage } from '@/app/shop/ShopClientPage';
+import { applyOverrides } from '@/lib/runtimeStore';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -43,7 +44,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
     const initialProdMap = new Map<string, any>(INITIAL_PRODUCTS.map((p: any) => [p.id, p]));
     const dbProdMap = new Map<string, any>((dbProds || []).map((p: any) => [p.id, p]));
-    allProducts = Array.from(new Map<string, any>([...initialProdMap, ...dbProdMap]).values());
+    const rawProducts = Array.from(new Map<string, any>([...initialProdMap, ...dbProdMap]).values());
+    allProducts = applyOverrides(rawProducts);
 
     const initialCatMap = new Map<string, any>(INITIAL_CATEGORIES.map((c: any) => [c.id, c]));
     const dbCatMap = new Map<string, any>((dbCats || []).map((c: any) => [c.id, c]));
