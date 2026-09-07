@@ -265,7 +265,13 @@ export default function AddProductPage() {
       const data = await res.json();
       setLoading(false);
 
-      if (data.success) {
+      if (data.success && data.product) {
+        try {
+          const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+          stored[data.product.id] = data.product;
+          localStorage.setItem('bi_product_overrides', JSON.stringify(stored));
+        } catch (e) {}
+
         router.push('/admin/products');
       } else {
         setErrorMsg(data.error || 'Failed to create product.');
