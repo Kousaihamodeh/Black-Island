@@ -49,9 +49,9 @@ export async function GET(request: Request) {
       ];
     }
 
-    let products = INITIAL_PRODUCTS;
+    let dbProducts: any[] = [];
     try {
-      const dbProducts = await prisma.product.findMany({
+      dbProducts = await prisma.product.findMany({
         where,
         include: {
           images: { orderBy: { order: 'asc' } },
@@ -60,12 +60,12 @@ export async function GET(request: Request) {
         },
         orderBy: { createdAt: 'desc' },
       });
-      if (dbProducts && dbProducts.length > INITIAL_PRODUCTS.length) {
-        products = dbProducts;
-      }
     } catch (e) {}
 
-    let combined = products;
+    const initialMap = new Map(INITIAL_PRODUCTS.map((p) => [p.id, p]));
+    const dbMap = new Map((dbProducts || []).map((p) => [p.id, p]));
+    const mergedMap = new Map([...initialMap, ...dbMap]);
+    let combined = Array.from(mergedMap.values());
     if (!allStatus) {
       combined = combined.filter((p) => p.isActive !== false);
     }
