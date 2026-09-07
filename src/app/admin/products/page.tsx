@@ -504,6 +504,27 @@ export default function AdminProductsPage() {
       setSavingEdit(false);
 
       if (data.success) {
+        try {
+          const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+          stored[editModalProduct.id] = {
+            ...editModalProduct,
+            nameEn: editNameEn,
+            nameAr: editNameAr,
+            descEn: editDescEn,
+            descAr: editDescAr,
+            price: parseFloat(editPrice),
+            salePrice: editSalePrice ? parseFloat(editSalePrice) : null,
+            sku: editSku,
+            categorySlug: editCategorySlug,
+            featured: editFeatured,
+            isNew: editIsNew,
+            isSale: editIsSale || !!editSalePrice,
+            images: allImages.map((url, idx) => ({ url, isMain: idx === 0 })),
+            variants: computedVariants,
+          };
+          localStorage.setItem('bi_product_overrides', JSON.stringify(stored));
+        } catch (e) {}
+
         setEditModalProduct(null);
         fetchCatalogData(); // Refresh catalog cleanly
       } else {

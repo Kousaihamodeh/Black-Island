@@ -75,8 +75,29 @@ export function ShopClientPage({
   const urlCategoryParam = searchParams.get('category');
   const urlSearchParam = searchParams.get('search');
 
-  const itemsList: any[] = products || initialProducts || [];
+  const rawItemsList: any[] = products || initialProducts || [];
   const { language, t } = useLanguage();
+  const [localOverrides, setLocalOverrides] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+      setLocalOverrides(stored);
+    } catch (e) {}
+  }, []);
+
+  const itemsList = useMemo(() => {
+    if (!localOverrides || Object.keys(localOverrides).length === 0) {
+      return rawItemsList;
+    }
+    const map = new Map<string, any>(rawItemsList.map((p) => [p.id, p]));
+    Object.values(localOverrides).forEach((override: any) => {
+      if (override && override.id) {
+        map.set(override.id, override);
+      }
+    });
+    return Array.from(map.values());
+  }, [rawItemsList, localOverrides]);
 
   const [selectedCategory, setSelectedCategory] = useState<string>(
     urlCategoryParam || initialCategory || 'all'
