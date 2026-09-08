@@ -21,26 +21,56 @@ export default function AdminSettingsPage() {
   const [saved, setSaved] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  useEffect(() => {
+  const fetchSettingsData = async () => {
     setLoading(true);
-    fetch(`/api/admin/settings?t=${Date.now()}`, { cache: 'no-store' })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.settings) {
-          const s = data.settings;
-          if (s.storeName) setStoreName(s.storeName);
-          if (s.location) setLocation(s.location);
-          if (s.phone) setPhone(s.phone);
-          if (s.whatsapp) setWhatsapp(s.whatsapp);
-          if (s.instagram) setInstagram(s.instagram);
-          if (s.feeDamascus) setFeeDamascus(s.feeDamascus);
-          if (s.feeOther) setFeeOther(s.feeOther);
-          if (s.brand_identity_image) setBrandIdentityImage(s.brand_identity_image);
-        }
-      })
-      .catch((e) => console.error(e))
-      .finally(() => setLoading(false));
+    try {
+      const res = await fetch(`/api/admin/settings?t=${Date.now()}`, { cache: 'no-store' });
+      const data = await res.json();
+      if (data.settings) {
+        const s = data.settings;
+        if (s.storeName) setStoreName(s.storeName);
+        if (s.location) setLocation(s.location);
+        if (s.phone) setPhone(s.phone);
+        if (s.whatsapp) setWhatsapp(s.whatsapp);
+        if (s.instagram) setInstagram(s.instagram);
+        if (s.feeDamascus) setFeeDamascus(s.feeDamascus);
+        if (s.feeOther) setFeeOther(s.feeOther);
+        if (s.brand_identity_image) setBrandIdentityImage(s.brand_identity_image);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSettingsData();
   }, []);
+
+  const saveSingleSetting = async (key: string, value: string) => {
+    setSaving(true);
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          settings: { [key]: value },
+        }),
+      });
+      const data = await res.json();
+      setSaving(false);
+      if (data.success) {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+      } else {
+        setErrorMsg(data.error || 'Failed to save.');
+      }
+    } catch (e) {
+      setSaving(false);
+      setErrorMsg('Network error.');
+    }
+  };
 
   const handleBrandIdentityUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
@@ -50,13 +80,15 @@ export default function AdminSettingsPage() {
       setUploadingBrandImg(false);
       if (urls[0]) {
         setBrandIdentityImage(urls[0]);
+        // INSTANT AUTO-SAVE TO CLOUD
+        await saveSingleSetting('brand_identity_image', urls[0]);
       }
     } catch (e) {
       setUploadingBrandImg(false);
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSaveAll = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     setErrorMsg('');
@@ -102,9 +134,9 @@ export default function AdminSettingsPage() {
       </div>
 
       {saved && (
-        <div className="p-4 bg-emerald-950/80 border border-emerald-800 rounded-xl text-xs text-emerald-300 font-mono flex items-center gap-2">
-          <CheckCircle className="w-4 h-4" />
-          <span>Store settings saved successfully!</span>
+        <div className="p-4 bg-emerald-950/80 border border-emerald-800 rounded-xl text-xs text-emerald-300 font-mono flex items-center gap-2 animate-fade-in">
+          <CheckCircle className="w-4 h-4 text-emerald-400" />
+          <span className="font-bold">Settings saved & updated live across all devices!</span>
         </div>
       )}
 
@@ -117,16 +149,30 @@ export default function AdminSettingsPage() {
       {loading ? (
         <div className="p-12 text-center text-xs font-mono text-gray-500">Loading settings...</div>
       ) : (
-        <form onSubmit={handleSave} className="space-y-6 font-mono text-xs">
+        <form onSubmit={handleSaveAll} className="space-y-6 font-mono text-xs">
           {/* BRAND IDENTITY EDITORIAL IMAGE SECTION */}
           <div className="bg-brand-950 p-6 rounded-2xl border border-brand-800 space-y-4">
-            <div>
-              <span className="text-xs font-mono text-brand-gold uppercase tracking-widest font-bold">
-                1. BRAND IDENTITY PHOTO (THE BLACK ISLAND IDENTITY)
-              </span>
-              <p className="text-xs text-gray-400 mt-1">
-                Change the image displayed next to "THE BLACK ISLAND IDENTITY" on the homepage.
-              </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-xs font-mono text-brand-gold uppercase tracking-widest font-bold">
+                  1. BRAND IDENTITY PHOTO (THE BLACK ISLAND IDENTITY)
+                </span>
+                <p className="text-xs text-gray-400 mt-1">
+                  Change the image displayed next to "THE BLACK ISLAND IDENTITY" on the homepage.
+                </p>
+              </div>
+
+              <Button
+                type="button"
+                variant="gold"
+                size="sm"
+                isLoading={saving}
+                onClick={() => saveSingleSetting('brand_identity_image', brandIdentityImage)}
+                className="font-bold shrink-0"
+              >
+                <Save className="w-3.5 h-3.5 mr-1" />
+                <span>Save Identity Photo</span>
+              </Button>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-6 bg-brand-900/40 p-4 rounded-xl border border-brand-850">
@@ -141,15 +187,17 @@ export default function AdminSettingsPage() {
                     value={brandIdentityImage}
                     onChange={(e) => setBrandIdentityImage(e.target.value)}
                     placeholder="https://..."
-                    className="w-full bg-brand-900 border border-brand-700 text-white px-3 py-2 rounded-xl text-xs"
+                    className="w-full bg-brand-900 border border-brand-700 text-white px-3 py-2.5 rounded-xl text-xs"
                   />
-                  <label className="px-4 py-2 bg-brand-gold text-black font-extrabold rounded-xl cursor-pointer hover:bg-amber-400 text-xs flex items-center gap-1 shrink-0">
+                  <label className="px-4 py-2.5 bg-brand-gold text-black font-extrabold rounded-xl cursor-pointer hover:bg-amber-400 text-xs flex items-center gap-1 shrink-0 shadow-md">
                     <Upload className="w-3.5 h-3.5" />
-                    <span>{uploadingBrandImg ? '...' : 'Upload Image'}</span>
+                    <span>{uploadingBrandImg ? 'Uploading...' : 'Upload Photo'}</span>
                     <input type="file" accept="image/*" onChange={handleBrandIdentityUpload} className="hidden" />
                   </label>
                 </div>
-                <p className="text-[11px] text-gray-500">Upload a new photo or paste an image URL to update the homepage Identity story image.</p>
+                <p className="text-[11px] text-gray-500">
+                  Upload a photo from your phone/computer or paste an image URL to update the homepage story photo instantly.
+                </p>
               </div>
             </div>
           </div>
@@ -238,7 +286,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <Button type="submit" variant="gold" size="lg" isLoading={saving} className="w-full py-4 text-sm font-bold">
-            <Save className="w-4 h-4 mr-2" /> Save Store Settings
+            <Save className="w-4 h-4 mr-2" /> Save All Store Settings
           </Button>
         </form>
       )}
