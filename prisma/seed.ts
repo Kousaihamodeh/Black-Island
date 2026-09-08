@@ -3836,7 +3836,7 @@ async function main() {
     "titleAr": "التشكيلة التركية الفاخرة • حصرياً في دمشق",
     "subtitleEn": "Heavyweight cottons & tailored streetwear silhouettes imported direct from Turkey.",
     "subtitleAr": "قطنيات ثقيلة وتصاميم ستريت وير مستوردة مباشرة من تركيا.",
-    "imageUrl": "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=1600&auto=format&fit=crop",
+    "imageUrl": "/black_island_storefront.jpg",
     "buttonTextEn": "EXPLORE DROP",
     "buttonTextAr": "تسوق الآن",
     "link": "/shop",
