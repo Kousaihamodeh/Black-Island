@@ -35,6 +35,8 @@ export function ProductCard({ product }: ProductCardProps) {
   const [quickViewOpen, setQuickViewOpen] = useState(false);
   const [addedAnimation, setAddedAnimation] = useState(false);
 
+  if (!product || !product.id) return null;
+
   const images = Array.isArray(product?.images) ? product.images : [];
   const variants = Array.isArray(product?.variants) ? product.variants : [];
 

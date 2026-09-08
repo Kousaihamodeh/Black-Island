@@ -120,8 +120,9 @@ export function ShopClientPage({
 
   // Robust Normalized Filter & Sort Logic
   const filteredProducts = useMemo(() => {
-    return itemsList
+    return (itemsList || [])
       .filter((p: any) => {
+        if (!p || !p.id) return false;
         // Category Filter with strict canonical slug comparison
         if (selectedCategory && selectedCategory !== 'all') {
           const selectedCanonical = getCanonicalSlug(selectedCategory);
@@ -144,13 +145,13 @@ export function ShopClientPage({
         if (onlySale && !p.isSale) return false;
 
         // Search Query Filter
-        if (searchQuery.trim()) {
+        if (searchQuery && searchQuery.trim()) {
           const q = searchQuery.toLowerCase().trim();
-          const matchNameEn = p.nameEn?.toLowerCase().includes(q);
-          const matchNameAr = p.nameAr?.includes(q);
-          const matchSku = p.sku?.toLowerCase().includes(q);
-          const matchCatEn = p.category?.nameEn?.toLowerCase().includes(q);
-          const matchCatAr = p.category?.nameAr?.includes(q);
+          const matchNameEn = p.nameEn ? p.nameEn.toLowerCase().includes(q) : false;
+          const matchNameAr = p.nameAr ? p.nameAr.includes(q) : false;
+          const matchSku = p.sku ? p.sku.toLowerCase().includes(q) : false;
+          const matchCatEn = p.category?.nameEn ? p.category.nameEn.toLowerCase().includes(q) : false;
+          const matchCatAr = p.category?.nameAr ? p.category.nameAr.includes(q) : false;
 
           if (!matchNameEn && !matchNameAr && !matchSku && !matchCatEn && !matchCatAr) {
             return false;
@@ -159,14 +160,14 @@ export function ShopClientPage({
 
         // Size Filter
         if (selectedSize !== 'all') {
-          const hasSize = p.variants?.some((v: any) => v.size === selectedSize);
+          const hasSize = Array.isArray(p.variants) && p.variants.some((v: any) => v && v.size === selectedSize);
           if (!hasSize) return false;
         }
 
         // Color Filter
         if (selectedColor !== 'all') {
-          const hasColor = p.variants?.some(
-            (v: any) => v.colorName?.toLowerCase() === selectedColor.toLowerCase()
+          const hasColor = Array.isArray(p.variants) && p.variants.some(
+            (v: any) => v && v.colorName && v.colorName.toLowerCase() === selectedColor.toLowerCase()
           );
           if (!hasColor) return false;
         }
@@ -174,12 +175,15 @@ export function ShopClientPage({
         return true;
       })
       .sort((a: any, b: any) => {
-        const priceA = a.salePrice && a.salePrice > 0 ? a.salePrice : a.price;
-        const priceB = b.salePrice && b.salePrice > 0 ? b.salePrice : b.price;
+        const priceA = a?.salePrice && a.salePrice > 0 ? a.salePrice : (a?.price || 0);
+        const priceB = b?.salePrice && b.salePrice > 0 ? b.salePrice : (b?.price || 0);
 
         if (sortBy === 'price-low') return priceA - priceB;
         if (sortBy === 'price-high') return priceB - priceA;
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+
+        const timeA = a?.createdAt ? (new Date(a.createdAt).getTime() || 0) : 0;
+        const timeB = b?.createdAt ? (new Date(b.createdAt).getTime() || 0) : 0;
+        return timeB - timeA;
       });
   }, [itemsList, selectedCategory, searchQuery, selectedSize, selectedColor, sortBy, onlySale]);
 
