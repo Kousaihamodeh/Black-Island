@@ -65,7 +65,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const firstVariant = product.variants.find((v) => v.stock > 0) || product.variants[0];
+    const firstVariant = variants.find((v: any) => v && v.stock > 0) || variants[0];
     if (!firstVariant) return;
 
     addToCart({
@@ -191,7 +191,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
 
             <span className="text-[9px] sm:text-[10px] font-mono text-gray-400 uppercase">
-              {product.variants[0]?.size || 'S-XXL'}
+              {variants[0]?.size || 'S-XXL'}
             </span>
           </div>
         </div>

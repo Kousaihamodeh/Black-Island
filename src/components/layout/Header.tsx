@@ -26,6 +26,8 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const safeWishlist = Array.isArray(wishlist) ? wishlist : [];
+
   return (
     <>
       {/* Announcement Bar */}
@@ -141,9 +143,9 @@ export function Header() {
               className="relative p-2 text-gray-300 hover:text-white hover:bg-white/5 rounded-full transition-colors"
             >
               <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
-              {wishlist.length > 0 && (
+              {safeWishlist.length > 0 && (
                 <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-brand-gold text-black text-[10px] font-bold flex items-center justify-center">
-                  {wishlist.length}
+                  {safeWishlist.length}
                 </span>
               )}
             </Link>

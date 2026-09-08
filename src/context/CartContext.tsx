@@ -117,9 +117,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setCoupon(null);
   };
 
-  const subtotal = cart.reduce((acc, item) => {
-    const activePrice = item.salePrice && item.salePrice > 0 ? item.salePrice : item.price;
-    return acc + activePrice * item.quantity;
+  const subtotal = (Array.isArray(cart) ? cart : []).reduce((acc, item) => {
+    if (!item) return acc;
+    const price = typeof item.price === 'number' ? item.price : 0;
+    const activePrice = item.salePrice && item.salePrice > 0 ? item.salePrice : price;
+    return acc + activePrice * (item.quantity || 1);
   }, 0);
 
   const discount = coupon
@@ -154,7 +156,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setCoupon(null);
   };
 
-  const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const itemCount = (Array.isArray(cart) ? cart : []).reduce((acc, item) => acc + (item?.quantity || 0), 0);
 
   return (
     <CartContext.Provider

@@ -30,6 +30,7 @@ export function CartDrawer() {
 
   if (!isOpen) return null;
 
+  const safeCart = Array.isArray(cart) ? cart.filter(Boolean) : [];
   const total = Math.max(0, subtotal - discount);
 
   const handleApplyCoupon = async (e: React.FormEvent) => {
@@ -43,7 +44,7 @@ export function CartDrawer() {
   };
 
   const handleDirectWhatsApp = () => {
-    if (cart.length === 0) return;
+    if (safeCart.length === 0) return;
     const whatsappUrl = generateWhatsAppOrderMessage({
       orderNumber: `DRAFT-${Math.floor(1000 + Math.random() * 9000)}`,
       customerName: 'Customer',
@@ -52,7 +53,7 @@ export function CartDrawer() {
       governorate: 'Damascus / Qudsaya',
       cityArea: 'Damascus',
       address: 'Direct Quick Order',
-      items: cart.map((i) => ({
+      items: safeCart.map((i) => ({
         productName: language === 'ar' ? i.nameAr : i.nameEn,
         size: i.size,
         color: i.color,
@@ -83,7 +84,7 @@ export function CartDrawer() {
               <ShoppingBag className="w-5 h-5 text-brand-gold" />
               <h2 className="font-display text-lg font-bold text-white uppercase tracking-wider">{t.cartTitle}</h2>
               <span className="text-xs font-mono bg-brand-800 text-gray-300 px-2 py-0.5 rounded-full">
-                {cart.reduce((a, b) => a + b.quantity, 0)}
+                {safeCart.reduce((a, b) => a + (b?.quantity || 0), 0)}
               </span>
             </div>
             <button
@@ -96,7 +97,7 @@ export function CartDrawer() {
 
           {/* Drawer Content */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
-            {cart.length === 0 ? (
+            {safeCart.length === 0 ? (
               <div className="text-center py-16 space-y-4">
                 <div className="w-16 h-16 bg-brand-900 border border-brand-800 rounded-full flex items-center justify-center mx-auto text-gray-500">
                   <ShoppingBag className="w-8 h-8" />
@@ -186,7 +187,7 @@ export function CartDrawer() {
           </div>
 
           {/* Drawer Footer & Checkout */}
-          {cart.length > 0 && (
+          {safeCart.length > 0 && (
             <div className="p-6 border-t border-brand-800 bg-brand-900/40 space-y-4">
               <form onSubmit={handleApplyCoupon} className="flex gap-2">
                 <div className="relative flex-1">

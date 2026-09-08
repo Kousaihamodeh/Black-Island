@@ -339,7 +339,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 </Button>
 
                 <button
-                  onClick={() => toggleWishlist(product)}
+                  onClick={() => toggleWishlist(product.id)}
                   className={`p-4 rounded-xl border transition-colors ${
                     isInWishlist(product.id) ? 'bg-red-950 border-red-800 text-red-400' : 'bg-brand-900 border-brand-700 text-gray-400 hover:text-white'
                   }`}

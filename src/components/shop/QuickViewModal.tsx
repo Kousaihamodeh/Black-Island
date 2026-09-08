@@ -51,7 +51,7 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
       slug: product.slug,
       nameEn: product.nameEn,
       nameAr: product.nameAr,
-      image: selectedImage || images[0].url,
+      image: selectedImage || images[0]?.url || '/logo.png',
       price: product.price,
       salePrice: product.salePrice,
       size: selectedSize,
