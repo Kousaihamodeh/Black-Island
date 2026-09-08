@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Heart, Eye, ShoppingBag, Check } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -35,21 +35,32 @@ export function ProductCard({ product }: ProductCardProps) {
   const [quickViewOpen, setQuickViewOpen] = useState(false);
   const [addedAnimation, setAddedAnimation] = useState(false);
 
-  const mainImage = product.images.find((img) => img.isMain)?.url || product.images[0]?.url || '/logo.png';
-  const hoverImage = product.images[1]?.url || mainImage;
+  const images = Array.isArray(product?.images) ? product.images : [];
+  const variants = Array.isArray(product?.variants) ? product.variants : [];
 
-  const isWishlisted = wishlist.includes(product.id);
-  const totalStock = product.variants.reduce((acc, v) => acc + v.stock, 0);
+  const mainImage = images.find((img: any) => img?.isMain)?.url || images[0]?.url || '/logo.png';
+  const hoverImage = images[1]?.url || mainImage;
 
-  const activePrice = product.salePrice && product.salePrice > 0 ? product.salePrice : product.price;
-  const discountPercent = product.salePrice && product.salePrice < product.price
+  const isWishlisted = product?.id ? wishlist.includes(product.id) : false;
+  const totalStock = variants.reduce((acc: number, v: any) => acc + (v?.stock || 0), 0);
+
+  const activePrice = product?.salePrice && product.salePrice > 0 ? product.salePrice : (product?.price || 0);
+  const discountPercent = (product?.salePrice && product?.price && product.salePrice < product.price)
     ? Math.round(((product.price - product.salePrice) / product.price) * 100)
     : 0;
 
-  // Unique color swatches
-  const colorSwatches = Array.from(
-    new Set(product.variants.map((v) => JSON.stringify({ name: v.colorName, hex: v.colorHex })))
-  ).map((str) => JSON.parse(str));
+  // Unique color swatches with safe parsing
+  const colorSwatches = useMemo(() => {
+    const set = new Set<string>();
+    variants.forEach((v: any) => {
+      if (v?.colorName) {
+        set.add(JSON.stringify({ name: v.colorName, hex: v.colorHex || '#000000' }));
+      }
+    });
+    return Array.from(set).map((str) => {
+      try { return JSON.parse(str); } catch (e) { return { name: 'Standard', hex: '#000000' }; }
+    });
+  }, [variants]);
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();

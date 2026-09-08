@@ -18,22 +18,27 @@ export function QuickViewModal({ product, onClose }: QuickViewModalProps) {
   const { language, t } = useLanguage();
   const { addToCart } = useCart();
 
-  const images = product.images.length > 0 ? product.images : [{ url: '/logo.png' }];
+  const prodImages = Array.isArray(product?.images) && product.images.length > 0 ? product.images : [{ url: '/logo.png' }];
+  const prodVariants = Array.isArray(product?.variants) ? product.variants : [];
+
+  const images = prodImages;
   const [selectedImage, setSelectedImage] = useState(images[0]?.url);
 
   // Available Sizes & Colors
-  const sizes = Array.from(new Set(product.variants.map((v: any) => v.size))) as string[];
+  const sizes = Array.from(new Set(prodVariants.map((v: any) => v?.size).filter(Boolean))) as string[];
   const colors = Array.from(
-    new Set(product.variants.map((v: any) => JSON.stringify({ name: v.colorName, hex: v.colorHex })))
-  ).map((str) => JSON.parse(str as string));
+    new Set(prodVariants.map((v: any) => v?.colorName ? JSON.stringify({ name: v.colorName, hex: v.colorHex || '#000000' }) : '').filter(Boolean))
+  ).map((str) => {
+    try { return JSON.parse(str as string); } catch (e) { return { name: 'Default', hex: '#000000' }; }
+  });
 
   const [selectedSize, setSelectedSize] = useState<string>(sizes[0] || 'M');
   const [selectedColor, setSelectedColor] = useState<string>(colors[0]?.name || 'Default');
   const [quantity, setQuantity] = useState<number>(1);
 
   // Active Variant & Stock Check
-  const activeVariant = product.variants.find(
-    (v: any) => v.size === selectedSize && v.colorName === selectedColor
+  const activeVariant = prodVariants.find(
+    (v: any) => v?.size === selectedSize && v?.colorName === selectedColor
   );
   const stock = activeVariant ? activeVariant.stock : 0;
 

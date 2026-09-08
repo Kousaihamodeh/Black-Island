@@ -87,16 +87,17 @@ export function ShopClientPage({
   }, []);
 
   const itemsList = useMemo(() => {
+    const validRaw = (rawItemsList || []).filter((p) => p && p.id);
     if (!localOverrides || Object.keys(localOverrides).length === 0) {
-      return rawItemsList;
+      return validRaw;
     }
-    const map = new Map<string, any>(rawItemsList.map((p) => [p.id, p]));
+    const map = new Map<string, any>(validRaw.map((p) => [p.id, p]));
     Object.values(localOverrides).forEach((override: any) => {
       if (override && override.id) {
         map.set(override.id, override);
       }
     });
-    return Array.from(map.values());
+    return Array.from(map.values()).filter((p) => p && p.id);
   }, [rawItemsList, localOverrides]);
 
   const [selectedCategory, setSelectedCategory] = useState<string>(
