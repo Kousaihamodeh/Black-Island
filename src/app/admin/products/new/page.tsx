@@ -202,8 +202,12 @@ export default function AddProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nameEn || !nameAr || !price || !sku) {
-      setErrorMsg('Please fill in all required basic details (Titles, Price, SKU).');
+    const finalNameAr = nameAr.trim() || nameEn.trim();
+    const finalNameEn = nameEn.trim() || nameAr.trim();
+    const finalCategorySlug = categorySlug || 'hoodies';
+
+    if (!finalNameAr || !price || !sku) {
+      setErrorMsg('Please fill in at least Title (Arabic or English), Price, and SKU Code.');
       if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
@@ -227,7 +231,7 @@ export default function AddProductPage() {
     });
 
     if (allImages.length === 0) {
-      allImages.push('/logo.png');
+      allImages.push('/black_island_storefront.jpg');
     }
 
     const computedVariants: any[] = [];
@@ -264,14 +268,14 @@ export default function AddProductPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          nameEn,
-          nameAr,
+          nameEn: finalNameEn,
+          nameAr: finalNameAr,
           descEn,
           descAr,
           price: parseFloat(price),
           salePrice: salePrice ? parseFloat(salePrice) : null,
           sku,
-          categorySlug,
+          categorySlug: finalCategorySlug,
           featured,
           isNew,
           isSale: !!salePrice,
@@ -290,9 +294,12 @@ export default function AddProductPage() {
           localStorage.setItem('bi_product_overrides', JSON.stringify(stored));
         } catch (e) {}
 
-        // Trigger background refresh of products catalog
-        fetch('/api/products?t=' + Date.now()).catch(() => {});
-        router.push('/admin/products');
+        // Hard redirect to bust Next.js client router cache and display fresh catalog immediately
+        if (typeof window !== 'undefined') {
+          window.location.href = '/admin/products';
+        } else {
+          router.push('/admin/products');
+        }
       } else {
         setErrorMsg(data.error || 'Failed to create product.');
         if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
