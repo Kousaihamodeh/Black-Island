@@ -9,6 +9,8 @@ const CLOUD_URL = `https://api.restful-api.dev/objects/${CLOUD_DOC_ID}`;
 const globalForCatalog = globalThis as unknown as {
   productOverrides: Map<string, any>;
   deletedProductIds: Set<string>;
+  bannerOverrides: Map<string, any>;
+  deletedBannerIds: Set<string>;
   lastSyncedAt: number;
 };
 
@@ -18,6 +20,14 @@ if (!globalForCatalog.productOverrides) {
 
 if (!globalForCatalog.deletedProductIds) {
   globalForCatalog.deletedProductIds = new Set<string>();
+}
+
+if (!globalForCatalog.bannerOverrides) {
+  globalForCatalog.bannerOverrides = new Map<string, any>();
+}
+
+if (!globalForCatalog.deletedBannerIds) {
+  globalForCatalog.deletedBannerIds = new Set<string>();
 }
 
 if (!globalForCatalog.lastSyncedAt) {
@@ -33,15 +43,19 @@ function syncFromTmpDisk() {
       const data = JSON.parse(content);
       if (data && Array.isArray(data.overrides)) {
         for (const p of data.overrides) {
-          if (p && p.id) {
-            globalForCatalog.productOverrides.set(p.id, p);
-          }
+          if (p && p.id) globalForCatalog.productOverrides.set(p.id, p);
         }
       }
       if (data && Array.isArray(data.deleted)) {
-        for (const id of data.deleted) {
-          globalForCatalog.deletedProductIds.add(id);
+        for (const id of data.deleted) globalForCatalog.deletedProductIds.add(id);
+      }
+      if (data && Array.isArray(data.banners)) {
+        for (const b of data.banners) {
+          if (b && b.id) globalForCatalog.bannerOverrides.set(b.id, b);
         }
+      }
+      if (data && Array.isArray(data.deletedBanners)) {
+        for (const id of data.deletedBanners) globalForCatalog.deletedBannerIds.add(id);
       }
     }
   } catch (e) {
@@ -54,6 +68,8 @@ function syncToTmpDisk() {
     const data = {
       overrides: Array.from(globalForCatalog.productOverrides.values()),
       deleted: Array.from(globalForCatalog.deletedProductIds.values()),
+      banners: Array.from(globalForCatalog.bannerOverrides.values()),
+      deletedBanners: Array.from(globalForCatalog.deletedBannerIds.values()),
     };
     fs.writeFileSync(TMP_FILE, JSON.stringify(data), 'utf-8');
   } catch (e) {
@@ -89,15 +105,19 @@ export async function syncFromCloud(force = false) {
         if (json && json.data) {
           if (Array.isArray(json.data.overrides)) {
             for (const p of json.data.overrides) {
-              if (p && p.id) {
-                globalForCatalog.productOverrides.set(p.id, p);
-              }
+              if (p && p.id) globalForCatalog.productOverrides.set(p.id, p);
             }
           }
           if (Array.isArray(json.data.deleted)) {
-            for (const id of json.data.deleted) {
-              globalForCatalog.deletedProductIds.add(id);
+            for (const id of json.data.deleted) globalForCatalog.deletedProductIds.add(id);
+          }
+          if (Array.isArray(json.data.banners)) {
+            for (const b of json.data.banners) {
+              if (b && b.id) globalForCatalog.bannerOverrides.set(b.id, b);
             }
+          }
+          if (Array.isArray(json.data.deletedBanners)) {
+            for (const id of json.data.deletedBanners) globalForCatalog.deletedBannerIds.add(id);
           }
           globalForCatalog.lastSyncedAt = Date.now();
           syncToTmpDisk();
@@ -120,6 +140,8 @@ export async function syncToCloud() {
       data: {
         overrides: Array.from(globalForCatalog.productOverrides.values()),
         deleted: Array.from(globalForCatalog.deletedProductIds.values()),
+        banners: Array.from(globalForCatalog.bannerOverrides.values()),
+        deletedBanners: Array.from(globalForCatalog.deletedBannerIds.values()),
       },
     };
 
@@ -148,6 +170,8 @@ syncFromTmpDisk();
 
 export const productOverrides = globalForCatalog.productOverrides;
 export const deletedProductIds = globalForCatalog.deletedProductIds;
+export const bannerOverrides = globalForCatalog.bannerOverrides;
+export const deletedBannerIds = globalForCatalog.deletedBannerIds;
 
 export async function setProductOverride(product: any) {
   if (!product || !product.id) return;
@@ -179,6 +203,40 @@ export function applyOverrides(products: any[]): any[] {
   const map = new Map<string, any>(list.map((p) => [p.id, p]));
   for (const [id, overrideProduct] of globalForCatalog.productOverrides.entries()) {
     map.set(id, overrideProduct);
+  }
+
+  return Array.from(map.values());
+}
+
+// BANNERS PERSISTENCE
+export async function setBannerOverride(banner: any) {
+  if (!banner || !banner.id) return;
+  syncFromTmpDisk();
+  globalForCatalog.bannerOverrides.set(banner.id, {
+    ...banner,
+    updatedAt: new Date().toISOString(),
+  });
+  syncToTmpDisk();
+  await syncToCloud();
+}
+
+export async function markBannerDeleted(id: string) {
+  syncFromTmpDisk();
+  globalForCatalog.deletedBannerIds.add(id);
+  globalForCatalog.bannerOverrides.delete(id);
+  syncToTmpDisk();
+  await syncToCloud();
+}
+
+export function applyBannerOverrides(banners: any[]): any[] {
+  if (!Array.isArray(banners)) return [];
+  syncFromTmpDisk();
+
+  let list = banners.filter((b) => !globalForCatalog.deletedBannerIds.has(b.id));
+
+  const map = new Map<string, any>(list.map((b) => [b.id, b]));
+  for (const [id, overrideBanner] of globalForCatalog.bannerOverrides.entries()) {
+    map.set(id, overrideBanner);
   }
 
   return Array.from(map.values());

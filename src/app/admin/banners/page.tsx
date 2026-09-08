@@ -26,7 +26,7 @@ export default function AdminBannersPage() {
   const fetchBanners = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/banners');
+      const res = await fetch(`/api/admin/banners?t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
       if (data.banners) {
         setBanners(data.banners);
