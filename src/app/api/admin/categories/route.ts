@@ -1,15 +1,20 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { ensureSeeded, INITIAL_CATEGORIES } from '@/lib/autoSeed';
 
 export async function GET() {
   try {
+    await ensureSeeded(prisma);
     const categories = await prisma.category.findMany({
       include: { products: true },
       orderBy: { order: 'asc' },
     });
+    if (!categories || categories.length === 0) {
+      return NextResponse.json({ categories: INITIAL_CATEGORIES });
+    }
     return NextResponse.json({ categories });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch categories' }, { status: 500 });
+    return NextResponse.json({ categories: INITIAL_CATEGORIES });
   }
 }
 

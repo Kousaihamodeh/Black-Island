@@ -116,22 +116,8 @@ export default function AdminProductsPage() {
         deletedIdsSet = new Set(deletedArr);
       } catch (e) {}
 
-      try {
-        const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
-        const storedList = Object.values(stored);
-        if (storedList.length > 0) {
-          const map = new Map(fetchedProds.map((p: any) => [p.id, p]));
-          storedList.forEach((sp: any) => {
-            if (sp && sp.id && !deletedIdsSet.has(sp.id)) {
-              map.set(sp.id, sp);
-            }
-          });
-          fetchedProds = Array.from(map.values());
-        }
-      } catch (e) {}
-
       // Filter out deleted IDs
-      fetchedProds = fetchedProds.filter((p: any) => !deletedIdsSet.has(p.id));
+      fetchedProds = fetchedProds.filter((p: any) => p && p.id && !deletedIdsSet.has(p.id));
 
       setProducts(fetchedProds);
       if (cData.categories) setCategories(cData.categories);
