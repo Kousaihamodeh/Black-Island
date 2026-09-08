@@ -44,7 +44,30 @@ export async function POST(request: Request) {
         }
       }
 
-      // Base64 Data URL Fallback for serverless or read-only environments
+      // Cloud storage upload for Vercel serverless / read-only environment
+      try {
+        const cloudFormData = new FormData();
+        const blob = new Blob([buffer], { type: file.type || 'image/jpeg' });
+        cloudFormData.append('file', blob, filename);
+
+        const cloudRes = await fetch('https://tmpfiles.org/api/v1/upload', {
+          method: 'POST',
+          body: cloudFormData,
+        });
+
+        if (cloudRes.ok) {
+          const cloudData = await cloudRes.json();
+          if (cloudData.data && cloudData.data.url) {
+            const directUrl = cloudData.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+            savedUrls.push(directUrl);
+            continue;
+          }
+        }
+      } catch (cloudErr) {
+        console.warn('Cloud image upload error, fallback to Base64 data URL:', cloudErr);
+      }
+
+      // Base64 Data URL Fallback if cloud upload fails
       const mimeType = file.type || 'image/jpeg';
       const base64Data = buffer.toString('base64');
       const dataUrl = `data:${mimeType};base64,${base64Data}`;
