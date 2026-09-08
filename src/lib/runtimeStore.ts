@@ -2,10 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
-// Global Runtime Store with Persistent /tmp Backup for Serverless Lambdas (Vercel)
+const CLOUD_DOC_ID = 'ff808181a067127101a0806e64e147f2';
+const CLOUD_URL = `https://api.restful-api.dev/objects/${CLOUD_DOC_ID}`;
+
+// Global Runtime Store with Cloud Persistence for Serverless Lambdas (Vercel)
 const globalForCatalog = globalThis as unknown as {
   productOverrides: Map<string, any>;
   deletedProductIds: Set<string>;
+  lastSyncedAt: number;
 };
 
 if (!globalForCatalog.productOverrides) {
@@ -14,6 +18,10 @@ if (!globalForCatalog.productOverrides) {
 
 if (!globalForCatalog.deletedProductIds) {
   globalForCatalog.deletedProductIds = new Set<string>();
+}
+
+if (!globalForCatalog.lastSyncedAt) {
+  globalForCatalog.lastSyncedAt = 0;
 }
 
 const TMP_FILE = path.join(os.tmpdir(), 'black_island_overrides.json');
@@ -53,7 +61,86 @@ function syncToTmpDisk() {
   }
 }
 
-// Initial sync
+let syncPromise: Promise<void> | null = null;
+
+export async function syncFromCloud(force = false) {
+  const now = Date.now();
+  // Avoid spamming cloud if synced in the last 3 seconds
+  if (!force && now - globalForCatalog.lastSyncedAt < 3000) {
+    return;
+  }
+
+  if (syncPromise) {
+    return syncPromise;
+  }
+
+  syncPromise = (async () => {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
+      const res = await fetch(CLOUD_URL, {
+        signal: controller.signal,
+        headers: { 'Cache-Control': 'no-cache' },
+      });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json && json.data) {
+          if (Array.isArray(json.data.overrides)) {
+            for (const p of json.data.overrides) {
+              if (p && p.id) {
+                globalForCatalog.productOverrides.set(p.id, p);
+              }
+            }
+          }
+          if (Array.isArray(json.data.deleted)) {
+            for (const id of json.data.deleted) {
+              globalForCatalog.deletedProductIds.add(id);
+            }
+          }
+          globalForCatalog.lastSyncedAt = Date.now();
+          syncToTmpDisk();
+        }
+      }
+    } catch (e) {
+      console.warn('Cloud sync read warning, using local cache:', e);
+    } finally {
+      syncPromise = null;
+    }
+  })();
+
+  return syncPromise;
+}
+
+export async function syncToCloud() {
+  try {
+    const payload = {
+      name: 'Black_Island_Master_Catalog_v1',
+      data: {
+        overrides: Array.from(globalForCatalog.productOverrides.values()),
+        deleted: Array.from(globalForCatalog.deletedProductIds.values()),
+      },
+    };
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4500);
+
+    await fetch(CLOUD_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+  } catch (e) {
+    console.warn('Cloud sync write warning:', e);
+  }
+}
+
+// Initial local disk sync
 syncFromTmpDisk();
 
 export const productOverrides = globalForCatalog.productOverrides;
@@ -67,6 +154,7 @@ export function setProductOverride(product: any) {
     updatedAt: new Date().toISOString(),
   });
   syncToTmpDisk();
+  syncToCloud().catch(() => {});
 }
 
 export function markProductDeleted(id: string) {
@@ -74,6 +162,7 @@ export function markProductDeleted(id: string) {
   globalForCatalog.deletedProductIds.add(id);
   globalForCatalog.productOverrides.delete(id);
   syncToTmpDisk();
+  syncToCloud().catch(() => {});
 }
 
 export function applyOverrides(products: any[]): any[] {

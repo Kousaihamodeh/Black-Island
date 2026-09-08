@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS } from '@/lib/autoSeed';
-import { applyOverrides, setProductOverride } from '@/lib/runtimeStore';
+import { applyOverrides, setProductOverride, syncFromCloud } from '@/lib/runtimeStore';
 
 // Force rebuild 34 product catalog v2 - timestamp 2026-09-07
 export const dynamic = 'force-dynamic';
@@ -22,6 +22,7 @@ function getCanonicalSlug(str: string | null | undefined): string {
 
 export async function GET(request: Request) {
   try {
+    await syncFromCloud();
     await ensureSeeded(prisma);
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
