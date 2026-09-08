@@ -83,6 +83,21 @@ export default function AdminProductsPage() {
   const [uploadingNewColorGroup, setUploadingNewColorGroup] = useState(false);
   const [uploadingCardId, setUploadingCardId] = useState<string | null>(null);
 
+  // High-Resolution Image Lightbox Modal State
+  const [previewImageModal, setPreviewImageModal] = useState<{ url: string; title?: string } | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setPreviewImageModal(null);
+      }
+    };
+    if (previewImageModal) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [previewImageModal]);
+
   const fetchCatalogData = async () => {
     setLoading(true);
     try {
@@ -698,8 +713,15 @@ export default function AdminProductsPage() {
                       </td>
 
                       <td className="p-4">
-                        <div className="w-12 h-14 rounded-lg overflow-hidden bg-brand-900 border border-brand-800 shrink-0">
-                          <img src={mainImage} alt="" className="w-full h-full object-cover" />
+                        <div
+                          onClick={() => setPreviewImageModal({ url: mainImage, title: `${prod.nameEn} (${prod.nameAr})` })}
+                          className="w-12 h-14 rounded-lg overflow-hidden bg-brand-900 border border-brand-800 shrink-0 cursor-zoom-in relative group hover:border-brand-gold transition-all"
+                          title="Click to zoom image"
+                        >
+                          <img src={mainImage} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+                          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <Eye className="w-4 h-4 text-brand-gold" />
+                          </div>
                         </div>
                       </td>
 
@@ -1022,9 +1044,23 @@ export default function AdminProductsPage() {
                 <span className="font-bold text-brand-gold uppercase block">STANDALONE MAIN COVER IMAGE (OPTIONAL)</span>
                 <div className="flex items-center gap-4">
                   {editMainCoverImage ? (
-                    <div className="w-16 h-20 rounded-lg overflow-hidden border border-brand-700 shrink-0 relative">
-                      <img src={editMainCoverImage} alt="" className="w-full h-full object-cover" />
-                      <button type="button" onClick={() => setEditMainCoverImage(null)} className="absolute top-0.5 right-0.5 p-0.5 bg-black/80 text-red-400 rounded-full text-[9px]">
+                    <div
+                      onClick={() => setPreviewImageModal({ url: editMainCoverImage, title: editNameEn || 'Main Cover Image' })}
+                      className="w-16 h-20 rounded-lg overflow-hidden border border-brand-700 shrink-0 relative cursor-zoom-in group hover:border-brand-gold transition-all"
+                      title="Click to zoom cover photo"
+                    >
+                      <img src={editMainCoverImage} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                        <Eye className="w-4 h-4 text-brand-gold" />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditMainCoverImage(null);
+                        }}
+                        className="absolute top-0.5 right-0.5 p-0.5 bg-black/80 text-red-400 hover:text-white rounded-full text-[9px]"
+                      >
                         &times;
                       </button>
                     </div>
@@ -1108,12 +1144,23 @@ export default function AdminProductsPage() {
                               </span>
                             ) : (
                               card.images.map((imgUrl, imgIdx) => (
-                                <div key={imgIdx} className="w-14 h-16 rounded border border-brand-700 overflow-hidden relative shrink-0">
-                                  <img src={imgUrl} alt="" className="w-full h-full object-cover" />
+                                <div
+                                  key={imgIdx}
+                                  onClick={() => setPreviewImageModal({ url: imgUrl, title: `${editNameEn} - ${card.colorName} (Photo #${imgIdx + 1})` })}
+                                  className="w-14 h-16 rounded border border-brand-700 overflow-hidden relative shrink-0 cursor-zoom-in group hover:border-brand-gold transition-all"
+                                  title="Click to zoom color photo"
+                                >
+                                  <img src={imgUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                                    <Eye className="w-3.5 h-3.5 text-brand-gold" />
+                                  </div>
                                   <button
                                     type="button"
-                                    onClick={() => removePhotoFromEditCard(card.id, imgIdx)}
-                                    className="absolute top-0.5 right-0.5 p-0.5 bg-black/80 text-red-400 rounded-full text-[9px]"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      removePhotoFromEditCard(card.id, imgIdx);
+                                    }}
+                                    className="absolute top-0.5 right-0.5 p-0.5 bg-black/80 text-red-400 hover:text-white rounded-full text-[9px]"
                                   >
                                     &times;
                                   </button>
@@ -1209,6 +1256,60 @@ export default function AdminProductsPage() {
               </div>
             </form>
           </div>
+        </div>
+      )}
+
+      {/* High-Resolution Interactive Image Lightbox Modal */}
+      {previewImageModal && (
+        <div
+          className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4 sm:p-8 animate-fade-in select-none"
+          onClick={() => setPreviewImageModal(null)}
+        >
+          {/* Header Bar */}
+          <div
+            className="w-full max-w-4xl flex items-center justify-between pb-3 mb-2 border-b border-brand-800 font-mono text-xs"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-2 text-gray-300">
+              <ImageIcon className="w-4 h-4 text-brand-gold" />
+              <span className="font-bold uppercase tracking-wider text-white">
+                {previewImageModal.title || 'Image Preview'}
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <a
+                href={previewImageModal.url}
+                target="_blank"
+                rel="noreferrer"
+                className="px-3 py-1 bg-brand-900 border border-brand-700 hover:bg-white hover:text-black text-gray-300 rounded-lg text-[11px] font-bold transition-colors flex items-center gap-1.5"
+              >
+                Open Full Size
+              </a>
+              <button
+                onClick={() => setPreviewImageModal(null)}
+                className="p-1.5 text-gray-400 hover:text-white bg-brand-900 hover:bg-brand-800 rounded-lg border border-brand-700 transition-colors"
+                title="Close (Esc)"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Image Container */}
+          <div
+            className="relative max-w-4xl max-h-[82vh] flex items-center justify-center p-2 rounded-2xl bg-brand-950/80 border border-brand-800 shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={previewImageModal.url}
+              alt={previewImageModal.title || 'Product Image Preview'}
+              className="max-w-full max-h-[78vh] object-contain rounded-xl shadow-inner transition-transform duration-300 hover:scale-[1.02]"
+            />
+          </div>
+
+          <span className="text-[11px] font-mono text-gray-500 mt-3">
+            Click outside or press Esc to close
+          </span>
         </div>
       )}
     </div>

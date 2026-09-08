@@ -13,6 +13,7 @@ const globalForCatalog = globalThis as unknown as {
   deletedBannerIds: Set<string>;
   storeSettings: Map<string, string>;
   lastSyncedAt: number;
+  hasSyncedOnce: boolean;
 };
 
 if (!globalForCatalog.productOverrides) {
@@ -37,6 +38,10 @@ if (!globalForCatalog.storeSettings) {
 
 if (!globalForCatalog.lastSyncedAt) {
   globalForCatalog.lastSyncedAt = 0;
+}
+
+if (globalForCatalog.hasSyncedOnce === undefined) {
+  globalForCatalog.hasSyncedOnce = false;
 }
 
 const TMP_FILE = path.join(os.tmpdir(), 'black_island_overrides.json');
@@ -93,7 +98,7 @@ let syncPromise: Promise<void> | null = null;
 export async function syncFromCloud(force = false) {
   const now = Date.now();
   // Avoid refetching cloud if fetched in last 2 seconds unless forced
-  if (!force && now - globalForCatalog.lastSyncedAt < 2000) {
+  if (!force && globalForCatalog.hasSyncedOnce && now - globalForCatalog.lastSyncedAt < 2000) {
     return;
   }
 
@@ -104,7 +109,7 @@ export async function syncFromCloud(force = false) {
   syncPromise = (async () => {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
       const res = await fetch(CLOUD_URL, {
         signal: controller.signal,
         headers: { 'Cache-Control': 'no-cache' },
@@ -136,6 +141,7 @@ export async function syncFromCloud(force = false) {
             }
           }
           globalForCatalog.lastSyncedAt = Date.now();
+          globalForCatalog.hasSyncedOnce = true;
           syncToTmpDisk();
         }
       }
@@ -163,7 +169,7 @@ export async function syncToCloud() {
     };
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
 
     const res = await fetch(CLOUD_URL, {
       method: 'PUT',
@@ -193,7 +199,7 @@ export const storeSettings = globalForCatalog.storeSettings;
 
 export async function setProductOverride(product: any) {
   if (!product || !product.id) return;
-  syncFromTmpDisk();
+  await syncFromCloud();
   globalForCatalog.productOverrides.set(product.id, {
     ...product,
     updatedAt: new Date().toISOString(),
@@ -203,7 +209,7 @@ export async function setProductOverride(product: any) {
 }
 
 export async function markProductDeleted(id: string) {
-  syncFromTmpDisk();
+  await syncFromCloud();
   globalForCatalog.deletedProductIds.add(id);
   globalForCatalog.productOverrides.delete(id);
   syncToTmpDisk();
@@ -229,7 +235,7 @@ export function applyOverrides(products: any[]): any[] {
 // BANNERS PERSISTENCE WITH AUTOMATIC TOP-PRIORITY SORTING
 export async function setBannerOverride(banner: any) {
   if (!banner || !banner.id) return;
-  syncFromTmpDisk();
+  await syncFromCloud();
   globalForCatalog.bannerOverrides.set(banner.id, {
     ...banner,
     updatedAt: new Date().toISOString(),
@@ -239,7 +245,7 @@ export async function setBannerOverride(banner: any) {
 }
 
 export async function markBannerDeleted(id: string) {
-  syncFromTmpDisk();
+  await syncFromCloud();
   globalForCatalog.deletedBannerIds.add(id);
   globalForCatalog.bannerOverrides.delete(id);
   syncToTmpDisk();
@@ -275,7 +281,7 @@ export function applyBannerOverrides(banners: any[]): any[] {
 // STORE SETTINGS PERSISTENCE
 export async function setStoreSetting(key: string, value: string) {
   if (!key) return;
-  syncFromTmpDisk();
+  await syncFromCloud();
   globalForCatalog.storeSettings.set(key, value);
   syncToTmpDisk();
   await syncToCloud();
