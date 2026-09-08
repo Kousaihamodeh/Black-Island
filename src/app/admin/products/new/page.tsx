@@ -338,10 +338,9 @@ export default function AddProductPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-mono text-gray-300 mb-1.5 uppercase">English Title *</label>
+              <label className="block text-xs font-mono text-gray-300 mb-1.5 uppercase">English Title (Optional if Arabic is provided)</label>
               <input
                 type="text"
-                required
                 value={nameEn}
                 onChange={(e) => setNameEn(e.target.value)}
                 placeholder="e.g. BLACK ISLAND Signature Heavy Sweater Collection"
@@ -353,7 +352,6 @@ export default function AddProductPage() {
               <label className="block text-xs font-mono text-gray-300 mb-1.5 uppercase">Arabic Title *</label>
               <input
                 type="text"
-                required
                 value={nameAr}
                 onChange={(e) => setNameAr(e.target.value)}
                 placeholder="كنزة بلاك آيلاند قطن ثقيل ألوان متعددة"
