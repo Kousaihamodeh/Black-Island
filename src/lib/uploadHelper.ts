@@ -7,14 +7,19 @@ export async function uploadFiles(filesList: FileList | File[]): Promise<string[
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const result = e.target?.result as string;
-        if (!result) return resolve({ file, dataUrl: '' });
+        const rawResult = e.target?.result as string;
+        if (!rawResult) return resolve({ file, dataUrl: '' });
 
         const img = new Image();
+        const timeoutId = setTimeout(() => {
+          resolve({ file, dataUrl: rawResult.length > 200000 ? '/logo.png' : rawResult });
+        }, 4000);
+
         img.onload = () => {
-          const maxDim = 550;
-          let width = img.width;
-          let height = img.height;
+          clearTimeout(timeoutId);
+          const maxDim = 500;
+          let width = img.width || 500;
+          let height = img.height || 500;
 
           if (width > maxDim || height > maxDim) {
             if (width > height) {
@@ -31,12 +36,20 @@ export async function uploadFiles(filesList: FileList | File[]): Promise<string[
           canvas.height = height;
 
           const ctx = canvas.getContext('2d');
-          if (!ctx) return resolve({ file, dataUrl: result });
+          if (!ctx) {
+            return resolve({ file, dataUrl: rawResult });
+          }
 
           ctx.drawImage(img, 0, 0, width, height);
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.55);
+          let compressedDataUrl = canvas.toDataURL('image/jpeg', 0.5);
 
-          // Convert compressed data URL back to Blob / File for tiny upload
+          if (compressedDataUrl.length > 150000) {
+            canvas.width = Math.round(width * 0.7);
+            canvas.height = Math.round(height * 0.7);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            compressedDataUrl = canvas.toDataURL('image/jpeg', 0.4);
+          }
+
           try {
             const arr = compressedDataUrl.split(',');
             const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/jpeg';
@@ -53,9 +66,15 @@ export async function uploadFiles(filesList: FileList | File[]): Promise<string[
             resolve({ file, dataUrl: compressedDataUrl });
           }
         };
-        img.onerror = () => resolve({ file, dataUrl: result });
-        img.src = result;
+
+        img.onerror = () => {
+          clearTimeout(timeoutId);
+          resolve({ file, dataUrl: rawResult.length > 200000 ? '/logo.png' : rawResult });
+        };
+
+        img.src = rawResult;
       };
+
       reader.onerror = () => resolve({ file, dataUrl: '' });
       reader.readAsDataURL(file);
     });
