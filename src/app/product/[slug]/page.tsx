@@ -35,7 +35,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const allProducts = applyOverrides(rawProducts);
 
   let product = allProducts.find(
-    (p) => p.slug.toLowerCase() === normalizedSlug || p.id === slug
+    (p) => (p?.slug ? p.slug.toLowerCase() === normalizedSlug : false) || p?.id === slug
   );
 
   if (!product) {

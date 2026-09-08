@@ -124,7 +124,7 @@ export function Header() {
               className="hidden lg:flex items-center gap-2 text-xs text-gray-400 hover:text-white bg-brand-850 border border-brand-700/60 px-3 py-1.5 rounded-full transition-colors font-sans"
             >
               <Search className="w-4 h-4 text-gray-400" />
-              <span>{t.searchPlaceholder.slice(0, 18)}...</span>
+              <span>{(t?.searchPlaceholder || 'Search').slice(0, 18)}...</span>
             </button>
 
             {/* Language Switcher Mobile / Desktop Icon */}

@@ -24,9 +24,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     const map = new Map<string, { hex: string; primaryImage?: string; allImages: string[] }>();
 
     product?.variants?.forEach((v: any) => {
-      if (!map.has(v.colorName)) {
+      if (v && v.colorName && !map.has(v.colorName)) {
         let imgs: string[] = [];
-        if (v.colorImages) {
+        if (v.colorImages && typeof v.colorImages === 'string') {
           imgs = v.colorImages.split(',').filter(Boolean);
         } else if (v.colorImage) {
           imgs = [v.colorImage];
