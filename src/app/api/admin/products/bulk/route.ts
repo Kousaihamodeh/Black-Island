@@ -25,6 +25,7 @@ export async function POST(request: Request) {
           where: { id: { in: productIds } },
         });
       } catch (e) {}
+      await syncFromCloud(true);
       return NextResponse.json({ success: true });
     }
 

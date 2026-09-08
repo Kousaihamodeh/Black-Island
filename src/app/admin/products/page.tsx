@@ -108,17 +108,31 @@ export default function AdminProductsPage() {
       const pData = await pRes.json();
       const cData = await cRes.json();
       let fetchedProds = pData.products || [];
+
+      // Read deleted product IDs from localStorage
+      let deletedIdsSet = new Set<string>();
+      try {
+        const deletedArr = JSON.parse(localStorage.getItem('bi_deleted_product_ids') || '[]');
+        deletedIdsSet = new Set(deletedArr);
+      } catch (e) {}
+
       try {
         const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
         const storedList = Object.values(stored);
         if (storedList.length > 0) {
           const map = new Map(fetchedProds.map((p: any) => [p.id, p]));
           storedList.forEach((sp: any) => {
-            if (sp && sp.id) map.set(sp.id, sp);
+            if (sp && sp.id && !deletedIdsSet.has(sp.id)) {
+              map.set(sp.id, sp);
+            }
           });
           fetchedProds = Array.from(map.values());
         }
       } catch (e) {}
+
+      // Filter out deleted IDs
+      fetchedProds = fetchedProds.filter((p: any) => !deletedIdsSet.has(p.id));
+
       setProducts(fetchedProds);
       if (cData.categories) setCategories(cData.categories);
     } catch (e) {
@@ -215,7 +229,6 @@ export default function AdminProductsPage() {
     }
   };
 
-  // Explicit Duplication Action (Requires User Confirmation & Does NOT hijack active edit session)
   const handleDuplicateProduct = async (productId: string) => {
     if (!confirm('Are you sure you want to create a duplicate copy of this product?')) return;
     try {
@@ -233,8 +246,22 @@ export default function AdminProductsPage() {
     }
   };
 
+  const removeLocalProductIds = (ids: string[]) => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+      ids.forEach((id) => delete stored[id]);
+      localStorage.setItem('bi_product_overrides', JSON.stringify(stored));
+
+      const deletedArr = JSON.parse(localStorage.getItem('bi_deleted_product_ids') || '[]');
+      const set = new Set([...deletedArr, ...ids]);
+      localStorage.setItem('bi_deleted_product_ids', JSON.stringify(Array.from(set)));
+    } catch (e) {}
+  };
+
   const handleDeleteProduct = async (id: string) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
+    removeLocalProductIds([id]);
+    setProducts((prev) => prev.filter((p) => p.id !== id));
     try {
       await fetch('/api/admin/products/bulk', {
         method: 'POST',
@@ -250,6 +277,11 @@ export default function AdminProductsPage() {
   const handleBulkAction = async (action: string, payload?: any) => {
     if (selectedIds.length === 0) return;
     if (action === 'delete' && !confirm(`Delete ${selectedIds.length} selected products?`)) return;
+
+    if (action === 'delete') {
+      removeLocalProductIds(selectedIds);
+      setProducts((prev) => prev.filter((p) => !selectedIds.includes(p.id)));
+    }
 
     try {
       await fetch('/api/admin/products/bulk', {
