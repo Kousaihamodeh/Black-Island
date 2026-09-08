@@ -5,6 +5,7 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { CategoryGrid } from '@/components/home/CategoryGrid';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
 import { SneakerSpotlightSection } from '@/components/home/SneakerSpotlightSection';
+import { BrandStory } from '@/components/home/BrandStory';
 import { GoogleMapSection } from '@/components/home/GoogleMapSection';
 import { InstagramSection } from '@/components/home/InstagramSection';
 import { WhatsappCta } from '@/components/home/WhatsappCta';
@@ -19,7 +20,7 @@ const DEFAULT_BANNERS = [
     titleAr: 'التشكيلة التركية الفاخرة',
     subtitleEn: 'Heavyweight cottons & tailored streetwear silhouettes.',
     subtitleAr: 'قطنيات ثقيلة وتصاميم ستريت وير فاخرة.',
-    imageUrl: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1600',
+    imageUrl: '/black_island_storefront.jpg',
     buttonTextEn: 'EXPLORE CATALOG',
     buttonTextAr: 'استكشف التشكيلة',
     link: '/shop',
@@ -70,12 +71,16 @@ export default async function HomePage() {
   const rawBanners = Array.from(new Map([...initialBannerMap, ...dbBannerMap]).values());
   const banners = applyBannerOverrides(rawBanners).filter((b) => b.isActive !== false);
 
+  const settings = getAllStoreSettings();
+  const brandIdentityImage = settings.brand_identity_image || '/black_island_storefront.jpg';
+
   return (
     <div className="space-y-0">
       <HeroSection initialBanners={banners} />
       <CategoryGrid />
       <FeaturedProducts products={finalFeatured} />
       <SneakerSpotlightSection />
+      <BrandStory initialImage={brandIdentityImage} />
       <GoogleMapSection />
       <InstagramSection />
       <WhatsappCta />

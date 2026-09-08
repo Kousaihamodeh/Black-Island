@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ShieldCheck, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
-const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200';
+const DEFAULT_IMAGE = '/black_island_storefront.jpg';
 
 interface BrandStoryProps {
   initialImage?: string;

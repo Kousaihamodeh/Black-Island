@@ -13,7 +13,7 @@ export default function AdminSettingsPage() {
   const [instagram, setInstagram] = useState('@black_islandd_fashion');
   const [feeDamascus, setFeeDamascus] = useState('15000');
   const [feeOther, setFeeOther] = useState('25000');
-  const [brandIdentityImage, setBrandIdentityImage] = useState('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200');
+  const [brandIdentityImage, setBrandIdentityImage] = useState('/black_island_storefront.jpg');
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
