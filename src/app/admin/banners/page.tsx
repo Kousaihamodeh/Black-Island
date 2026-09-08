@@ -48,7 +48,7 @@ export default function AdminBannersPage() {
     setTitleAr('التشكيلة التركية الفاخرة');
     setSubtitleEn('Heavyweight cottons & tailored streetwear silhouettes.');
     setSubtitleAr('قطنيات ثقيلة وتصاميم ستريت وير فاخرة.');
-    setImageUrl('https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=1600');
+    setImageUrl('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1600');
     setButtonTextEn('EXPLORE CATALOG');
     setButtonTextAr('استكشف التشكيلة');
     setLink('/shop');

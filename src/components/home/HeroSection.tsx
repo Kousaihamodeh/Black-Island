@@ -32,7 +32,7 @@ export function HeroSection({ initialBanners }: HeroSectionProps) {
       .then((data) => {
         if (data.banners && Array.isArray(data.banners)) {
           const active = data.banners.filter((b: any) => b.isActive !== false);
-          if (active.length > 0) setBanners(active);
+          setBanners(active);
         }
       })
       .catch((e) => console.error('Failed to load active hero banners:', e));

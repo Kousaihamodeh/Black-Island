@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ShieldCheck, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
-const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=1200&auto=format&fit=crop';
+const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1200';
 
 interface BrandStoryProps {
   initialImage?: string;

@@ -12,7 +12,7 @@ const DEFAULT_BANNERS = [
     titleAr: 'التشكيلة التركية الفاخرة',
     subtitleEn: 'Heavyweight cottons & tailored streetwear silhouettes.',
     subtitleAr: 'قطنيات ثقيلة وتصاميم ستريت وير فاخرة.',
-    imageUrl: 'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=1600',
+    imageUrl: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1600',
     buttonTextEn: 'EXPLORE CATALOG',
     buttonTextAr: 'استكشف التشكيلة',
     link: '/shop',
