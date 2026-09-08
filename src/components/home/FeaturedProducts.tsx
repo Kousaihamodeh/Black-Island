@@ -35,7 +35,7 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
 
         {/* Products Grid: 2 columns on mobile, 4 on desktop */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-          {products.map((product) => (
+          {(products || []).filter((product) => product && product.id).map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

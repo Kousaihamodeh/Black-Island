@@ -25,6 +25,7 @@ export default function CartPage() {
   const [couponInput, setCouponInput] = useState('');
   const [couponMsg, setCouponMsg] = useState<{ success: boolean; text: string } | null>(null);
 
+  const cartItems = Array.isArray(cart) ? cart.filter(Boolean) : [];
   const total = Math.max(0, subtotal - discount);
 
   const handleApplyCoupon = async (e: React.FormEvent) => {
@@ -35,7 +36,7 @@ export default function CartPage() {
   };
 
   const handleDirectWhatsApp = () => {
-    if (cart.length === 0) return;
+    if (cartItems.length === 0) return;
     const whatsappUrl = generateWhatsAppOrderMessage({
       orderNumber: `CART-${Math.floor(1000 + Math.random() * 9000)}`,
       customerName: 'Customer',
@@ -44,7 +45,7 @@ export default function CartPage() {
       governorate: 'Damascus / Qudsaya',
       cityArea: 'Damascus',
       address: 'Full Cart Page Quick Order',
-      items: cart.map((i) => ({
+      items: cartItems.map((i) => ({
         productName: language === 'ar' ? i.nameAr : i.nameEn,
         size: i.size,
         color: i.color,
@@ -59,7 +60,7 @@ export default function CartPage() {
     window.open(whatsappUrl, '_blank');
   };
 
-  if (cart.length === 0) {
+  if (cartItems.length === 0) {
     return (
       <div className="py-24 bg-black text-white min-h-[70vh] flex flex-col items-center justify-center text-center px-4 font-sans">
         <div className="w-20 h-20 bg-brand-900 border border-brand-800 rounded-full flex items-center justify-center mb-6 text-gray-500">
