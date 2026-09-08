@@ -50,7 +50,7 @@ export async function PUT(request: Request) {
         });
       } catch (e) {}
 
-      setProductOverride(updatedProduct);
+      await setProductOverride(updatedProduct);
       return NextResponse.json({ success: true, product: updatedProduct });
     }
 
@@ -62,7 +62,7 @@ export async function PUT(request: Request) {
       updatedProduct.isSale = !!updatedProduct.salePrice;
     }
 
-    setProductOverride(updatedProduct);
+    await setProductOverride(updatedProduct);
 
     try {
       const dataToUpdate: any = {};

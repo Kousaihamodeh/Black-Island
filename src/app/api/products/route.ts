@@ -162,7 +162,7 @@ export async function POST(request: Request) {
       updatedAt: new Date().toISOString(),
     };
 
-    setProductOverride(createdProduct);
+    await setProductOverride(createdProduct);
 
     try {
       await prisma.product.create({

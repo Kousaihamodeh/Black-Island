@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS, INITIAL_CATEGORIES } from '@/lib/autoSeed';
 import { ShopClientPage } from '@/app/shop/ShopClientPage';
-import { applyOverrides } from '@/lib/runtimeStore';
+import { applyOverrides, syncFromCloud } from '@/lib/runtimeStore';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -18,6 +18,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   let currentCategory = null;
 
   try {
+    await syncFromCloud();
     await ensureSeeded(prisma);
     const normalizedSlug = decodeURIComponent(slug).toLowerCase().trim();
 
@@ -52,7 +53,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     categories = Array.from(new Map<string, any>([...initialCatMap, ...dbCatMap]).values());
   } catch (err) {
     console.error('Error fetching category', err);
-    allProducts = INITIAL_PRODUCTS;
+    allProducts = applyOverrides(INITIAL_PRODUCTS);
     categories = INITIAL_CATEGORIES;
   }
 
@@ -64,4 +65,3 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     />
   );
 }
-

@@ -113,7 +113,7 @@ export async function PUT(
     };
 
     // Always record in runtime memory override (for Vercel serverless resiliency)
-    setProductOverride(updatedObject);
+    await setProductOverride(updatedObject);
 
     // Attempt Prisma update (may throw if SQLite disk is read-only on Vercel Lambdas)
     try {
@@ -178,7 +178,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    markProductDeleted(id);
+    await markProductDeleted(id);
 
     try {
       await prisma.product.delete({ where: { id } });

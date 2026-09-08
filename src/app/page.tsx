@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS } from '@/lib/autoSeed';
+import { applyOverrides, syncFromCloud } from '@/lib/runtimeStore';
 import { HeroSection } from '@/components/home/HeroSection';
 import { CategoryGrid } from '@/components/home/CategoryGrid';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
@@ -13,44 +14,34 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0; // Dynamic real-time loading for new product updates
 
 export default async function HomePage() {
-  let featuredProducts: any[] = [];
+  let dbProds: any[] = [];
   try {
+    await syncFromCloud();
     await ensureSeeded(prisma);
-    featuredProducts = await prisma.product.findMany({
-      where: { featured: true, isActive: true },
+    dbProds = await prisma.product.findMany({
+      where: { isActive: true },
       include: {
         images: true,
         variants: true,
       },
       orderBy: { createdAt: 'desc' },
-      take: 8,
     });
-
-    if (featuredProducts.length < 8) {
-      const existingIds = featuredProducts.map((p) => p.id);
-      const extraProducts = await prisma.product.findMany({
-        where: {
-          isActive: true,
-          id: { notIn: existingIds },
-        },
-        include: {
-          images: true,
-          variants: true,
-        },
-        orderBy: { createdAt: 'desc' },
-        take: 8 - featuredProducts.length,
-      });
-
-      featuredProducts = [...featuredProducts, ...extraProducts];
-    }
   } catch (error) {
     console.error('Failed to load homepage products', error);
   }
 
-  // Guaranteed catalog fallback with merged INITIAL_PRODUCTS for Vercel
-  const dbProdIds = new Set((featuredProducts || []).map((p) => p.id));
-  const extraProducts = INITIAL_PRODUCTS.filter((p) => !dbProdIds.has(p.id));
-  const finalFeatured = [...(featuredProducts || []), ...extraProducts].slice(0, 8);
+  const initialProdMap = new Map(INITIAL_PRODUCTS.map((p) => [p.id, p]));
+  const dbProdMap = new Map((dbProds || []).map((p) => [p.id, p]));
+  const rawProducts = Array.from(new Map([...initialProdMap, ...dbProdMap]).values());
+  const allProducts = applyOverrides(rawProducts).filter((p) => p.isActive !== false);
+
+  let featured = allProducts.filter((p) => p.featured);
+  if (featured.length < 8) {
+    const featuredIds = new Set(featured.map((p) => p.id));
+    const extra = allProducts.filter((p) => !featuredIds.has(p.id));
+    featured = [...featured, ...extra];
+  }
+  const finalFeatured = featured.slice(0, 8);
 
   return (
     <div className="space-y-0">

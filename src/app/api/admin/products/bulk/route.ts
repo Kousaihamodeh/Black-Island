@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
     if (action === 'delete') {
       for (const id of productIds) {
-        markProductDeleted(id);
+        await markProductDeleted(id);
       }
       try {
         await prisma.product.deleteMany({
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
         const prod = allProductsMap.get(id);
         if (prod) {
           const updated = { ...prod, categorySlug: payload.categorySlug };
-          setProductOverride(updated);
+          await setProductOverride(updated);
         }
       }
       try {
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
         const prod = allProductsMap.get(id);
         if (prod) {
           const updated = { ...prod, isSale };
-          setProductOverride(updated);
+          await setProductOverride(updated);
         }
       }
       try {
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
         const prod = allProductsMap.get(id);
         if (prod) {
           const updated = { ...prod, isNew };
-          setProductOverride(updated);
+          await setProductOverride(updated);
         }
       }
       try {
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
           const newPrice = Math.round(prod.price * multiplier);
           const newSalePrice = prod.salePrice ? Math.round(prod.salePrice * multiplier) : null;
           const updated = { ...prod, price: newPrice, salePrice: newSalePrice };
-          setProductOverride(updated);
+          await setProductOverride(updated);
 
           try {
             await prisma.product.update({

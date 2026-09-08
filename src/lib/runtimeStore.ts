@@ -65,8 +65,8 @@ let syncPromise: Promise<void> | null = null;
 
 export async function syncFromCloud(force = false) {
   const now = Date.now();
-  // Avoid spamming cloud if synced in the last 3 seconds
-  if (!force && now - globalForCatalog.lastSyncedAt < 3000) {
+  // Avoid refetching cloud if fetched in last 2 seconds unless forced
+  if (!force && now - globalForCatalog.lastSyncedAt < 2000) {
     return;
   }
 
@@ -77,7 +77,7 @@ export async function syncFromCloud(force = false) {
   syncPromise = (async () => {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3500);
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
       const res = await fetch(CLOUD_URL, {
         signal: controller.signal,
         headers: { 'Cache-Control': 'no-cache' },
@@ -124,9 +124,9 @@ export async function syncToCloud() {
     };
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4500);
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-    await fetch(CLOUD_URL, {
+    const res = await fetch(CLOUD_URL, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -135,6 +135,9 @@ export async function syncToCloud() {
       signal: controller.signal,
     });
     clearTimeout(timeoutId);
+    if (res.ok) {
+      globalForCatalog.lastSyncedAt = Date.now();
+    }
   } catch (e) {
     console.warn('Cloud sync write warning:', e);
   }
@@ -146,7 +149,7 @@ syncFromTmpDisk();
 export const productOverrides = globalForCatalog.productOverrides;
 export const deletedProductIds = globalForCatalog.deletedProductIds;
 
-export function setProductOverride(product: any) {
+export async function setProductOverride(product: any) {
   if (!product || !product.id) return;
   syncFromTmpDisk();
   globalForCatalog.productOverrides.set(product.id, {
@@ -154,15 +157,15 @@ export function setProductOverride(product: any) {
     updatedAt: new Date().toISOString(),
   });
   syncToTmpDisk();
-  syncToCloud().catch(() => {});
+  await syncToCloud();
 }
 
-export function markProductDeleted(id: string) {
+export async function markProductDeleted(id: string) {
   syncFromTmpDisk();
   globalForCatalog.deletedProductIds.add(id);
   globalForCatalog.productOverrides.delete(id);
   syncToTmpDisk();
-  syncToCloud().catch(() => {});
+  await syncToCloud();
 }
 
 export function applyOverrides(products: any[]): any[] {

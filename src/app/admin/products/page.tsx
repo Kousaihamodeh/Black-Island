@@ -87,7 +87,7 @@ export default function AdminProductsPage() {
     setLoading(true);
     try {
       const [pRes, cRes] = await Promise.all([
-        fetch('/api/products?limit=100'),
+        fetch(`/api/products?limit=100&t=${Date.now()}`, { cache: 'no-store' }),
         fetch('/api/admin/categories'),
       ]);
       const pData = await pRes.json();
