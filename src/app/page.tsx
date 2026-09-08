@@ -5,7 +5,6 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { CategoryGrid } from '@/components/home/CategoryGrid';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
 import { SneakerSpotlightSection } from '@/components/home/SneakerSpotlightSection';
-import { BrandStory } from '@/components/home/BrandStory';
 import { GoogleMapSection } from '@/components/home/GoogleMapSection';
 import { InstagramSection } from '@/components/home/InstagramSection';
 import { WhatsappCta } from '@/components/home/WhatsappCta';
@@ -71,16 +70,12 @@ export default async function HomePage() {
   const rawBanners = Array.from(new Map([...initialBannerMap, ...dbBannerMap]).values());
   const banners = applyBannerOverrides(rawBanners).filter((b) => b.isActive !== false);
 
-  const settings = getAllStoreSettings();
-  const brandIdentityImage = settings.brand_identity_image || undefined;
-
   return (
     <div className="space-y-0">
       <HeroSection initialBanners={banners} />
       <CategoryGrid />
       <FeaturedProducts products={finalFeatured} />
       <SneakerSpotlightSection />
-      <BrandStory initialImage={brandIdentityImage} />
       <GoogleMapSection />
       <InstagramSection />
       <WhatsappCta />
