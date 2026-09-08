@@ -132,9 +132,25 @@ export default function AdminProductsPage() {
     fetchCatalogData();
   }, []);
 
+function getCanonicalSlug(str: string | null | undefined): string {
+  if (!str) return '';
+  const norm = str.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+  if (norm.includes('hoodie') || norm.includes('sweat')) return 'hoodies';
+  if (norm.includes('tshirt') || norm.includes('tee') || norm.includes('oversized')) return 'tshirts';
+  if (norm.includes('pant') || norm.includes('cargo') || norm.includes('jean') || norm.includes('trouser')) return 'pants';
+  if (norm.includes('sneaker') || norm.includes('shoe') || norm.includes('footwear')) return 'sneakers';
+  if (norm.includes('cap') || norm.includes('hat') || norm.includes('accessory')) return 'caps';
+  if (norm.includes('short')) return 'shorts';
+  return norm;
+}
+
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
-      if (categoryFilter !== 'all' && p.categorySlug !== categoryFilter) return false;
+      if (categoryFilter !== 'all') {
+        const filterCanonical = getCanonicalSlug(categoryFilter);
+        const prodCanonical = getCanonicalSlug(p.categorySlug || (p as any).category?.slug);
+        if (filterCanonical !== prodCanonical) return false;
+      }
       if (saleFilter === 'sale' && !p.isSale) return false;
       if (saleFilter === 'regular' && p.isSale) return false;
 

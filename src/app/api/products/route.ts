@@ -141,6 +141,8 @@ export async function POST(request: Request) {
       stock: parseInt(v.stock || 0),
     }));
 
+    const canonicalCatSlug = getCanonicalSlug(categorySlug) || categorySlug;
+
     const createdProduct = {
       id: newId,
       slug: `${slug}-${Math.floor(100 + Math.random() * 900)}`,
@@ -151,7 +153,7 @@ export async function POST(request: Request) {
       price: parseFloat(price),
       salePrice: salePrice ? parseFloat(salePrice) : null,
       sku,
-      categorySlug,
+      categorySlug: canonicalCatSlug,
       featured: !!featured,
       isNew: !!isNew,
       isSale: !!isSale,
