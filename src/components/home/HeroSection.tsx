@@ -40,9 +40,11 @@ export function HeroSection({ initialBanners }: HeroSectionProps) {
 
   const activeBanner = banners[activeBannerIndex] || null;
 
-  const displayTitle = activeBanner
+  const rawDisplayTitle = activeBanner
     ? (language === 'ar' ? activeBanner.titleAr : activeBanner.titleEn)
     : t.heroTitle;
+
+  const displayTitle = String(rawDisplayTitle || 'BLACK ISLAND');
 
   const displaySubtitle = activeBanner
     ? (language === 'ar' ? activeBanner.subtitleAr || activeBanner.subtitleEn : activeBanner.subtitleEn || activeBanner.subtitleAr)
@@ -54,6 +56,10 @@ export function HeroSection({ initialBanners }: HeroSectionProps) {
 
   const displayBtnLink = activeBanner?.link || '/shop';
   const bgImageUrl = activeBanner?.imageUrl || null;
+
+  const titleWords = displayTitle.trim().split(/\s+/);
+  const firstWord = titleWords[0] || 'BLACK';
+  const remainingWords = titleWords.slice(1).join(' ') || 'ISLAND';
 
   return (
     <section className="relative min-h-[90vh] bg-black text-white flex items-center overflow-hidden pt-6 pb-16 font-sans">
@@ -84,10 +90,10 @@ export function HeroSection({ initialBanners }: HeroSectionProps) {
             <div className="space-y-3">
               <h1 className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tight uppercase text-white font-display">
                 <span className="block text-white leading-tight mb-1 sm:mb-2">
-                  {displayTitle.split(' ')[0]}
+                  {firstWord}
                 </span>
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-brand-gold leading-tight">
-                  {displayTitle.split(' ').slice(1).join(' ')}
+                  {remainingWords}
                 </span>
               </h1>
 

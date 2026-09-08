@@ -34,7 +34,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   const dir = language === 'ar' ? 'rtl' : 'ltr';
-  const t = translations[language];
+  const t = translations[language] || translations['en'];
 
   useEffect(() => {
     document.documentElement.dir = dir;
