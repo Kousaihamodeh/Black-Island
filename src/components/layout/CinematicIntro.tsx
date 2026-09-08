@@ -8,27 +8,29 @@ export function CinematicIntro() {
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    // Check reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const hasSeenIntro = sessionStorage.getItem('black_island_intro_seen');
+    if (typeof window === 'undefined') return;
+    try {
+      const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+      const hasSeenIntro = sessionStorage.getItem('black_island_intro_seen');
 
-    if (!hasSeenIntro && !prefersReducedMotion) {
-      setIsVisible(true);
+      if (!hasSeenIntro && !prefersReducedMotion) {
+        setIsVisible(true);
 
-      const timer1 = setTimeout(() => {
-        setIsFadingOut(true);
-      }, 2000);
+        const timer1 = setTimeout(() => {
+          setIsFadingOut(true);
+        }, 2000);
 
-      const timer2 = setTimeout(() => {
-        setIsVisible(false);
-        sessionStorage.setItem('black_island_intro_seen', 'true');
-      }, 2600);
+        const timer2 = setTimeout(() => {
+          setIsVisible(false);
+          try { sessionStorage.setItem('black_island_intro_seen', 'true'); } catch (e) {}
+        }, 2600);
 
-      return () => {
-        clearTimeout(timer1);
-        clearTimeout(timer2);
-      };
-    }
+        return () => {
+          clearTimeout(timer1);
+          clearTimeout(timer2);
+        };
+      }
+    } catch (e) {}
   }, []);
 
   if (!isVisible) return null;

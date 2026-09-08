@@ -7,6 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 export default function SneakerShowcase3D() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [hasWebGL, setHasWebGL] = useState<boolean>(true);
 
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current) return;
@@ -127,12 +128,21 @@ export default function SneakerShowcase3D() {
       return () => {
         window.removeEventListener('resize', handleResize);
         cancelAnimationFrame(animId);
-        renderer.dispose();
+        if (renderer) renderer.dispose();
       };
     } catch (e) {
-      console.error(e);
+      console.error('WebGL error:', e);
+      setHasWebGL(false);
     }
   }, []);
+
+  if (!hasWebGL) {
+    return (
+      <div className="w-full h-[280px] sm:h-[400px] flex items-center justify-center bg-gradient-to-b from-brand-900 to-black rounded-2xl border border-brand-800 p-6 shadow-2xl">
+        <img src="/logo.png" alt="BLACK ISLAND SNEAKER" className="w-32 h-32 object-contain animate-pulse-subtle" />
+      </div>
+    );
+  }
 
   return (
     <div ref={containerRef} className="w-full h-[280px] sm:h-[400px] relative rounded-2xl overflow-hidden bg-gradient-to-b from-brand-900 to-black border border-brand-800 shadow-2xl">

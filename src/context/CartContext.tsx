@@ -49,21 +49,28 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [coupon, setCoupon] = useState<CouponState | null>(null);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('black_island_cart');
-    if (saved) {
-      try {
-        setCart(JSON.parse(saved));
-      } catch (e) {
-        console.error('Failed to parse cart', e);
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('black_island_cart');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) setCart(parsed);
+        } catch (e) {
+          console.error('Failed to parse cart', e);
+        }
       }
+      setIsLoaded(true);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('black_island_cart', JSON.stringify(cart));
-  }, [cart]);
+    if (isLoaded && typeof window !== 'undefined') {
+      localStorage.setItem('black_island_cart', JSON.stringify(cart));
+    }
+  }, [cart, isLoaded]);
 
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);

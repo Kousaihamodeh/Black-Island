@@ -12,21 +12,28 @@ const WishlistContext = createContext<WishlistContextType | undefined>(undefined
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem('black_island_wishlist');
-    if (saved) {
-      try {
-        setWishlist(JSON.parse(saved));
-      } catch (e) {
-        console.error('Failed to parse wishlist', e);
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('black_island_wishlist');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) setWishlist(parsed);
+        } catch (e) {
+          console.error('Failed to parse wishlist', e);
+        }
       }
+      setIsLoaded(true);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('black_island_wishlist', JSON.stringify(wishlist));
-  }, [wishlist]);
+    if (isLoaded && typeof window !== 'undefined') {
+      localStorage.setItem('black_island_wishlist', JSON.stringify(wishlist));
+    }
+  }, [wishlist, isLoaded]);
 
   const toggleWishlist = (productId: string) => {
     setWishlist((prev) =>
