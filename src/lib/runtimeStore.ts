@@ -245,6 +245,7 @@ export const storeSettings = globalForCatalog.storeSettings;
 export async function setProductOverride(product: any) {
   if (!product || !product.id) return;
   await syncFromCloud();
+  globalForCatalog.deletedProductIds.delete(product.id);
   globalForCatalog.productOverrides.set(product.id, {
     ...product,
     updatedAt: new Date().toISOString(),
@@ -262,25 +263,26 @@ export async function markProductDeleted(id: string) {
 }
 
 export function applyOverrides(products: any[]): any[] {
-  if (!Array.isArray(products)) return [];
+  if (!Array.isArray(products)) products = [];
   syncFromTmpDisk();
 
-  // Filter out deleted products
-  let list = products.filter((p) => !globalForCatalog.deletedProductIds.has(p.id));
-
-  // Apply updated overrides
-  const map = new Map<string, any>(list.map((p) => [p.id, p]));
+  const map = new Map<string, any>(products.map((p) => [p.id, p]));
   for (const [id, overrideProduct] of globalForCatalog.productOverrides.entries()) {
-    map.set(id, overrideProduct);
+    if (overrideProduct && overrideProduct.id) {
+      map.set(id, overrideProduct);
+    }
   }
 
-  return Array.from(map.values());
+  return Array.from(map.values()).filter(
+    (p) => p && p.id && !globalForCatalog.deletedProductIds.has(p.id)
+  );
 }
 
 // BANNERS PERSISTENCE WITH AUTOMATIC TOP-PRIORITY SORTING
 export async function setBannerOverride(banner: any) {
   if (!banner || !banner.id) return;
   await syncFromCloud();
+  globalForCatalog.deletedBannerIds.delete(banner.id);
   globalForCatalog.bannerOverrides.set(banner.id, {
     ...banner,
     updatedAt: new Date().toISOString(),
@@ -298,17 +300,19 @@ export async function markBannerDeleted(id: string) {
 }
 
 export function applyBannerOverrides(banners: any[]): any[] {
-  if (!Array.isArray(banners)) return [];
+  if (!Array.isArray(banners)) banners = [];
   syncFromTmpDisk();
 
-  let list = banners.filter((b) => !globalForCatalog.deletedBannerIds.has(b.id));
-
-  const map = new Map<string, any>(list.map((b) => [b.id, b]));
+  const map = new Map<string, any>(banners.map((b) => [b.id, b]));
   for (const [id, overrideBanner] of globalForCatalog.bannerOverrides.entries()) {
-    map.set(id, overrideBanner);
+    if (overrideBanner && overrideBanner.id) {
+      map.set(id, overrideBanner);
+    }
   }
 
-  const result = Array.from(map.values());
+  let result = Array.from(map.values()).filter(
+    (b) => b && b.id && !globalForCatalog.deletedBannerIds.has(b.id)
+  );
 
   // Priority sort: Custom / user-edited active banners appear FIRST before default fallback
   result.sort((a, b) => {
