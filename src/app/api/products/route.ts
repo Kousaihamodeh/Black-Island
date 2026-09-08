@@ -163,6 +163,7 @@ export async function POST(request: Request) {
     };
 
     await setProductOverride(createdProduct);
+    await syncFromCloud(true);
 
     try {
       await prisma.product.create({

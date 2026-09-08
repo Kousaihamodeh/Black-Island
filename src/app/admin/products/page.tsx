@@ -102,12 +102,24 @@ export default function AdminProductsPage() {
     setLoading(true);
     try {
       const [pRes, cRes] = await Promise.all([
-        fetch(`/api/products?limit=100&t=${Date.now()}`, { cache: 'no-store' }),
+        fetch(`/api/products?limit=300&allStatus=true&t=${Date.now()}`, { cache: 'no-store' }),
         fetch('/api/admin/categories'),
       ]);
       const pData = await pRes.json();
       const cData = await cRes.json();
-      if (pData.products) setProducts(pData.products);
+      let fetchedProds = pData.products || [];
+      try {
+        const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+        const storedList = Object.values(stored);
+        if (storedList.length > 0) {
+          const map = new Map(fetchedProds.map((p: any) => [p.id, p]));
+          storedList.forEach((sp: any) => {
+            if (sp && sp.id) map.set(sp.id, sp);
+          });
+          fetchedProds = Array.from(map.values());
+        }
+      } catch (e) {}
+      setProducts(fetchedProds);
       if (cData.categories) setCategories(cData.categories);
     } catch (e) {
       console.error(e);

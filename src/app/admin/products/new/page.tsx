@@ -192,11 +192,13 @@ export default function AddProductPage() {
     e.preventDefault();
     if (!nameEn || !nameAr || !price || !sku) {
       setErrorMsg('Please fill in all required basic details (Titles, Price, SKU).');
+      if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
     if (!mainCoverImage && colorCards.length === 0) {
       setErrorMsg('Please upload a Main Cover Image or at least 1 Color Variant Option.');
+      if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -208,14 +210,18 @@ export default function AddProductPage() {
     if (mainCoverImage) allImages.push(mainCoverImage);
     colorCards.forEach((c) => {
       c.images.forEach((imgUrl) => {
-        if (!allImages.includes(imgUrl)) allImages.push(imgUrl);
+        if (imgUrl && !allImages.includes(imgUrl)) allImages.push(imgUrl);
       });
     });
+
+    if (allImages.length === 0) {
+      allImages.push('/logo.png');
+    }
 
     const computedVariants: any[] = [];
     colorCards.forEach((c) => {
       const hasSpecificImages = c.images && c.images.length > 0;
-      const primaryImage = hasSpecificImages ? c.images[0] : (mainCoverImage || null);
+      const primaryImage = hasSpecificImages ? c.images[0] : (mainCoverImage || allImages[0]);
       const colorImagesStr = hasSpecificImages ? c.images.join(',') : '';
 
       c.sizes.forEach((s) => {
@@ -230,12 +236,12 @@ export default function AddProductPage() {
       });
     });
 
-    if (computedVariants.length === 0 && mainCoverImage) {
+    if (computedVariants.length === 0) {
       computedVariants.push({
         size: 'One Size',
         colorName: 'Standard',
         colorHex: '#000000',
-        colorImage: mainCoverImage,
+        colorImage: allImages[0],
         colorImages: '',
         stock: 50,
       });
@@ -272,13 +278,17 @@ export default function AddProductPage() {
           localStorage.setItem('bi_product_overrides', JSON.stringify(stored));
         } catch (e) {}
 
+        // Trigger background refresh of products catalog
+        fetch('/api/products?t=' + Date.now()).catch(() => {});
         router.push('/admin/products');
       } else {
         setErrorMsg(data.error || 'Failed to create product.');
+        if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } catch (err) {
       setLoading(false);
       setErrorMsg('Network error while saving product.');
+      if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
