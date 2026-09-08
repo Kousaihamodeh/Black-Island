@@ -17,9 +17,13 @@ const HeroCanvas = dynamic(() => import('@/components/3d/HeroCanvas'), {
   ),
 });
 
-export function HeroSection() {
+interface HeroSectionProps {
+  initialBanners?: any[];
+}
+
+export function HeroSection({ initialBanners }: HeroSectionProps) {
   const { t, language } = useLanguage();
-  const [banners, setBanners] = useState<any[]>([]);
+  const [banners, setBanners] = useState<any[]>(initialBanners && initialBanners.length > 0 ? initialBanners : []);
   const [activeBannerIndex, setActiveBannerIndex] = useState(0);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS } from '@/lib/autoSeed';
-import { applyOverrides, syncFromCloud } from '@/lib/runtimeStore';
+import { applyOverrides, applyBannerOverrides, syncFromCloud } from '@/lib/runtimeStore';
 import { HeroSection } from '@/components/home/HeroSection';
 import { CategoryGrid } from '@/components/home/CategoryGrid';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
@@ -13,8 +13,27 @@ import { WhatsappCta } from '@/components/home/WhatsappCta';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0; // Dynamic real-time loading for new product updates
 
+const DEFAULT_BANNERS = [
+  {
+    id: 'banner-default-1',
+    titleEn: 'THE TURKISH DROP • EXCLUSIVE',
+    titleAr: 'التشكيلة التركية الفاخرة',
+    subtitleEn: 'Heavyweight cottons & tailored streetwear silhouettes.',
+    subtitleAr: 'قطنيات ثقيلة وتصاميم ستريت وير فاخرة.',
+    imageUrl: 'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=1600',
+    buttonTextEn: 'EXPLORE CATALOG',
+    buttonTextAr: 'استكشف التشكيلة',
+    link: '/shop',
+    order: 1,
+    isActive: true,
+    createdAt: new Date().toISOString(),
+  },
+];
+
 export default async function HomePage() {
   let dbProds: any[] = [];
+  let dbBanners: any[] = [];
+
   try {
     await syncFromCloud();
     await ensureSeeded(prisma);
@@ -26,6 +45,10 @@ export default async function HomePage() {
       },
       orderBy: { createdAt: 'desc' },
     });
+
+    dbBanners = await prisma.banner.findMany({
+      orderBy: { order: 'asc' },
+    }).catch(() => []);
   } catch (error) {
     console.error('Failed to load homepage products', error);
   }
@@ -43,9 +66,14 @@ export default async function HomePage() {
   }
   const finalFeatured = featured.slice(0, 8);
 
+  const initialBannerMap = new Map(DEFAULT_BANNERS.map((b) => [b.id, b]));
+  const dbBannerMap = new Map((dbBanners || []).map((b) => [b.id, b]));
+  const rawBanners = Array.from(new Map([...initialBannerMap, ...dbBannerMap]).values());
+  const banners = applyBannerOverrides(rawBanners).filter((b) => b.isActive !== false);
+
   return (
     <div className="space-y-0">
-      <HeroSection />
+      <HeroSection initialBanners={banners} />
       <CategoryGrid />
       <FeaturedProducts products={finalFeatured} />
       <SneakerSpotlightSection />

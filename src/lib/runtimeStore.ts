@@ -208,7 +208,7 @@ export function applyOverrides(products: any[]): any[] {
   return Array.from(map.values());
 }
 
-// BANNERS PERSISTENCE
+// BANNERS PERSISTENCE WITH AUTOMATIC TOP-PRIORITY SORTING
 export async function setBannerOverride(banner: any) {
   if (!banner || !banner.id) return;
   syncFromTmpDisk();
@@ -239,5 +239,17 @@ export function applyBannerOverrides(banners: any[]): any[] {
     map.set(id, overrideBanner);
   }
 
-  return Array.from(map.values());
+  const result = Array.from(map.values());
+
+  // Priority sort: Custom / user-edited active banners appear FIRST before default fallback
+  result.sort((a, b) => {
+    const aIsDefault = a.id === 'banner-default-1';
+    const bIsDefault = b.id === 'banner-default-1';
+    if (aIsDefault !== bIsDefault) return aIsDefault ? 1 : -1;
+    const aTime = new Date(a.updatedAt || a.createdAt || 0).getTime();
+    const bTime = new Date(b.updatedAt || b.createdAt || 0).getTime();
+    return bTime - aTime;
+  });
+
+  return result;
 }
