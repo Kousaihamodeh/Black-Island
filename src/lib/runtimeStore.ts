@@ -11,6 +11,7 @@ const globalForCatalog = globalThis as unknown as {
   deletedProductIds: Set<string>;
   bannerOverrides: Map<string, any>;
   deletedBannerIds: Set<string>;
+  storeSettings: Map<string, string>;
   lastSyncedAt: number;
 };
 
@@ -28,6 +29,10 @@ if (!globalForCatalog.bannerOverrides) {
 
 if (!globalForCatalog.deletedBannerIds) {
   globalForCatalog.deletedBannerIds = new Set<string>();
+}
+
+if (!globalForCatalog.storeSettings) {
+  globalForCatalog.storeSettings = new Map<string, string>();
 }
 
 if (!globalForCatalog.lastSyncedAt) {
@@ -57,6 +62,11 @@ function syncFromTmpDisk() {
       if (data && Array.isArray(data.deletedBanners)) {
         for (const id of data.deletedBanners) globalForCatalog.deletedBannerIds.add(id);
       }
+      if (data && data.settings && typeof data.settings === 'object') {
+        for (const [k, v] of Object.entries(data.settings)) {
+          if (typeof v === 'string') globalForCatalog.storeSettings.set(k, v);
+        }
+      }
     }
   } catch (e) {
     // Ignore read errors
@@ -70,6 +80,7 @@ function syncToTmpDisk() {
       deleted: Array.from(globalForCatalog.deletedProductIds.values()),
       banners: Array.from(globalForCatalog.bannerOverrides.values()),
       deletedBanners: Array.from(globalForCatalog.deletedBannerIds.values()),
+      settings: Object.fromEntries(globalForCatalog.storeSettings),
     };
     fs.writeFileSync(TMP_FILE, JSON.stringify(data), 'utf-8');
   } catch (e) {
@@ -119,6 +130,11 @@ export async function syncFromCloud(force = false) {
           if (Array.isArray(json.data.deletedBanners)) {
             for (const id of json.data.deletedBanners) globalForCatalog.deletedBannerIds.add(id);
           }
+          if (json.data.settings && typeof json.data.settings === 'object') {
+            for (const [k, v] of Object.entries(json.data.settings)) {
+              if (typeof v === 'string') globalForCatalog.storeSettings.set(k, v as string);
+            }
+          }
           globalForCatalog.lastSyncedAt = Date.now();
           syncToTmpDisk();
         }
@@ -142,6 +158,7 @@ export async function syncToCloud() {
         deleted: Array.from(globalForCatalog.deletedProductIds.values()),
         banners: Array.from(globalForCatalog.bannerOverrides.values()),
         deletedBanners: Array.from(globalForCatalog.deletedBannerIds.values()),
+        settings: Object.fromEntries(globalForCatalog.storeSettings),
       },
     };
 
@@ -172,6 +189,7 @@ export const productOverrides = globalForCatalog.productOverrides;
 export const deletedProductIds = globalForCatalog.deletedProductIds;
 export const bannerOverrides = globalForCatalog.bannerOverrides;
 export const deletedBannerIds = globalForCatalog.deletedBannerIds;
+export const storeSettings = globalForCatalog.storeSettings;
 
 export async function setProductOverride(product: any) {
   if (!product || !product.id) return;
@@ -252,4 +270,23 @@ export function applyBannerOverrides(banners: any[]): any[] {
   });
 
   return result;
+}
+
+// STORE SETTINGS PERSISTENCE
+export async function setStoreSetting(key: string, value: string) {
+  if (!key) return;
+  syncFromTmpDisk();
+  globalForCatalog.storeSettings.set(key, value);
+  syncToTmpDisk();
+  await syncToCloud();
+}
+
+export function getStoreSetting(key: string, fallback: string = ''): string {
+  syncFromTmpDisk();
+  return globalForCatalog.storeSettings.get(key) || fallback;
+}
+
+export function getAllStoreSettings(): Record<string, string> {
+  syncFromTmpDisk();
+  return Object.fromEntries(globalForCatalog.storeSettings);
 }

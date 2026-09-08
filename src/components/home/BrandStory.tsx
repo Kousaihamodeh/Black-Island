@@ -1,14 +1,32 @@
 'use client';
 
-import React from 'react';
-import { ShieldCheck, MapPin, Award } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ShieldCheck, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
-export function BrandStory() {
+const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=1200&auto=format&fit=crop';
+
+interface BrandStoryProps {
+  initialImage?: string;
+}
+
+export function BrandStory({ initialImage }: BrandStoryProps) {
   const { t } = useLanguage();
+  const [identityImage, setIdentityImage] = useState(initialImage || DEFAULT_IMAGE);
+
+  useEffect(() => {
+    fetch(`/api/admin/settings?t=${Date.now()}`, { cache: 'no-store' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.settings && data.settings.brand_identity_image) {
+          setIdentityImage(data.settings.brand_identity_image);
+        }
+      })
+      .catch((e) => console.error('Failed to load brand identity image:', e));
+  }, []);
 
   return (
-    <section className="py-24 bg-black text-white border-t border-brand-850 relative overflow-hidden">
+    <section className="py-24 bg-black text-white border-t border-brand-850 relative overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-6">
@@ -23,14 +41,14 @@ export function BrandStory() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
               <div className="p-4 bg-brand-900/60 rounded-xl border border-brand-800">
                 <ShieldCheck className="w-6 h-6 text-brand-gold mb-2" />
-                <h4 className="text-xs font-bold uppercase text-white">TURKISH CRAFTSMANSHIP</h4>
-                <p className="text-[11px] text-gray-400 mt-1">High-density 500GSM cottons & tailored streetwear silhouettes.</p>
+                <h4 className="text-xs font-bold uppercase text-white font-mono">TURKISH CRAFTSMANSHIP</h4>
+                <p className="text-[11px] text-gray-400 mt-1 font-mono">High-density 500GSM cottons & tailored streetwear silhouettes.</p>
               </div>
 
               <div className="p-4 bg-brand-900/60 rounded-xl border border-brand-800">
                 <MapPin className="w-6 h-6 text-brand-gold mb-2" />
-                <h4 className="text-xs font-bold uppercase text-white">DAMASCUS HEADQUARTERS</h4>
-                <p className="text-[11px] text-gray-400 mt-1">Based in Qudsaya with fast express delivery across all Syrian governorates.</p>
+                <h4 className="text-xs font-bold uppercase text-white font-mono">DAMASCUS HEADQUARTERS</h4>
+                <p className="text-[11px] text-gray-400 mt-1 font-mono">Based in Qudsaya with fast express delivery across all Syrian governorates.</p>
               </div>
             </div>
           </div>
@@ -38,8 +56,8 @@ export function BrandStory() {
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-3xl overflow-hidden border border-brand-700 shadow-2xl aspect-[4/3]">
               <img
-                src="https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=1200&auto=format&fit=crop"
-                alt="BLACK ISLAND Editorial"
+                src={identityImage}
+                alt="BLACK ISLAND Identity Editorial"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
