@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Filter, SlidersHorizontal, Search, RotateCcw } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -20,7 +20,6 @@ function normalizeSlug(str: string | null | undefined): string {
   return str.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
 }
 
-// Canonical category mapping to prevent cross-category leakage (e.g. tshirts leaking into sweatshirts)
 const CATEGORY_CANONICAL_MAP: Record<string, string> = {
   hoodies: 'hoodies',
   sweatshirts: 'hoodies',
@@ -64,6 +63,16 @@ function getCanonicalSlug(input: string | null | undefined): string {
   return CATEGORY_CANONICAL_MAP[norm] || norm;
 }
 
+function SearchParamsSync({ onSync }: { onSync: (cat: string | null, search: string | null) => void }) {
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const cat = searchParams.get('category');
+    const search = searchParams.get('search');
+    onSync(cat, search);
+  }, [searchParams, onSync]);
+  return null;
+}
+
 export function ShopClientPage({
   products,
   initialProducts,
@@ -71,13 +80,17 @@ export function ShopClientPage({
   initialCategory,
   initialSearch,
 }: ShopClientPageProps) {
-  const searchParams = useSearchParams();
-  const urlCategoryParam = searchParams.get('category');
-  const urlSearchParam = searchParams.get('search');
-
   const rawItemsList: any[] = products || initialProducts || [];
   const { language, t } = useLanguage();
   const [localOverrides, setLocalOverrides] = useState<Record<string, any>>({});
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'all');
+  const [searchQuery, setSearchQuery] = useState<string>(initialSearch || '');
+
+  const handleUrlParamSync = useCallback((cat: string | null, search: string | null) => {
+    if (cat) setSelectedCategory(cat);
+    if (search) setSearchQuery(search);
+  }, []);
 
   useEffect(() => {
     try {
@@ -100,22 +113,10 @@ export function ShopClientPage({
     return Array.from(map.values()).filter((p) => p && p.id);
   }, [rawItemsList, localOverrides]);
 
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    urlCategoryParam || initialCategory || 'all'
-  );
-  const [searchQuery, setSearchQuery] = useState<string>(
-    urlSearchParam || initialSearch || ''
-  );
   const [selectedSize, setSelectedSize] = useState<string>('all');
   const [selectedColor, setSelectedColor] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('newest');
   const [onlySale, setOnlySale] = useState<boolean>(false);
-
-  // Sync state if URL search parameters change
-  useEffect(() => {
-    if (urlCategoryParam) setSelectedCategory(urlCategoryParam);
-    if (urlSearchParam) setSearchQuery(urlSearchParam);
-  }, [urlCategoryParam, urlSearchParam]);
 
   // Robust Normalized Filter & Sort Logic
   const filteredProducts = useMemo(() => {
@@ -186,6 +187,9 @@ export function ShopClientPage({
 
   return (
     <div className="py-12 bg-black text-white min-h-screen font-sans">
+      <Suspense fallback={null}>
+        <SearchParamsSync onSync={handleUrlParamSync} />
+      </Suspense>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header Title */}
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-brand-850 pb-6 gap-4">

@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS, INITIAL_CATEGORIES } from '@/lib/autoSeed';
 import { ShopClientPage } from '@/app/shop/ShopClientPage';
@@ -58,10 +59,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   return (
-    <ShopClientPage
-      initialProducts={allProducts}
-      initialCategory={currentCategory ? currentCategory.slug : slug}
-      categories={categories}
-    />
+    <Suspense fallback={<div className="min-h-screen bg-black text-white p-8 text-center">Loading Category...</div>}>
+      <ShopClientPage
+        initialProducts={allProducts}
+        initialCategory={currentCategory ? currentCategory.slug : slug}
+        categories={categories}
+      />
+    </Suspense>
   );
 }

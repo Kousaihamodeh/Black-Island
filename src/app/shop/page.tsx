@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { prisma } from '@/lib/prisma';
 import { ensureSeeded, INITIAL_PRODUCTS, INITIAL_CATEGORIES } from '@/lib/autoSeed';
 import { ShopClientPage } from './ShopClientPage';
@@ -40,5 +41,9 @@ export default async function ShopPage() {
   const dbCatMap = new Map((dbCats || []).map((c) => [c.id, c]));
   const categories = Array.from(new Map([...initialCatMap, ...dbCatMap]).values());
 
-  return <ShopClientPage initialProducts={products} categories={categories} />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black text-white p-8 text-center">Loading Store...</div>}>
+      <ShopClientPage initialProducts={products} categories={categories} />
+    </Suspense>
+  );
 }
