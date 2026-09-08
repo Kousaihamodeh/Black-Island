@@ -2,18 +2,53 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
-let currentCloudDocId = 'ff808181a067127101a081fbdf054c68';
+const DEFAULT_CLOUD_DOC_IDS = [
+  'ff808181a067127101a081fbdf054c68',
+  'ff808181a067127101a082548e004d1f',
+];
 
-function getCloudUrl() {
-  return `https://api.restful-api.dev/objects/${currentCloudDocId}`;
+let currentCloudDocId = DEFAULT_CLOUD_DOC_IDS[0];
+
+function getCloudUrl(docId = currentCloudDocId) {
+  return `https://api.restful-api.dev/objects/${docId}`;
+}
+
+function cleanProductForCloud(p: any) {
+  if (!p) return p;
+  const images = Array.isArray(p.images) ? p.images : [];
+  const cleanedImages = images.map((img: any) => {
+    const url = typeof img === 'string' ? img : (img?.url || '');
+    if (typeof url === 'string' && url.startsWith('data:')) {
+      return typeof img === 'string'
+        ? '/black_island_storefront.jpg'
+        : { ...img, url: '/black_island_storefront.jpg' };
+    }
+    return img;
+  });
+
+  const variants = Array.isArray(p.variants) ? p.variants : [];
+  const cleanedVariants = variants.map((v: any) => {
+    let colorImage = v?.colorImage || '';
+    if (typeof colorImage === 'string' && colorImage.startsWith('data:')) {
+      colorImage = '/black_island_storefront.jpg';
+    }
+    let colorImages = v?.colorImages || '';
+    if (typeof colorImages === 'string' && colorImages.startsWith('data:')) {
+      colorImages = '/black_island_storefront.jpg';
+    }
+    return { ...v, colorImage, colorImages };
+  });
+
+  return { ...p, images: cleanedImages, variants: cleanedVariants };
 }
 
 async function createNewCloudDoc(): Promise<string | null> {
   try {
+    const cleanOverrides = Array.from(globalForCatalog.productOverrides.values()).map(cleanProductForCloud);
     const payload = {
       name: 'Black_Island_Master_Catalog_v1',
       data: {
-        overrides: Array.from(globalForCatalog.productOverrides.values()),
+        overrides: cleanOverrides,
         deleted: Array.from(globalForCatalog.deletedProductIds.values()),
         banners: Array.from(globalForCatalog.bannerOverrides.values()),
         deletedBanners: Array.from(globalForCatalog.deletedBannerIds.values()),
@@ -29,6 +64,9 @@ async function createNewCloudDoc(): Promise<string | null> {
       const data = await res.json();
       if (data && data.id) {
         currentCloudDocId = data.id;
+        if (!DEFAULT_CLOUD_DOC_IDS.includes(data.id)) {
+          DEFAULT_CLOUD_DOC_IDS.unshift(data.id);
+        }
         console.log('Created fresh auto-healed cloud doc ID:', currentCloudDocId);
         return data.id;
       }
@@ -142,43 +180,55 @@ export async function syncFromCloud(force = false) {
 
   syncPromise = (async () => {
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 6000);
-      const res = await fetch(getCloudUrl(), {
-        signal: controller.signal,
-        headers: { 'Cache-Control': 'no-cache' },
-      });
-      clearTimeout(timeoutId);
+      const fetchDoc = async (docId: string) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        try {
+          const res = await fetch(getCloudUrl(docId), {
+            signal: controller.signal,
+            headers: { 'Cache-Control': 'no-cache' },
+          });
+          clearTimeout(timeoutId);
+          if (res.ok) {
+            return await res.json();
+          }
+        } catch (e) {
+          clearTimeout(timeoutId);
+        }
+        return null;
+      };
 
-      if (res.ok) {
-        const json = await res.json();
-        if (json && json.data) {
-          if (Array.isArray(json.data.overrides)) {
-            for (const p of json.data.overrides) {
+      const results = await Promise.allSettled(DEFAULT_CLOUD_DOC_IDS.map(fetchDoc));
+      for (const res of results) {
+        if (res.status === 'fulfilled' && res.value && res.value.data) {
+          const data = res.value.data;
+          if (Array.isArray(data.overrides)) {
+            for (const p of data.overrides) {
               if (p && p.id) globalForCatalog.productOverrides.set(p.id, p);
             }
           }
-          if (Array.isArray(json.data.deleted)) {
-            for (const id of json.data.deleted) globalForCatalog.deletedProductIds.add(id);
+          if (Array.isArray(data.deleted)) {
+            for (const id of data.deleted) globalForCatalog.deletedProductIds.add(id);
           }
-          if (Array.isArray(json.data.banners)) {
-            for (const b of json.data.banners) {
+          if (Array.isArray(data.banners)) {
+            for (const b of data.banners) {
               if (b && b.id) globalForCatalog.bannerOverrides.set(b.id, b);
             }
           }
-          if (Array.isArray(json.data.deletedBanners)) {
-            for (const id of json.data.deletedBanners) globalForCatalog.deletedBannerIds.add(id);
+          if (Array.isArray(data.deletedBanners)) {
+            for (const id of data.deletedBanners) globalForCatalog.deletedBannerIds.add(id);
           }
-          if (json.data.settings && typeof json.data.settings === 'object') {
-            for (const [k, v] of Object.entries(json.data.settings)) {
+          if (data.settings && typeof data.settings === 'object') {
+            for (const [k, v] of Object.entries(data.settings)) {
               if (typeof v === 'string') globalForCatalog.storeSettings.set(k, v as string);
             }
           }
-          globalForCatalog.lastSyncedAt = Date.now();
-          globalForCatalog.hasSyncedOnce = true;
-          syncToTmpDisk();
         }
       }
+
+      globalForCatalog.lastSyncedAt = Date.now();
+      globalForCatalog.hasSyncedOnce = true;
+      syncToTmpDisk();
     } catch (e) {
       console.warn('Cloud sync read warning, using local cache:', e);
     } finally {
@@ -191,10 +241,11 @@ export async function syncFromCloud(force = false) {
 
 export async function syncToCloud() {
   try {
+    const cleanOverrides = Array.from(globalForCatalog.productOverrides.values()).map(cleanProductForCloud);
     const payload = {
       name: 'Black_Island_Master_Catalog_v1',
       data: {
-        overrides: Array.from(globalForCatalog.productOverrides.values()),
+        overrides: cleanOverrides,
         deleted: Array.from(globalForCatalog.deletedProductIds.values()),
         banners: Array.from(globalForCatalog.bannerOverrides.values()),
         deletedBanners: Array.from(globalForCatalog.deletedBannerIds.values()),
@@ -205,24 +256,28 @@ export async function syncToCloud() {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 7000);
 
+    const bodyStr = JSON.stringify(payload);
+    console.log('[syncToCloud] sending payload bytes:', bodyStr.length);
+
     let res = await fetch(getCloudUrl(), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: bodyStr,
       signal: controller.signal,
     });
     clearTimeout(timeoutId);
 
     if (!res.ok) {
-      console.warn('Cloud sync write non-ok status:', res.status, 'Attempting auto-heal...');
+      const errText = await res.text().catch(() => '');
+      console.warn('Cloud sync write non-ok status:', res.status, errText, 'Attempting auto-heal...');
       const newId = await createNewCloudDoc();
       if (newId) {
         await fetch(getCloudUrl(), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
+          body: bodyStr,
         });
       }
     } else {
