@@ -134,8 +134,8 @@ export default function HeroCanvas() {
 
       return () => {
         window.removeEventListener('resize', handleResize);
-        cancelAnimationFrame(animId);
-        renderer.dispose();
+        if (animId) cancelAnimationFrame(animId);
+        if (renderer) renderer.dispose();
       };
     } catch (e) {
       console.error('WebGL error', e);
