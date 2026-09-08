@@ -12,7 +12,7 @@ export async function uploadFiles(filesList: FileList | File[]): Promise<string[
 
         const img = new Image();
         img.onload = () => {
-          const maxDim = 1000;
+          const maxDim = 550;
           let width = img.width;
           let height = img.height;
 
@@ -34,7 +34,7 @@ export async function uploadFiles(filesList: FileList | File[]): Promise<string[
           if (!ctx) return resolve({ file, dataUrl: result });
 
           ctx.drawImage(img, 0, 0, width, height);
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.55);
 
           // Convert compressed data URL back to Blob / File for tiny upload
           try {

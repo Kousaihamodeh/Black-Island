@@ -182,6 +182,8 @@ export async function syncToCloud() {
     clearTimeout(timeoutId);
     if (res.ok) {
       globalForCatalog.lastSyncedAt = Date.now();
+    } else {
+      console.warn('Cloud sync write non-ok status:', res.status);
     }
   } catch (e) {
     console.warn('Cloud sync write warning:', e);
