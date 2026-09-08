@@ -30,9 +30,9 @@ export function HeroSection({ initialBanners }: HeroSectionProps) {
     fetch(`/api/admin/banners?t=${Date.now()}`, { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => {
-        if (data.banners && Array.isArray(data.banners)) {
+        if (data.banners && Array.isArray(data.banners) && data.banners.length > 0) {
           const active = data.banners.filter((b: any) => b.isActive !== false);
-          setBanners(active);
+          if (active.length > 0) setBanners(active);
         }
       })
       .catch((e) => console.error('Failed to load active hero banners:', e));
