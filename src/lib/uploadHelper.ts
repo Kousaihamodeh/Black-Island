@@ -11,46 +11,50 @@ export async function uploadFiles(filesList: FileList | File[]): Promise<string[
         if (!rawResult) return resolve({ file, dataUrl: '' });
 
         const img = new Image();
-        const timeoutId = setTimeout(() => {
-          resolve({ file, dataUrl: rawResult.length > 200000 ? '/logo.png' : rawResult });
-        }, 4000);
+        let timeoutId: ReturnType<typeof setTimeout> | null = setTimeout(() => {
+          timeoutId = null;
+          console.warn('Image compression timed out, returning fallback URL');
+          resolve({ file, dataUrl: rawResult.length < 500000 ? rawResult : '' });
+        }, 15000);
 
         img.onload = () => {
+          if (!timeoutId) return;
           clearTimeout(timeoutId);
-          const maxDim = 500;
-          let width = img.width || 500;
-          let height = img.height || 500;
-
-          if (width > maxDim || height > maxDim) {
-            if (width > height) {
-              height = Math.round((height * maxDim) / width);
-              width = maxDim;
-            } else {
-              width = Math.round((width * maxDim) / height);
-              height = maxDim;
-            }
-          }
-
-          const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-
-          const ctx = canvas.getContext('2d');
-          if (!ctx) {
-            return resolve({ file, dataUrl: rawResult });
-          }
-
-          ctx.drawImage(img, 0, 0, width, height);
-          let compressedDataUrl = canvas.toDataURL('image/jpeg', 0.5);
-
-          if (compressedDataUrl.length > 150000) {
-            canvas.width = Math.round(width * 0.7);
-            canvas.height = Math.round(height * 0.7);
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            compressedDataUrl = canvas.toDataURL('image/jpeg', 0.4);
-          }
 
           try {
+            const maxDim = 600;
+            let width = img.width || 600;
+            let height = img.height || 600;
+
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+              return resolve({ file, dataUrl: rawResult.length < 500000 ? rawResult : '' });
+            }
+
+            ctx.drawImage(img, 0, 0, width, height);
+            let compressedDataUrl = canvas.toDataURL('image/jpeg', 0.55);
+
+            if (compressedDataUrl.length > 200000) {
+              canvas.width = Math.round(width * 0.7);
+              canvas.height = Math.round(height * 0.7);
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              compressedDataUrl = canvas.toDataURL('image/jpeg', 0.45);
+            }
+
             const arr = compressedDataUrl.split(',');
             const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/jpeg';
             const bstr = atob(arr[1]);
@@ -62,14 +66,15 @@ export async function uploadFiles(filesList: FileList | File[]): Promise<string[
             const blob = new Blob([u8arr], { type: mime });
             const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.jpg', { type: mime });
             resolve({ file: compressedFile, dataUrl: compressedDataUrl });
-          } catch {
-            resolve({ file, dataUrl: compressedDataUrl });
+          } catch (err) {
+            console.warn('Canvas compression error:', err);
+            resolve({ file, dataUrl: rawResult.length < 500000 ? rawResult : '' });
           }
         };
 
         img.onerror = () => {
-          clearTimeout(timeoutId);
-          resolve({ file, dataUrl: rawResult.length > 200000 ? '/logo.png' : rawResult });
+          if (timeoutId) clearTimeout(timeoutId);
+          resolve({ file, dataUrl: rawResult.length < 500000 ? rawResult : '' });
         };
 
         img.src = rawResult;

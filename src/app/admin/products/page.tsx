@@ -375,16 +375,20 @@ export default function AdminProductsPage() {
   };
 
   const handleEditMainCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const inputElement = e.target;
     setUploadingMain(true);
     try {
-      const urls = await uploadFiles(e.target.files);
+      const urls = await uploadFiles(files);
       setUploadingMain(false);
       if (urls[0]) {
         setEditMainCoverImage(urls[0]);
       }
     } catch (e) {
       setUploadingMain(false);
+    } finally {
+      inputElement.value = '';
     }
   };
 
@@ -404,10 +408,12 @@ export default function AdminProductsPage() {
   };
 
   const handleCreateEditColorGroup = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const inputElement = e.target;
     setUploadingNewColorGroup(true);
     try {
-      const urls = await uploadFiles(e.target.files);
+      const urls = await uploadFiles(files);
       setUploadingNewColorGroup(false);
       if (urls.length > 0) {
         const newCard: ColorVariantCard = {
@@ -425,14 +431,18 @@ export default function AdminProductsPage() {
       }
     } catch (e) {
       setUploadingNewColorGroup(false);
+    } finally {
+      inputElement.value = '';
     }
   };
 
   const handleAddPhotosToEditCard = async (cardId: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const inputElement = e.target;
     setUploadingCardId(cardId);
     try {
-      const urls = await uploadFiles(e.target.files);
+      const urls = await uploadFiles(files);
       setUploadingCardId(null);
       if (urls.length > 0) {
         setEditColorCards((prev) =>
@@ -441,6 +451,8 @@ export default function AdminProductsPage() {
       }
     } catch (e) {
       setUploadingCardId(null);
+    } finally {
+      inputElement.value = '';
     }
   };
 

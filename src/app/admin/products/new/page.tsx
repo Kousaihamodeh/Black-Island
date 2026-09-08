@@ -58,16 +58,20 @@ export default function AddProductPage() {
 
   // Upload Standalone Main Cover Image
   const handleMainCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const inputElement = e.target;
     setUploadingMain(true);
     try {
-      const urls = await uploadFiles(e.target.files);
+      const urls = await uploadFiles(files);
       setUploadingMain(false);
       if (urls[0]) {
         setMainCoverImage(urls[0]);
       }
     } catch (err) {
       setUploadingMain(false);
+    } finally {
+      inputElement.value = '';
     }
   };
 
@@ -89,10 +93,12 @@ export default function AddProductPage() {
 
   // Add a New Color Group with Uploaded Photos/Sweaters
   const handleCreateColorGroup = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const inputElement = e.target;
     setUploadingNewColorGroup(true);
     try {
-      const urls = await uploadFiles(e.target.files);
+      const urls = await uploadFiles(files);
       setUploadingNewColorGroup(false);
       if (urls.length > 0) {
         const newCard: ColorVariantCard = {
@@ -110,15 +116,19 @@ export default function AddProductPage() {
       }
     } catch (err) {
       setUploadingNewColorGroup(false);
+    } finally {
+      inputElement.value = '';
     }
   };
 
   // Add More Photos to an Existing Color Variant Card
   const handleAddPhotosToColorCard = async (cardId: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const inputElement = e.target;
     setUploadingColorCardId(cardId);
     try {
-      const urls = await uploadFiles(e.target.files);
+      const urls = await uploadFiles(files);
       setUploadingColorCardId(null);
       if (urls.length > 0) {
         setColorCards((prev) =>
@@ -127,6 +137,8 @@ export default function AddProductPage() {
       }
     } catch (err) {
       setUploadingColorCardId(null);
+    } finally {
+      inputElement.value = '';
     }
   };
 
