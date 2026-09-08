@@ -22,9 +22,9 @@ export async function uploadFiles(filesList: FileList | File[]): Promise<string[
           clearTimeout(timeoutId);
 
           try {
-            const maxDim = 600;
-            let width = img.width || 600;
-            let height = img.height || 600;
+            const maxDim = 450;
+            let width = img.width || 450;
+            let height = img.height || 450;
 
             if (width > maxDim || height > maxDim) {
               if (width > height) {
@@ -46,13 +46,13 @@ export async function uploadFiles(filesList: FileList | File[]): Promise<string[
             }
 
             ctx.drawImage(img, 0, 0, width, height);
-            let compressedDataUrl = canvas.toDataURL('image/jpeg', 0.55);
+            let compressedDataUrl = canvas.toDataURL('image/jpeg', 0.45);
 
-            if (compressedDataUrl.length > 200000) {
+            if (compressedDataUrl.length > 120000) {
               canvas.width = Math.round(width * 0.7);
               canvas.height = Math.round(height * 0.7);
               ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-              compressedDataUrl = canvas.toDataURL('image/jpeg', 0.45);
+              compressedDataUrl = canvas.toDataURL('image/jpeg', 0.35);
             }
 
             const arr = compressedDataUrl.split(',');

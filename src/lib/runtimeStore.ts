@@ -2,8 +2,42 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
-const CLOUD_DOC_ID = 'ff808181a067127101a0806e64e147f2';
-const CLOUD_URL = `https://api.restful-api.dev/objects/${CLOUD_DOC_ID}`;
+let currentCloudDocId = 'ff808181a067127101a081fbdf054c68';
+
+function getCloudUrl() {
+  return `https://api.restful-api.dev/objects/${currentCloudDocId}`;
+}
+
+async function createNewCloudDoc(): Promise<string | null> {
+  try {
+    const payload = {
+      name: 'Black_Island_Master_Catalog_v1',
+      data: {
+        overrides: Array.from(globalForCatalog.productOverrides.values()),
+        deleted: Array.from(globalForCatalog.deletedProductIds.values()),
+        banners: Array.from(globalForCatalog.bannerOverrides.values()),
+        deletedBanners: Array.from(globalForCatalog.deletedBannerIds.values()),
+        settings: Object.fromEntries(globalForCatalog.storeSettings),
+      },
+    };
+    const res = await fetch('https://api.restful-api.dev/objects', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.id) {
+        currentCloudDocId = data.id;
+        console.log('Created fresh auto-healed cloud doc ID:', currentCloudDocId);
+        return data.id;
+      }
+    }
+  } catch (e) {
+    console.warn('Failed to create new cloud doc:', e);
+  }
+  return null;
+}
 
 // Global Runtime Store with Cloud Persistence for Serverless Lambdas (Vercel)
 const globalForCatalog = globalThis as unknown as {
@@ -109,8 +143,8 @@ export async function syncFromCloud(force = false) {
   syncPromise = (async () => {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
-      const res = await fetch(CLOUD_URL, {
+      const timeoutId = setTimeout(() => controller.abort(), 6000);
+      const res = await fetch(getCloudUrl(), {
         signal: controller.signal,
         headers: { 'Cache-Control': 'no-cache' },
       });
@@ -169,9 +203,9 @@ export async function syncToCloud() {
     };
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    const timeoutId = setTimeout(() => controller.abort(), 7000);
 
-    const res = await fetch(CLOUD_URL, {
+    let res = await fetch(getCloudUrl(), {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -180,10 +214,19 @@ export async function syncToCloud() {
       signal: controller.signal,
     });
     clearTimeout(timeoutId);
-    if (res.ok) {
-      globalForCatalog.lastSyncedAt = Date.now();
+
+    if (!res.ok) {
+      console.warn('Cloud sync write non-ok status:', res.status, 'Attempting auto-heal...');
+      const newId = await createNewCloudDoc();
+      if (newId) {
+        await fetch(getCloudUrl(), {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
     } else {
-      console.warn('Cloud sync write non-ok status:', res.status);
+      globalForCatalog.lastSyncedAt = Date.now();
     }
   } catch (e) {
     console.warn('Cloud sync write warning:', e);
