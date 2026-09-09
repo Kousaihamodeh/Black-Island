@@ -339,7 +339,8 @@ export function applyOverrides(products: any[]): any[] {
   const map = new Map<string, any>(products.map((p) => [p.id, p]));
   for (const [id, overrideProduct] of globalForCatalog.productOverrides.entries()) {
     if (overrideProduct && overrideProduct.id) {
-      map.set(id, overrideProduct);
+      const existing = map.get(id) || {};
+      map.set(id, { ...existing, ...overrideProduct });
     }
   }
 
