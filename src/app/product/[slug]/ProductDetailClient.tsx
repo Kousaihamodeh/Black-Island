@@ -18,8 +18,18 @@ export function ProductDetailClient({ product: initialProduct }: ProductDetailCl
   const [product, setProduct] = useState(initialProduct);
 
   useEffect(() => {
-    try {
-      if (initialProduct?.id) {
+    let isMounted = true;
+    if (initialProduct?.id) {
+      fetch(`/api/products/${initialProduct.id}?t=${Date.now()}`, { cache: 'no-store' })
+        .then((res) => res.json())
+        .then((data) => {
+          if (isMounted && data && data.product) {
+            setProduct(data.product);
+          }
+        })
+        .catch(() => {});
+
+      try {
         const storedOverrides = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
         const storedCreated = JSON.parse(localStorage.getItem('bi_created_products') || '[]');
         if (storedOverrides[initialProduct.id]) {
@@ -28,8 +38,11 @@ export function ProductDetailClient({ product: initialProduct }: ProductDetailCl
           const created = storedCreated.find((p: any) => p && (p.id === initialProduct.id || p.slug === initialProduct.slug));
           if (created) setProduct(created);
         }
-      }
-    } catch (e) {}
+      } catch (e) {}
+    }
+    return () => {
+      isMounted = false;
+    };
   }, [initialProduct]);
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();

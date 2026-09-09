@@ -94,6 +94,23 @@ export function ShopClientPage({
     if (search) setSearchQuery(search);
   }, []);
 
+  const [liveFetchedProducts, setLiveFetchedProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`/api/products?limit=300&allStatus=true&t=${Date.now()}`, { cache: 'no-store' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data && Array.isArray(data.products) && data.products.length > 0) {
+          setLiveFetchedProducts(data.products);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   useEffect(() => {
     try {
       const storedOverrides = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
@@ -107,7 +124,8 @@ export function ShopClientPage({
   }, []);
 
   const itemsList = useMemo(() => {
-    const validRaw = (rawItemsList || []).filter((p) => p && p.id);
+    const baseSource = liveFetchedProducts.length > 0 ? liveFetchedProducts : rawItemsList;
+    const validRaw = (baseSource || []).filter((p) => p && p.id);
     const map = new Map<string, any>(validRaw.map((p) => [p.id, p]));
 
     (localCreatedProducts || []).forEach((p: any) => {
@@ -123,7 +141,7 @@ export function ShopClientPage({
     }
 
     return Array.from(map.values()).filter((p) => p && p.id && !deletedProductIds.has(p.id));
-  }, [rawItemsList, localCreatedProducts, localOverrides, deletedProductIds]);
+  }, [rawItemsList, liveFetchedProducts, localCreatedProducts, localOverrides, deletedProductIds]);
 
   const [selectedSize, setSelectedSize] = useState<string>('all');
   const [selectedColor, setSelectedColor] = useState<string>('all');
