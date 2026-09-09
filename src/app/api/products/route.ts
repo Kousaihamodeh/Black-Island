@@ -164,8 +164,8 @@ export async function POST(request: Request) {
       updatedAt: new Date().toISOString(),
     };
 
+    INITIAL_PRODUCTS.unshift(createdProduct);
     await setProductOverride(createdProduct);
-    await syncFromCloud(true);
 
     try {
       await prisma.product.create({

@@ -112,7 +112,11 @@ export async function PUT(
       updatedAt: new Date().toISOString(),
     };
 
-    // Always record in runtime memory override (for Vercel serverless resiliency)
+    const { INITIAL_PRODUCTS } = await import('@/lib/autoSeed');
+    const initIdx = INITIAL_PRODUCTS.findIndex((p) => p.id === id);
+    if (initIdx !== -1) {
+      INITIAL_PRODUCTS[initIdx] = { ...INITIAL_PRODUCTS[initIdx], ...updatedObject };
+    }
     await setProductOverride(updatedObject);
 
     // Attempt Prisma update (may throw if SQLite disk is read-only on Vercel Lambdas)

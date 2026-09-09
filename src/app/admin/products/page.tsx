@@ -109,17 +109,31 @@ export default function AdminProductsPage() {
       const cData = await cRes.json();
       let fetchedProds = pData.products || [];
 
-      // Read deleted product IDs from localStorage
+      // Read created products, overrides, and deleted IDs from localStorage
+      let localCreated: any[] = [];
+      let localOverrides: Record<string, any> = {};
       let deletedIdsSet = new Set<string>();
+
       try {
+        localCreated = JSON.parse(localStorage.getItem('bi_created_products') || '[]');
+        localOverrides = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
         const deletedArr = JSON.parse(localStorage.getItem('bi_deleted_product_ids') || '[]');
         deletedIdsSet = new Set(deletedArr);
       } catch (e) {}
 
-      // Filter out deleted IDs
-      fetchedProds = fetchedProds.filter((p: any) => p && p.id && !deletedIdsSet.has(p.id));
+      const prodMap = new Map<string, any>();
+      (fetchedProds || []).forEach((p: any) => p && p.id && prodMap.set(p.id, p));
+      (localCreated || []).forEach((p: any) => p && p.id && prodMap.set(p.id, p));
 
-      setProducts(fetchedProds);
+      Object.values(localOverrides).forEach((override: any) => {
+        if (override && override.id) {
+          prodMap.set(override.id, override);
+        }
+      });
+
+      const finalProds = Array.from(prodMap.values()).filter((p: any) => p && p.id && !deletedIdsSet.has(p.id));
+
+      setProducts(finalProds);
       if (cData.categories) setCategories(cData.categories);
     } catch (e) {
       console.error(e);

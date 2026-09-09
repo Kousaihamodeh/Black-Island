@@ -83,6 +83,8 @@ export function ShopClientPage({
   const rawItemsList: any[] = products || initialProducts || [];
   const { language, t } = useLanguage();
   const [localOverrides, setLocalOverrides] = useState<Record<string, any>>({});
+  const [localCreatedProducts, setLocalCreatedProducts] = useState<any[]>([]);
+  const [deletedProductIds, setDeletedProductIds] = useState<Set<string>>(new Set());
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || 'all');
   const [searchQuery, setSearchQuery] = useState<string>(initialSearch || '');
@@ -94,24 +96,33 @@ export function ShopClientPage({
 
   useEffect(() => {
     try {
-      const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
-      setLocalOverrides(stored);
+      const storedOverrides = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+      const storedCreated = JSON.parse(localStorage.getItem('bi_created_products') || '[]');
+      const storedDeleted = JSON.parse(localStorage.getItem('bi_deleted_product_ids') || '[]');
+      setLocalOverrides(storedOverrides);
+      setLocalCreatedProducts(storedCreated);
+      setDeletedProductIds(new Set(storedDeleted));
     } catch (e) {}
   }, []);
 
   const itemsList = useMemo(() => {
     const validRaw = (rawItemsList || []).filter((p) => p && p.id);
-    if (!localOverrides || Object.keys(localOverrides).length === 0) {
-      return validRaw;
-    }
     const map = new Map<string, any>(validRaw.map((p) => [p.id, p]));
-    Object.values(localOverrides).forEach((override: any) => {
-      if (override && override.id) {
-        map.set(override.id, override);
-      }
+
+    (localCreatedProducts || []).forEach((p: any) => {
+      if (p && p.id) map.set(p.id, p);
     });
-    return Array.from(map.values()).filter((p) => p && p.id);
-  }, [rawItemsList, localOverrides]);
+
+    if (localOverrides && Object.keys(localOverrides).length > 0) {
+      Object.values(localOverrides).forEach((override: any) => {
+        if (override && override.id) {
+          map.set(override.id, override);
+        }
+      });
+    }
+
+    return Array.from(map.values()).filter((p) => p && p.id && !deletedProductIds.has(p.id));
+  }, [rawItemsList, localCreatedProducts, localOverrides, deletedProductIds]);
 
   const [selectedSize, setSelectedSize] = useState<string>('all');
   const [selectedColor, setSelectedColor] = useState<string>('all');

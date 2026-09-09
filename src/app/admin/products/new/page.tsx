@@ -292,6 +292,11 @@ export default function AddProductPage() {
           const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
           stored[data.product.id] = data.product;
           localStorage.setItem('bi_product_overrides', JSON.stringify(stored));
+
+          const createdArr = JSON.parse(localStorage.getItem('bi_created_products') || '[]');
+          const createdMap = new Map((createdArr || []).filter((p: any) => p && p.id).map((p: any) => [p.id, p]));
+          createdMap.set(data.product.id, data.product);
+          localStorage.setItem('bi_created_products', JSON.stringify(Array.from(createdMap.values())));
         } catch (e) {}
 
         // Hard redirect to bust Next.js client router cache and display fresh catalog immediately

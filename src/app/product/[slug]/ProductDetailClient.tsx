@@ -14,7 +14,23 @@ interface ProductDetailClientProps {
   relatedProducts?: any[];
 }
 
-export function ProductDetailClient({ product }: ProductDetailClientProps) {
+export function ProductDetailClient({ product: initialProduct }: ProductDetailClientProps) {
+  const [product, setProduct] = useState(initialProduct);
+
+  useEffect(() => {
+    try {
+      if (initialProduct?.id) {
+        const storedOverrides = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+        const storedCreated = JSON.parse(localStorage.getItem('bi_created_products') || '[]');
+        if (storedOverrides[initialProduct.id]) {
+          setProduct(storedOverrides[initialProduct.id]);
+        } else {
+          const created = storedCreated.find((p: any) => p && (p.id === initialProduct.id || p.slug === initialProduct.slug));
+          if (created) setProduct(created);
+        }
+      }
+    } catch (e) {}
+  }, [initialProduct]);
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { language, t } = useLanguage();
