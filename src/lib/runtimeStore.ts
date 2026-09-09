@@ -223,7 +223,7 @@ export async function syncFromCloud(force = false) {
           }
           if (Array.isArray(data.deleted)) {
             for (const id of data.deleted) {
-              if (id && typeof id === 'string' && !id.startsWith('sneaker-') && !id.startsWith('cap-')) {
+              if (id && typeof id === 'string') {
                 globalForCatalog.deletedProductIds.add(id);
               }
             }

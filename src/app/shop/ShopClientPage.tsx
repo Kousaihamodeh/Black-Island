@@ -116,10 +116,9 @@ export function ShopClientPage({
       const storedOverrides = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
       const storedCreated = JSON.parse(localStorage.getItem('bi_created_products') || '[]');
       const storedDeleted: string[] = JSON.parse(localStorage.getItem('bi_deleted_product_ids') || '[]');
-      const cleanDeleted = storedDeleted.filter(id => id && !id.startsWith('sneaker-') && !id.startsWith('cap-'));
       setLocalOverrides(storedOverrides);
       setLocalCreatedProducts(storedCreated);
-      setDeletedProductIds(new Set(cleanDeleted));
+      setDeletedProductIds(new Set(storedDeleted));
     } catch (e) {}
   }, []);
 

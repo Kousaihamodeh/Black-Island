@@ -118,8 +118,7 @@ export default function AdminProductsPage() {
         localCreated = JSON.parse(localStorage.getItem('bi_created_products') || '[]');
         localOverrides = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
         const deletedArr: string[] = JSON.parse(localStorage.getItem('bi_deleted_product_ids') || '[]');
-        const cleanDeleted = deletedArr.filter(id => id && !id.startsWith('sneaker-') && !id.startsWith('cap-'));
-        deletedIdsSet = new Set(cleanDeleted);
+        deletedIdsSet = new Set(deletedArr);
       } catch (e) {}
 
       const prodMap = new Map<string, any>();

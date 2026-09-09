@@ -194,7 +194,19 @@ async function main() {
         "colorImages": "/uploads/1788713832540-photo_2026-08-30_08-56-59.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "451c1e83-df4e-4eaf-a34c-c7cbb9fd8606",
+      "slug": "shorts",
+      "nameEn": "Shorts",
+      "nameAr": "الشورتات",
+      "descriptionEn": null,
+      "descriptionAr": null,
+      "image": "/uploads/1788714731177-photo_2026-09-06_10-07-51.jpg",
+      "order": 6,
+      "isHidden": false,
+      "createdAt": "2026-09-06T16:50:58.868Z"
+    }
   },
   {
     "id": "1cf0ff53-1e21-46d0-95e3-2970dcdbbf53",
@@ -273,7 +285,19 @@ async function main() {
         "colorImages": "/uploads/1788713766871-photo_2026-08-30_08-56-56.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "451c1e83-df4e-4eaf-a34c-c7cbb9fd8606",
+      "slug": "shorts",
+      "nameEn": "Shorts",
+      "nameAr": "الشورتات",
+      "descriptionEn": null,
+      "descriptionAr": null,
+      "image": "/uploads/1788714731177-photo_2026-09-06_10-07-51.jpg",
+      "order": 6,
+      "isHidden": false,
+      "createdAt": "2026-09-06T16:50:58.868Z"
+    }
   },
   {
     "id": "ee9ae3ae-6e73-40a2-a762-2e7d997af0a9",
@@ -352,7 +376,19 @@ async function main() {
         "colorImages": "/uploads/1788713708201-photo_2026-08-30_08-56-53.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "451c1e83-df4e-4eaf-a34c-c7cbb9fd8606",
+      "slug": "shorts",
+      "nameEn": "Shorts",
+      "nameAr": "الشورتات",
+      "descriptionEn": null,
+      "descriptionAr": null,
+      "image": "/uploads/1788714731177-photo_2026-09-06_10-07-51.jpg",
+      "order": 6,
+      "isHidden": false,
+      "createdAt": "2026-09-06T16:50:58.868Z"
+    }
   },
   {
     "id": "2fcd1e35-9eb8-466d-a014-3744c997759c",
@@ -488,7 +524,19 @@ async function main() {
         "colorImages": "/uploads/1788713561173-photo_2026-08-30_08-56-38.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "451c1e83-df4e-4eaf-a34c-c7cbb9fd8606",
+      "slug": "shorts",
+      "nameEn": "Shorts",
+      "nameAr": "الشورتات",
+      "descriptionEn": null,
+      "descriptionAr": null,
+      "image": "/uploads/1788714731177-photo_2026-09-06_10-07-51.jpg",
+      "order": 6,
+      "isHidden": false,
+      "createdAt": "2026-09-06T16:50:58.868Z"
+    }
   },
   {
     "id": "c90922a6-f7df-4b24-9a37-cf3526c8965b",
@@ -587,7 +635,19 @@ async function main() {
         "colorImages": "/uploads/1788713330115-photo_2026-08-30_08-55-53.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "4886dc8b-d61e-4e27-ba24-f0852ffa955f",
@@ -603,7 +663,7 @@ async function main() {
     "isNew": true,
     "isSale": false,
     "isActive": true,
-    "categorySlug": "hoodies-sweatshirts",
+    "categorySlug": "pants-cargo",
     "createdAt": "2026-09-06T16:45:07.173Z",
     "updatedAt": "2026-09-06T16:45:07.173Z",
     "images": [
@@ -840,7 +900,19 @@ async function main() {
         "colorImages": "/uploads/1788713070242-photo_2026-08-30_08-56-17.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "5db1d456-c716-41c2-841e-b0e2f3d4dd97",
+      "slug": "hoodies-sweatshirts",
+      "nameEn": "Hoodies & Sweatshirts",
+      "nameAr": "الهوديات والسويت شيرت",
+      "descriptionEn": "Heavyweight cotton oversized hoodies imported from Turkey.",
+      "descriptionAr": "هوديات قطن ثقيل أوفرسايز صُنعت في تركيا.",
+      "image": "/uploads/1788714716075-photo_2026-09-06_10-11-09.jpg",
+      "order": 1,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.192Z"
+    }
   },
   {
     "id": "b1eab540-313c-4ad8-86d2-b827c0e21182",
@@ -939,7 +1011,19 @@ async function main() {
         "colorImages": "/uploads/1788712709185-photo_2026-08-30_08-55-34.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "be120bd0-b0c6-454d-935c-46eaab2f3167",
@@ -1115,7 +1199,19 @@ async function main() {
         "colorImages": "/uploads/1788712587768-photo_2026-08-30_08-55-27.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "4a136b04-7ccc-4f39-89cc-72fa772eebc8",
@@ -1221,83 +1317,19 @@ async function main() {
         "colorImages": "/uploads/1788712473453-photo_2026-08-30_08-55-19.jpg,/uploads/1788712496317-photo_2026-08-30_08-55-18.jpg",
         "stock": 15
       }
-    ]
-  },
-  {
-    "id": "014bb285-573c-4f55-8651-84150d38f8b4",
-    "slug": "strong-oversize-t-shirt-571",
-    "nameEn": "Strong OverSize T-Shirt",
-    "nameAr": "Strong OverSize T-Shirt",
-    "descEn": "",
-    "descAr": "",
-    "price": 20,
-    "salePrice": null,
-    "sku": "BI-DROP-8162",
-    "featured": true,
-    "isNew": true,
-    "isSale": false,
-    "isActive": true,
-    "categorySlug": "hoodies-sweatshirts",
-    "createdAt": "2026-09-06T16:31:38.044Z",
-    "updatedAt": "2026-09-06T16:31:38.044Z",
-    "images": [
-      {
-        "id": "4c1c6bbf-76f2-4de5-8547-9f3c90700546",
-        "productId": "014bb285-573c-4f55-8651-84150d38f8b4",
-        "url": "/uploads/1788712283458-photo_2026-08-30_08-55-03.jpg",
-        "isMain": true,
-        "order": 0
-      },
-      {
-        "id": "d7127613-7c7d-4090-bc66-ead597137ad9",
-        "productId": "014bb285-573c-4f55-8651-84150d38f8b4",
-        "url": "/uploads/1788712286750-photo_2026-08-30_08-55-05.jpg",
-        "isMain": false,
-        "order": 1
-      }
     ],
-    "variants": [
-      {
-        "id": "3aea2560-3c9d-4098-bb74-dc7bd3928eb1",
-        "productId": "014bb285-573c-4f55-8651-84150d38f8b4",
-        "size": "S",
-        "colorName": "White",
-        "colorHex": "#ffffff",
-        "colorImage": "/uploads/1788712283458-photo_2026-08-30_08-55-03.jpg",
-        "colorImages": "/uploads/1788712283458-photo_2026-08-30_08-55-03.jpg,/uploads/1788712286750-photo_2026-08-30_08-55-05.jpg",
-        "stock": 10
-      },
-      {
-        "id": "41d1f6bf-7949-445e-bbd3-ab8ec7d65271",
-        "productId": "014bb285-573c-4f55-8651-84150d38f8b4",
-        "size": "M",
-        "colorName": "White",
-        "colorHex": "#ffffff",
-        "colorImage": "/uploads/1788712283458-photo_2026-08-30_08-55-03.jpg",
-        "colorImages": "/uploads/1788712283458-photo_2026-08-30_08-55-03.jpg,/uploads/1788712286750-photo_2026-08-30_08-55-05.jpg",
-        "stock": 15
-      },
-      {
-        "id": "c9e480b1-5a3c-44ba-b4ed-8a64c5c59e7f",
-        "productId": "014bb285-573c-4f55-8651-84150d38f8b4",
-        "size": "L",
-        "colorName": "White",
-        "colorHex": "#ffffff",
-        "colorImage": "/uploads/1788712283458-photo_2026-08-30_08-55-03.jpg",
-        "colorImages": "/uploads/1788712283458-photo_2026-08-30_08-55-03.jpg,/uploads/1788712286750-photo_2026-08-30_08-55-05.jpg",
-        "stock": 20
-      },
-      {
-        "id": "ca0550a1-1b09-4da0-a53a-e5183076997b",
-        "productId": "014bb285-573c-4f55-8651-84150d38f8b4",
-        "size": "XL",
-        "colorName": "White",
-        "colorHex": "#ffffff",
-        "colorImage": "/uploads/1788712283458-photo_2026-08-30_08-55-03.jpg",
-        "colorImages": "/uploads/1788712283458-photo_2026-08-30_08-55-03.jpg,/uploads/1788712286750-photo_2026-08-30_08-55-05.jpg",
-        "stock": 15
-      }
-    ]
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "c41c4f8b-4569-43e8-a195-31e324795399",
@@ -1373,7 +1405,19 @@ async function main() {
         "colorImages": "/uploads/1788712207227-photo_2026-08-30_08-54-48.jpg,/uploads/1788712211797-photo_2026-08-30_08-54-50.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "f2f2e783-a75d-460b-a99a-c8409923d997",
@@ -1449,7 +1493,19 @@ async function main() {
         "colorImages": "/uploads/1788712127050-photo_2026-08-30_08-54-43.jpg,/uploads/1788712132093-photo_2026-08-30_08-54-45.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "35e39825-b1a4-4c58-bda7-0e7c30c77249",
@@ -1525,7 +1581,19 @@ async function main() {
         "colorImages": "/uploads/1788711971467-photo_2026-08-30_08-54-35.jpg,/uploads/1788711976521-photo_2026-08-30_08-54-36.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "17a54d37-1b3d-4b9d-85be-3c22ea1112a9",
@@ -1655,7 +1723,19 @@ async function main() {
         "colorImages": "/uploads/1788711738317-photo_2026-08-30_08-54-27.jpg,/uploads/1788711746257-photo_2026-08-30_08-54-29.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "592b5f55-f214-4256-9601-ddf609bff236",
@@ -1754,7 +1834,19 @@ async function main() {
         "colorImages": "/uploads/1788651550285-photo_2026-09-05_15-24-45.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "5da30cc1-0e02-4555-bdbe-b91a24a298ba",
@@ -1853,7 +1945,19 @@ async function main() {
         "colorImages": "/uploads/1788651452696-photo_2026-09-05_15-24-40.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "6780dbd1-16ee-4203-b6c6-d30ba7054e92",
@@ -2029,7 +2133,19 @@ async function main() {
         "colorImages": "/uploads/1788651354032-photo_2026-09-05_15-24-35.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "ebead403-0436-43cd-8bc8-c3d731961ac0",
@@ -2128,7 +2244,19 @@ async function main() {
         "colorImages": "/uploads/1788651209345-photo_2026-09-05_15-24-25.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "b0114d13-09f9-47bf-8317-fd8d593bf056",
@@ -2227,7 +2355,19 @@ async function main() {
         "colorImages": "/uploads/1788651082617-photo_2026-09-05_15-24-22.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "690a5886-9026-4364-8b28-35d0e52b8f0e",
@@ -2326,7 +2466,19 @@ async function main() {
         "colorImages": "/uploads/1788650979994-photo_2026-09-05_15-24-15.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "3f434c7e-810f-4f40-9468-851f1d72b0bb",
@@ -2425,7 +2577,19 @@ async function main() {
         "colorImages": "/uploads/1788650731702-photo_2026-09-05_15-24-12.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "ec9819f7-2cfc-4d30-a866-c1430223be19",
@@ -2601,7 +2765,19 @@ async function main() {
         "colorImages": "/uploads/1788648572559-photo_2026-09-05_15-24-10.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "0b4b0dde-2587-4ccd-8bb4-6bbf7d45f69e",
@@ -2700,7 +2876,19 @@ async function main() {
         "colorImages": "/uploads/1788648162754-photo_2026-09-05_15-23-57.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "b2cfc19b-8699-4ad5-9887-c19d8f8e1fe2",
@@ -2799,7 +2987,19 @@ async function main() {
         "colorImages": "/uploads/1788647925772-photo_2026-09-05_15-23-46.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9b404cb4-9238-4973-a50b-48e3a3941540",
+      "slug": "pants-cargo",
+      "nameEn": "Pants & Cargo",
+      "nameAr": "البناطيل والكارغو",
+      "descriptionEn": "Tactical cargo pants and relaxed streetwear trousers.",
+      "descriptionAr": "بناطيل كارغو تكتيكية وقصات ستريت وير مريحة.",
+      "image": "/uploads/1788714995710-photo_2026-09-06_10-16-16.jpg",
+      "order": 3,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.203Z"
+    }
   },
   {
     "id": "0c5c3ec1-0242-4386-893a-f66e34ef44ec",
@@ -2875,7 +3075,19 @@ async function main() {
         "colorImages": "/uploads/1788214212190-photo_2026-08-30_08-53-33.jpg,/uploads/1788214216418-photo_2026-08-30_08-53-47.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "d20a9229-f5e6-4a0b-9717-f856558b3168",
@@ -2951,7 +3163,19 @@ async function main() {
         "colorImages": "/uploads/1788214122099-photo_2026-08-30_08-53-03.jpg,/uploads/1788214126252-photo_2026-08-30_08-53-05.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "9f5e2425-8bf2-469a-a0c3-415fb43f15fc",
@@ -3027,7 +3251,19 @@ async function main() {
         "colorImages": "/uploads/1788214022828-photo_2026-08-30_08-52-56.jpg,/uploads/1788214027286-photo_2026-08-30_08-52-57.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "300ab1d1-91fc-4737-b4b4-bfaae5b08103",
@@ -3103,7 +3339,19 @@ async function main() {
         "colorImages": "/uploads/1788118881929-photo_2026-08-30_08-52-35.jpg,/uploads/1788118906279-photo_2026-08-30_08-52-37.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "3f35f22e-efdf-47a0-9e2b-2319e88532ef",
@@ -3233,7 +3481,19 @@ async function main() {
         "colorImages": "/uploads/1788118716337-photo_2026-08-30_08-52-28.jpg,/uploads/1788118722280-photo_2026-08-30_08-52-29.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "7df0789e-0181-4857-87aa-30d2f957a77a",
@@ -3363,7 +3623,19 @@ async function main() {
         "colorImages": "/uploads/1788118426614-photo_2026-08-30_08-52-14.jpg,/uploads/1788118434119-photo_2026-08-30_08-52-15.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "52725655-3d06-473e-b615-8b2ca553f26d",
@@ -3493,7 +3765,19 @@ async function main() {
         "colorImages": "/uploads/1788116493415-photo_2026-08-30_08-51-52.jpg,/uploads/1788116500210-photo_2026-08-30_08-51-54.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "aa2b0673-b758-4983-accd-4dcefb9bd602",
@@ -3569,7 +3853,19 @@ async function main() {
         "colorImages": "/uploads/1788116175154-photo_2026-08-30_08-51-47.jpg,/uploads/1788116181102-photo_2026-08-30_08-51-47__2_.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "7efa2464-046c-4eea-8619-f5efc07fa37a",
@@ -3685,7 +3981,19 @@ async function main() {
         "colorImages": "/uploads/1788113380710-photo_2026-08-30_08-51-33.jpg",
         "stock": 15
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   },
   {
     "id": "9ff9f765-c45d-4c10-8d5c-cf4083bb76c3",
@@ -3808,11 +4116,23 @@ async function main() {
         "colorImages": null,
         "stock": 5
       }
-    ]
+    ],
+    "category": {
+      "id": "9836ec41-76d8-44f8-8abc-93e271d42b4d",
+      "slug": "t-shirts-oversized",
+      "nameEn": "T-Shirts & Oversized",
+      "nameAr": "التيشيرتات والأوفرسايز",
+      "descriptionEn": "Drop-shoulder street tees with high-density graphics.",
+      "descriptionAr": "تيشيرتات أكتاف منسدلة وطباعة عالية الدقة.",
+      "image": "/uploads/1788715207412-photo_2026-09-06_10-19-47.jpg",
+      "order": 2,
+      "isHidden": false,
+      "createdAt": "2026-08-27T23:29:03.198Z"
+    }
   }
 ];
   for (const p of productsData) {
-    const { id, images, variants, createdAt, updatedAt, ...pData } = p;
+    const { id, images, variants, category, createdAt, updatedAt, ...pData } = p;
     await prisma.product.create({
       data: {
         ...pData,
