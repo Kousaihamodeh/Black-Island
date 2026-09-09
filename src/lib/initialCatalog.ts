@@ -82,7 +82,7 @@ export const INITIAL_PRODUCTS: any[] = [
     "nameAr": "Jordan 4 Retro High",
     "descEn": "Iconic Jordan 4 Retro High in premium White and Grey leather silhouette.",
     "descAr": "حذاء سنيكرز جوردان 4 ريترو هاي الفاخر باللون الأبيض والرمادي.",
-    "price": 65,
+    "price": 45,
     "salePrice": null,
     "sku": "BI-JDN4-RETRO",
     "featured": true,
