@@ -181,7 +181,7 @@ export async function syncFromCloud(force = false) {
     try {
       const fetchDoc = async (docId: string) => {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 1200);
+        const timeoutId = setTimeout(() => controller.abort(), 2500);
         try {
           const res = await fetch(getCloudUrl(docId), {
             signal: controller.signal,
@@ -201,18 +201,22 @@ export async function syncFromCloud(force = false) {
       for (const res of results) {
         if (res.status === 'fulfilled' && res.value && res.value.data) {
           const data = res.value.data;
-          if (Array.isArray(data.overrides)) {
-            for (const p of data.overrides) {
-              if (p && p.id) {
-                const existing = globalForCatalog.productOverrides.get(p.id);
-                if (!existing) {
+          const rawOverrides = data.overrides || data.created;
+          const overridesList = Array.isArray(rawOverrides)
+            ? rawOverrides
+            : (rawOverrides && typeof rawOverrides === 'object' ? Object.values(rawOverrides) : []);
+
+          for (const item of overridesList) {
+            if (item && (item as any).id) {
+              const p = item as any;
+              const existing = globalForCatalog.productOverrides.get(p.id);
+              if (!existing) {
+                globalForCatalog.productOverrides.set(p.id, p);
+              } else {
+                const existingTime = new Date(existing.updatedAt || existing.createdAt || 0).getTime();
+                const newTime = new Date(p.updatedAt || p.createdAt || 0).getTime();
+                if (newTime >= existingTime) {
                   globalForCatalog.productOverrides.set(p.id, p);
-                } else {
-                  const existingTime = new Date(existing.updatedAt || existing.createdAt || 0).getTime();
-                  const newTime = new Date(p.updatedAt || p.createdAt || 0).getTime();
-                  if (newTime >= existingTime) {
-                    globalForCatalog.productOverrides.set(p.id, p);
-                  }
                 }
               }
             }
@@ -313,7 +317,7 @@ export async function setProductOverride(product: any) {
   globalForCatalog.deletedProductIds.delete(product.id);
   globalForCatalog.productOverrides.set(product.id, updated);
   syncToTmpDisk();
-  syncToCloud().catch(() => {});
+  await syncToCloud();
 }
 
 export async function markProductDeleted(id: string) {
