@@ -117,8 +117,9 @@ export default function AdminProductsPage() {
       try {
         localCreated = JSON.parse(localStorage.getItem('bi_created_products') || '[]');
         localOverrides = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
-        const deletedArr = JSON.parse(localStorage.getItem('bi_deleted_product_ids') || '[]');
-        deletedIdsSet = new Set(deletedArr);
+        const deletedArr: string[] = JSON.parse(localStorage.getItem('bi_deleted_product_ids') || '[]');
+        const cleanDeleted = deletedArr.filter(id => id && !id.startsWith('sneaker-') && !id.startsWith('cap-'));
+        deletedIdsSet = new Set(cleanDeleted);
       } catch (e) {}
 
       const prodMap = new Map<string, any>();

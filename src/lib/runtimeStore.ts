@@ -3,8 +3,8 @@ import path from 'path';
 import os from 'os';
 
 const DEFAULT_CLOUD_DOC_IDS = [
-  'ff808181a067127101a085f39f325684',
-  'ff808181a067127101a081fbdf054c68',
+  'ff808181a067127101a086293b295772',
+  'ff808181a067127101a086284331576e',
 ];
 
 let currentCloudDocId = DEFAULT_CLOUD_DOC_IDS[0];
@@ -222,7 +222,11 @@ export async function syncFromCloud(force = false) {
             }
           }
           if (Array.isArray(data.deleted)) {
-            for (const id of data.deleted) globalForCatalog.deletedProductIds.add(id);
+            for (const id of data.deleted) {
+              if (id && typeof id === 'string' && !id.startsWith('sneaker-') && !id.startsWith('cap-')) {
+                globalForCatalog.deletedProductIds.add(id);
+              }
+            }
           }
           if (Array.isArray(data.banners)) {
             for (const b of data.banners) {
