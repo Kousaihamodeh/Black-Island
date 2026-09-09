@@ -169,7 +169,6 @@ let syncPromise: Promise<void> | null = null;
 
 export async function syncFromCloud(force = false) {
   const now = Date.now();
-  // Avoid refetching cloud if fetched in last 2 seconds unless forced
   if (!force && globalForCatalog.hasSyncedOnce && now - globalForCatalog.lastSyncedAt < 2000) {
     return;
   }
@@ -182,7 +181,7 @@ export async function syncFromCloud(force = false) {
     try {
       const fetchDoc = async (docId: string) => {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        const timeoutId = setTimeout(() => controller.abort(), 1200);
         try {
           const res = await fetch(getCloudUrl(docId), {
             signal: controller.signal,
@@ -204,7 +203,18 @@ export async function syncFromCloud(force = false) {
           const data = res.value.data;
           if (Array.isArray(data.overrides)) {
             for (const p of data.overrides) {
-              if (p && p.id) globalForCatalog.productOverrides.set(p.id, p);
+              if (p && p.id) {
+                const existing = globalForCatalog.productOverrides.get(p.id);
+                if (!existing) {
+                  globalForCatalog.productOverrides.set(p.id, p);
+                } else {
+                  const existingTime = new Date(existing.updatedAt || existing.createdAt || 0).getTime();
+                  const newTime = new Date(p.updatedAt || p.createdAt || 0).getTime();
+                  if (newTime >= existingTime) {
+                    globalForCatalog.productOverrides.set(p.id, p);
+                  }
+                }
+              }
             }
           }
           if (Array.isArray(data.deleted)) {
@@ -254,10 +264,9 @@ export async function syncToCloud() {
     };
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7000);
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
 
     const bodyStr = JSON.stringify(payload);
-    console.log('[syncToCloud] sending payload bytes:', bodyStr.length);
 
     let res = await fetch(getCloudUrl(), {
       method: 'PUT',
@@ -270,15 +279,13 @@ export async function syncToCloud() {
     clearTimeout(timeoutId);
 
     if (!res.ok) {
-      const errText = await res.text().catch(() => '');
-      console.warn('Cloud sync write non-ok status:', res.status, errText, 'Attempting auto-heal...');
       const newId = await createNewCloudDoc();
       if (newId) {
         await fetch(getCloudUrl(), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: bodyStr,
-        });
+        }).catch(() => {});
       }
     } else {
       globalForCatalog.lastSyncedAt = Date.now();
@@ -299,14 +306,14 @@ export const storeSettings = globalForCatalog.storeSettings;
 
 export async function setProductOverride(product: any) {
   if (!product || !product.id) return;
-  await syncFromCloud();
-  globalForCatalog.deletedProductIds.delete(product.id);
-  globalForCatalog.productOverrides.set(product.id, {
+  const updated = {
     ...product,
     updatedAt: new Date().toISOString(),
-  });
+  };
+  globalForCatalog.deletedProductIds.delete(product.id);
+  globalForCatalog.productOverrides.set(product.id, updated);
   syncToTmpDisk();
-  await syncToCloud();
+  syncToCloud().catch(() => {});
 }
 
 export async function markProductDeleted(id: string) {

@@ -186,6 +186,15 @@ function getCanonicalSlug(str: string | null | undefined): string {
   };
 
   const saveQuickPrice = async (productId: string) => {
+    const p = parseFloat(inputPrice);
+    const sp = inputSalePrice ? parseFloat(inputSalePrice) : null;
+    if (!isNaN(p)) {
+      setProducts((prev) =>
+        prev.map((item) =>
+          item.id === productId ? { ...item, price: p, salePrice: sp, isSale: sp !== null && sp < p } : item
+        )
+      );
+    }
     try {
       const res = await fetch('/api/admin/products/quick-update', {
         method: 'PUT',
@@ -199,6 +208,13 @@ function getCanonicalSlug(str: string | null | undefined): string {
       const data = await res.json();
       if (data.success) {
         setEditingPriceId(null);
+        if (data.product) {
+          try {
+            const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+            stored[productId] = data.product;
+            localStorage.setItem('bi_product_overrides', JSON.stringify(stored));
+          } catch (e) {}
+        }
         fetchCatalogData();
       }
     } catch (e) {
@@ -208,7 +224,18 @@ function getCanonicalSlug(str: string | null | undefined): string {
 
   const updateVariantStockInline = async (variantId: string, newStock: number) => {
     try {
-      await fetch('/api/admin/products/quick-update', {
+      if (inspectingProduct) {
+        const updatedVariants = (inspectingProduct.variants || []).map((v: any) =>
+          v.id === variantId ? { ...v, stock: newStock } : v
+        );
+        const updatedInspecting = { ...inspectingProduct, variants: updatedVariants };
+        setInspectingProduct(updatedInspecting);
+        setProducts((prev) =>
+          prev.map((item) => (item.id === inspectingProduct.id ? updatedInspecting : item))
+        );
+      }
+
+      const res = await fetch('/api/admin/products/quick-update', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -217,14 +244,14 @@ function getCanonicalSlug(str: string | null | undefined): string {
           variantStock: newStock,
         }),
       });
-
-      setInspectingProduct((prev: any) => ({
-        ...prev,
-        variants: prev.variants.map((v: any) =>
-          v.id === variantId ? { ...v, stock: newStock } : v
-        ),
-      }));
-
+      const data = await res.json();
+      if (data.success && data.product) {
+        try {
+          const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+          stored[inspectingProduct.id] = data.product;
+          localStorage.setItem('bi_product_overrides', JSON.stringify(stored));
+        } catch (e) {}
+      }
       fetchCatalogData();
     } catch (e) {
       console.error(e);
@@ -577,24 +604,28 @@ function getCanonicalSlug(str: string | null | undefined): string {
       setSavingEdit(false);
 
       if (data.success) {
+        const updatedProd = data.product || {
+          ...editModalProduct,
+          nameEn: editNameEn,
+          nameAr: editNameAr,
+          descEn: editDescEn,
+          descAr: editDescAr,
+          price: parseFloat(editPrice),
+          salePrice: editSalePrice ? parseFloat(editSalePrice) : null,
+          sku: editSku,
+          categorySlug: editCategorySlug,
+          featured: editFeatured,
+          isNew: editIsNew,
+          isSale: editIsSale || !!editSalePrice,
+          images: allImages.map((url, idx) => ({ url, isMain: idx === 0 })),
+          variants: computedVariants,
+        };
+
+        setProducts((prev) => prev.map((p) => (p.id === editModalProduct.id ? { ...p, ...updatedProd } : p)));
+
         try {
           const stored = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
-          stored[editModalProduct.id] = {
-            ...editModalProduct,
-            nameEn: editNameEn,
-            nameAr: editNameAr,
-            descEn: editDescEn,
-            descAr: editDescAr,
-            price: parseFloat(editPrice),
-            salePrice: editSalePrice ? parseFloat(editSalePrice) : null,
-            sku: editSku,
-            categorySlug: editCategorySlug,
-            featured: editFeatured,
-            isNew: editIsNew,
-            isSale: editIsSale || !!editSalePrice,
-            images: allImages.map((url, idx) => ({ url, isMain: idx === 0 })),
-            variants: computedVariants,
-          };
+          stored[editModalProduct.id] = updatedProd;
           localStorage.setItem('bi_product_overrides', JSON.stringify(stored));
         } catch (e) {}
 

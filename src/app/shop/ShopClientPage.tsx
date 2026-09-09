@@ -307,15 +307,15 @@ export function ShopClientPage({
             {/* Sort & Sale */}
             <div className="space-y-3 pt-4 border-t border-brand-800">
               <div>
-                <label className="block text-xs font-mono text-gray-400 mb-2">{t.sortBy}</label>
+                <label className="block text-xs font-mono text-gray-400 mb-2">{t?.sortBy || 'Sort By'}</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="w-full bg-brand-900 border border-brand-700 text-white text-xs px-3 py-2.5 rounded-xl focus:outline-none"
                 >
-                  <option value="newest">{t.sortNewest}</option>
-                  <option value="price-low">{t.sortPriceLowHigh}</option>
-                  <option value="price-high">{t.sortPriceHighLow}</option>
+                  <option value="newest">{t?.sortNewest || 'Newest Arrival'}</option>
+                  <option value="price-low">{t?.sortPriceLowHigh || 'Price: Low to High'}</option>
+                  <option value="price-high">{t?.sortPriceHighLow || 'Price: High to Low'}</option>
                 </select>
               </div>
 
@@ -326,7 +326,7 @@ export function ShopClientPage({
                   onChange={(e) => setOnlySale(e.target.checked)}
                   className="accent-brand-gold w-4 h-4 rounded"
                 />
-                <span>{t.onSaleOnly}</span>
+                <span>{t?.onSaleOnly || 'On Sale Only'}</span>
               </label>
             </div>
           </div>
@@ -336,8 +336,8 @@ export function ShopClientPage({
             {filteredProducts.length === 0 ? (
               <div className="text-center py-16 bg-brand-950 border border-brand-850 rounded-2xl p-8 space-y-4">
                 <Filter className="w-12 h-12 text-gray-600 mx-auto" />
-                <h3 className="text-lg font-bold text-white uppercase">{t.noProductsFound}</h3>
-                <p className="text-xs text-gray-400 max-w-sm mx-auto">{t.noProductsFound}</p>
+                <h3 className="text-lg font-bold text-white uppercase">{t?.noProductsFound || 'No products found'}</h3>
+                <p className="text-xs text-gray-400 max-w-sm mx-auto">{t?.noProductsFound || 'No items match your filter criteria.'}</p>
                 <Button
                   variant="gold"
                   size="sm"
@@ -349,7 +349,7 @@ export function ShopClientPage({
                     setOnlySale(false);
                   }}
                 >
-                  {t.clearFilters}
+                  {t?.clearFilters || 'Clear Filters'}
                 </Button>
               </div>
             ) : (
