@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 
+import { INITIAL_CATEGORIES } from '@/lib/initialCatalog';
+
 export const revalidate = 60;
 
 export async function CategoryGrid() {
@@ -16,7 +18,9 @@ export async function CategoryGrid() {
     console.error('Failed to load category grid', e);
   }
 
-  if (categories.length === 0) return null;
+  if (!categories || categories.length === 0) {
+    categories = INITIAL_CATEGORIES;
+  }
 
   return (
     <section className="py-12 sm:py-20 bg-brand-950 text-white border-t border-brand-850 font-sans">
