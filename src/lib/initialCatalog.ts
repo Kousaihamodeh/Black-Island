@@ -76,6 +76,217 @@ export const INITIAL_CATEGORIES = [
 
 export const INITIAL_PRODUCTS: any[] = [
   {
+    "id": "sneaker-hyper-01",
+    "slug": "black-island-hyper-sneaker-01",
+    "nameEn": "BLACK ISLAND Hyper Sneaker 01",
+    "nameAr": "سنيكرز بلاك آيلاند هايبـر 01",
+    "descEn": "Architectural luxury footwear designed for durability and street aesthetics. Full-grain genuine leather upper, high-density impact outsole, and precision hand stitching.",
+    "descAr": "حذاء رياضي فاخر بتصميم عصري من الجلد الطبيعي ونعل عالي المتانة لصدمات الشارع، صُنع في تركيا.",
+    "price": 65,
+    "salePrice": 55,
+    "sku": "BI-SNK-001",
+    "featured": true,
+    "isNew": true,
+    "isSale": true,
+    "isActive": true,
+    "categorySlug": "sneakers-shoes",
+    "createdAt": "2026-09-08T00:00:00.000Z",
+    "updatedAt": "2026-09-08T00:00:00.000Z",
+    "images": [
+      {
+        "id": "snk-img-1",
+        "productId": "sneaker-hyper-01",
+        "url": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+        "isMain": true,
+        "order": 0
+      },
+      {
+        "id": "snk-img-2",
+        "productId": "sneaker-hyper-01",
+        "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop",
+        "isMain": false,
+        "order": 1
+      }
+    ],
+    "variants": [
+      {
+        "id": "snk-var-40",
+        "productId": "sneaker-hyper-01",
+        "size": "40",
+        "colorName": "Black & Gold",
+        "colorHex": "#d4af37",
+        "colorImage": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+        "stock": 10
+      },
+      {
+        "id": "snk-var-41",
+        "productId": "sneaker-hyper-01",
+        "size": "41",
+        "colorName": "Black & Gold",
+        "colorHex": "#d4af37",
+        "colorImage": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+        "stock": 12
+      },
+      {
+        "id": "snk-var-42",
+        "productId": "sneaker-hyper-01",
+        "size": "42",
+        "colorName": "Black & Gold",
+        "colorHex": "#d4af37",
+        "colorImage": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+        "stock": 15
+      },
+      {
+        "id": "snk-var-43",
+        "productId": "sneaker-hyper-01",
+        "size": "43",
+        "colorName": "Black & Gold",
+        "colorHex": "#d4af37",
+        "colorImage": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+        "stock": 15
+      },
+      {
+        "id": "snk-var-44",
+        "productId": "sneaker-hyper-01",
+        "size": "44",
+        "colorName": "Black & Gold",
+        "colorHex": "#d4af37",
+        "colorImage": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+        "stock": 10
+      },
+      {
+        "id": "snk-var-45",
+        "productId": "sneaker-hyper-01",
+        "size": "45",
+        "colorName": "Black & Gold",
+        "colorHex": "#d4af37",
+        "colorImage": "https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1000&auto=format&fit=crop",
+        "stock": 8
+      }
+    ],
+    "category": {
+      "id": "8318c01b-ae44-426f-a627-a962db2cbe74",
+      "slug": "sneakers-shoes",
+      "nameEn": "Sneakers & Shoes",
+      "nameAr": "الأحذية والسنيكرز"
+    }
+  },
+  {
+    "id": "sneaker-urban-02",
+    "slug": "black-island-urban-sneaker-02",
+    "nameEn": "BLACK ISLAND Urban Sneaker 02",
+    "nameAr": "سنيكرز بلاك آيلاند أوربان 02",
+    "descEn": "Chunky streetwear silhouette made in Turkey. Premium suede leather panels and padded ergonomic collar.",
+    "descAr": "سنيكرز ضخم بنمط ستريت وير عصري، جلد شامواه فاخر ونعل مريح جداً.",
+    "price": 70,
+    "salePrice": null,
+    "sku": "BI-SNK-002",
+    "featured": true,
+    "isNew": true,
+    "isSale": false,
+    "isActive": true,
+    "categorySlug": "sneakers-shoes",
+    "createdAt": "2026-09-08T00:00:00.000Z",
+    "updatedAt": "2026-09-08T00:00:00.000Z",
+    "images": [
+      {
+        "id": "snk2-img-1",
+        "productId": "sneaker-urban-02",
+        "url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1000&auto=format&fit=crop",
+        "isMain": true,
+        "order": 0
+      }
+    ],
+    "variants": [
+      {
+        "id": "snk2-var-40",
+        "productId": "sneaker-urban-02",
+        "size": "40",
+        "colorName": "White & Silver",
+        "colorHex": "#e5e5e5",
+        "colorImage": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1000&auto=format&fit=crop",
+        "stock": 10
+      },
+      {
+        "id": "snk2-var-41",
+        "productId": "sneaker-urban-02",
+        "size": "41",
+        "colorName": "White & Silver",
+        "colorHex": "#e5e5e5",
+        "colorImage": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1000&auto=format&fit=crop",
+        "stock": 12
+      },
+      {
+        "id": "snk2-var-42",
+        "productId": "sneaker-urban-02",
+        "size": "42",
+        "colorName": "White & Silver",
+        "colorHex": "#e5e5e5",
+        "colorImage": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1000&auto=format&fit=crop",
+        "stock": 15
+      },
+      {
+        "id": "snk2-var-43",
+        "productId": "sneaker-urban-02",
+        "size": "43",
+        "colorName": "White & Silver",
+        "colorHex": "#e5e5e5",
+        "colorImage": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?q=80&w=1000&auto=format&fit=crop",
+        "stock": 10
+      }
+    ],
+    "category": {
+      "id": "8318c01b-ae44-426f-a627-a962db2cbe74",
+      "slug": "sneakers-shoes",
+      "nameEn": "Sneakers & Shoes",
+      "nameAr": "الأحذية والسنيكرز"
+    }
+  },
+  {
+    "id": "cap-embroidery-01",
+    "slug": "black-island-embroidered-cap-01",
+    "nameEn": "BLACK ISLAND Embroidered Cap",
+    "nameAr": "قبعة بلاك آيلاند المطرزة",
+    "descEn": "Premium 100% cotton dad hat with high-density gold 3D embroidery. Adjustable metal buckle back strap.",
+    "descAr": "قبعة كاب قطن 100% بتطريز ذهبي بارز وحزام خلفي معدني قابل للتعديل.",
+    "price": 18,
+    "salePrice": null,
+    "sku": "BI-CAP-001",
+    "featured": true,
+    "isNew": true,
+    "isSale": false,
+    "isActive": true,
+    "categorySlug": "caps",
+    "createdAt": "2026-09-08T00:00:00.000Z",
+    "updatedAt": "2026-09-08T00:00:00.000Z",
+    "images": [
+      {
+        "id": "cap-img-1",
+        "productId": "cap-embroidery-01",
+        "url": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=1000&auto=format&fit=crop",
+        "isMain": true,
+        "order": 0
+      }
+    ],
+    "variants": [
+      {
+        "id": "cap-var-free",
+        "productId": "cap-embroidery-01",
+        "size": "FREE SIZE",
+        "colorName": "Black & Gold",
+        "colorHex": "#d4af37",
+        "colorImage": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=1000&auto=format&fit=crop",
+        "stock": 25
+      }
+    ],
+    "category": {
+      "id": "df3c69fa-83a4-4d44-ad1e-0fbc94741251",
+      "slug": "caps",
+      "nameEn": "Caps & Accessories",
+      "nameAr": "القبعات والإكسسوارات"
+    }
+  },
+  {
     "id": "edcaa936-c0ae-4b3c-b6b5-737c2c82db5e",
     "slug": "stwd-shorts-628",
     "nameEn": "STWD Shorts",
