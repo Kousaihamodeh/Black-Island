@@ -288,7 +288,7 @@ export function Header() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t.searchPlaceholder}
+                placeholder={t?.searchPlaceholder || 'Search...'}
                 autoFocus
                 className="w-full bg-brand-950 text-white pl-12 pr-4 py-4 rounded-xl border border-brand-700 focus:border-white focus:outline-none text-base font-sans"
               />
