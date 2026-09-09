@@ -201,15 +201,15 @@ export function ShopClientPage({
             <span className="text-xs font-mono text-brand-gold uppercase tracking-widest">BLACK ISLAND CATALOG</span>
             <h1 className="text-3xl sm:text-4xl font-display font-bold uppercase text-white mt-1">
               {selectedCategory === 'all'
-                ? t.shop
-                : categories.find((c) => getCanonicalSlug(c.slug) === getCanonicalSlug(selectedCategory))?.[
+                ? (t?.shop || 'Shop Catalog')
+                : ((categories || []).find((c) => c && getCanonicalSlug(c.slug) === getCanonicalSlug(selectedCategory))?.[
                     language === 'ar' ? 'nameAr' : 'nameEn'
-                  ] || selectedCategory}
+                  ] || selectedCategory)}
             </h1>
           </div>
 
           <div className="flex items-center gap-3 text-xs font-mono text-gray-400">
-            <span>{t.showingProducts.replace('{count}', String(filteredProducts.length))}</span>
+            <span>{(t?.showingProducts || 'Showing {count} products').replace('{count}', String((filteredProducts || []).length))}</span>
           </div>
         </div>
 
@@ -250,7 +250,7 @@ export function ShopClientPage({
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t.searchPlaceholder}
+                  placeholder={t?.searchPlaceholder || 'Search...'}
                   className="w-full bg-brand-900 border border-brand-700 text-white text-xs pl-9 pr-3 py-2.5 rounded-xl focus:border-white focus:outline-none"
                 />
               </div>
@@ -258,7 +258,7 @@ export function ShopClientPage({
 
             {/* Category Select */}
             <div>
-              <label className="block text-xs font-mono text-gray-400 mb-2">{t.allCategories}</label>
+              <label className="block text-xs font-mono text-gray-400 mb-2">{t?.allCategories || 'All Categories'}</label>
               <div className="space-y-1">
                 <button
                   onClick={() => setSelectedCategory('all')}
@@ -266,22 +266,26 @@ export function ShopClientPage({
                     selectedCategory === 'all' ? 'bg-brand-gold text-black font-bold' : 'text-gray-300 hover:bg-brand-900'
                   }`}
                 >
-                  {t.allCategories} ({itemsList.length})
+                  {t?.allCategories || 'All Categories'} ({(itemsList || []).length})
                 </button>
 
-                {categories.map((cat) => (
-                  <button
-                    key={cat.slug}
-                    onClick={() => setSelectedCategory(cat.slug)}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs uppercase transition-colors flex justify-between items-center ${
-                      getCanonicalSlug(selectedCategory) === getCanonicalSlug(cat.slug)
-                        ? 'bg-brand-gold text-black font-bold'
-                        : 'text-gray-300 hover:bg-brand-900'
-                    }`}
-                  >
-                    <span>{language === 'ar' ? cat.nameAr : cat.nameEn}</span>
-                  </button>
-                ))}
+                {(categories || []).map((cat) => {
+                  if (!cat || !cat.slug) return null;
+                  const isMatch = getCanonicalSlug(selectedCategory) === getCanonicalSlug(cat.slug);
+                  return (
+                    <button
+                      key={cat.slug}
+                      onClick={() => setSelectedCategory(cat.slug)}
+                      className={`w-full text-left px-3 py-2 rounded-lg text-xs uppercase transition-colors flex justify-between items-center ${
+                        isMatch
+                          ? 'bg-brand-gold text-black font-bold'
+                          : 'text-gray-300 hover:bg-brand-900'
+                      }`}
+                    >
+                      <span>{language === 'ar' ? (cat.nameAr || cat.nameEn) : (cat.nameEn || cat.nameAr)}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
