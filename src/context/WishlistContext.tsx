@@ -20,7 +20,12 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed)) setWishlist(parsed);
+          if (Array.isArray(parsed)) {
+            const validWishlist = parsed
+              .map((item: any) => (typeof item === 'string' ? item : item?.id))
+              .filter((id: any): id is string => typeof id === 'string' && id.length > 0);
+            setWishlist(validWishlist);
+          }
         } catch (e) {
           console.error('Failed to parse wishlist', e);
         }

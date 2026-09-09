@@ -15,26 +15,39 @@ interface OrderConfirmationClientProps {
 export function OrderConfirmationClient({ order }: OrderConfirmationClientProps) {
   const { language, t } = useLanguage();
 
+  if (!order) {
+    return (
+      <div className="py-24 bg-black text-white min-h-[70vh] flex flex-col items-center justify-center text-center px-4 font-sans">
+        <h2 className="text-xl font-bold uppercase mb-4">Order Not Found</h2>
+        <Link href="/shop">
+          <Button variant="gold">Return to Shop</Button>
+        </Link>
+      </div>
+    );
+  }
+
+  const items = Array.isArray(order.items) ? order.items : [];
+
   const whatsappUrl = generateWhatsAppOrderMessage({
-    orderNumber: order.orderNumber,
-    customerName: order.customerName,
-    customerPhone: order.customerPhone,
-    customerWhatsapp: order.customerWhatsapp,
-    governorate: order.governorate,
-    cityArea: order.cityArea,
-    address: order.address,
-    notes: order.notes,
-    items: order.items.map((i: any) => ({
-      productName: i.productName,
-      size: i.size,
-      color: i.color,
-      quantity: i.quantity,
-      price: i.price,
+    orderNumber: order.orderNumber || 'ORDER',
+    customerName: order.customerName || 'Customer',
+    customerPhone: order.customerPhone || '',
+    customerWhatsapp: order.customerWhatsapp || '',
+    governorate: order.governorate || '',
+    cityArea: order.cityArea || '',
+    address: order.address || '',
+    notes: order.notes || '',
+    items: items.map((i: any) => ({
+      productName: i.productName || 'Product',
+      size: i.size || '',
+      color: i.color || '',
+      quantity: i.quantity || 1,
+      price: i.price || 0,
     })),
-    subtotal: order.subtotal,
-    discount: order.discount,
-    total: order.total,
-    paymentMethod: order.paymentMethod,
+    subtotal: order.subtotal || 0,
+    discount: order.discount || 0,
+    total: order.total || 0,
+    paymentMethod: order.paymentMethod || 'COD',
   });
 
   return (
@@ -83,7 +96,7 @@ export function OrderConfirmationClient({ order }: OrderConfirmationClientProps)
             <h3 className="text-xs font-mono text-brand-gold uppercase tracking-widest font-bold">{t.orderDetails}</h3>
 
             <div className="divide-y divide-brand-800 text-xs">
-              {order.items.map((item: any) => {
+              {items.map((item: any) => {
                 const imgUrl =
                   item.product?.images?.find((i: any) => i.isMain)?.url ||
                   item.product?.images[0]?.url ||

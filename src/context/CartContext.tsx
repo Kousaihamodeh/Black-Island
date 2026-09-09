@@ -57,7 +57,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (saved) {
         try {
           const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed)) setCart(parsed);
+          if (Array.isArray(parsed)) {
+            const validCart = parsed.filter(
+              (i: any) => i && typeof i === 'object' && typeof i.id === 'string' && typeof i.productId === 'string'
+            );
+            setCart(validCart);
+          }
         } catch (e) {
           console.error('Failed to parse cart', e);
         }
