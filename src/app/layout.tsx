@@ -35,8 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${cairo.variable} dark`}>
-      <body className="bg-brand-950 text-gray-100 min-h-screen flex flex-col font-sans antialiased selection:bg-brand-gold selection:text-black">
+    <html lang="en" className={`${inter.variable} ${cairo.variable} dark`} suppressHydrationWarning>
+      <body className="bg-brand-950 text-gray-100 min-h-screen flex flex-col font-sans antialiased selection:bg-brand-gold selection:text-black" suppressHydrationWarning>
         <LanguageProvider>
           <WishlistProvider>
             <CartProvider>

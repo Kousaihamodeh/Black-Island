@@ -8,10 +8,13 @@ export function CinematicIntro() {
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     try {
-      const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-      const hasSeenIntro = sessionStorage.getItem('black_island_intro_seen');
+      if (typeof window === 'undefined') return;
+      const prefersReducedMotion = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')?.matches : false;
+      let hasSeenIntro = null;
+      try {
+        hasSeenIntro = sessionStorage.getItem('black_island_intro_seen');
+      } catch (e) {}
 
       if (!hasSeenIntro && !prefersReducedMotion) {
         setIsVisible(true);
