@@ -76,7 +76,7 @@ export default function CheckoutPage() {
           discount,
           total,
           paymentMethod: form.paymentMethod,
-          items: cart.map((i) => ({
+          items: safeCart.map((i) => ({
             productId: i.productId,
             productName: language === 'ar' ? i.nameAr : i.nameEn,
             size: i.size,
@@ -103,7 +103,9 @@ export default function CheckoutPage() {
     }
   };
 
-  if (cart.length === 0) {
+  const safeCart = Array.isArray(cart) ? cart.filter(Boolean) : [];
+
+  if (safeCart.length === 0) {
     return (
       <div className="py-24 bg-black text-white min-h-[70vh] flex flex-col items-center justify-center text-center px-4 font-sans">
         <h1 className="text-2xl font-bold uppercase mb-4">Your bag is empty</h1>
@@ -268,7 +270,7 @@ export default function CheckoutPage() {
               <h3 className="text-xs font-mono text-brand-gold uppercase tracking-widest font-bold">ORDER SUMMARY</h3>
 
               <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
-                {cart.map((item) => (
+                {safeCart.map((item) => (
                   <div key={item.id} className="flex justify-between items-center text-xs border-b border-brand-850 pb-2">
                     <div className="flex items-center gap-3">
                       <img src={item.image} alt="" className="w-10 h-12 object-cover rounded bg-brand-900" />
