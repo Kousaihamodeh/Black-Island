@@ -118,6 +118,256 @@ async function main() {
   console.log('Seeding products, images, and variants...');
   const productsData = [
   {
+    "id": "sneaker-nike-tn",
+    "slug": "nike-tn",
+    "nameEn": "Nike Tn",
+    "nameAr": "Nike Tn",
+    "descEn": "Iconic Nike Tn Air Max sneakers available in 4 distinct colorways.",
+    "descAr": "حذاء سنيكرز نايكي تي إن الرياضي الفاخر بـ 4 ألوان مميزة.",
+    "price": 45,
+    "salePrice": null,
+    "sku": "BI-NIKE-TN",
+    "featured": true,
+    "isNew": true,
+    "isSale": false,
+    "isActive": true,
+    "categorySlug": "sneakers-shoes",
+    "createdAt": "2026-09-09T15:48:22.379Z",
+    "updatedAt": "2026-09-09T15:48:22.380Z",
+    "images": [
+      {
+        "id": "img-niketn-1",
+        "productId": "sneaker-nike-tn",
+        "url": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "isMain": true,
+        "order": 0
+      },
+      {
+        "id": "img-niketn-2",
+        "productId": "sneaker-nike-tn",
+        "url": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "isMain": false,
+        "order": 1
+      },
+      {
+        "id": "img-niketn-3",
+        "productId": "sneaker-nike-tn",
+        "url": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "isMain": false,
+        "order": 2
+      },
+      {
+        "id": "img-niketn-4",
+        "productId": "sneaker-nike-tn",
+        "url": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "isMain": false,
+        "order": 3
+      }
+    ],
+    "variants": [
+      {
+        "id": "var-niketn-0-41",
+        "productId": "sneaker-nike-tn",
+        "size": "41",
+        "colorName": "Purple / Pink / Black",
+        "colorHex": "#8A2BE2",
+        "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-0-42",
+        "productId": "sneaker-nike-tn",
+        "size": "42",
+        "colorName": "Purple / Pink / Black",
+        "colorHex": "#8A2BE2",
+        "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-0-43",
+        "productId": "sneaker-nike-tn",
+        "size": "43",
+        "colorName": "Purple / Pink / Black",
+        "colorHex": "#8A2BE2",
+        "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-0-44",
+        "productId": "sneaker-nike-tn",
+        "size": "44",
+        "colorName": "Purple / Pink / Black",
+        "colorHex": "#8A2BE2",
+        "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-0-45",
+        "productId": "sneaker-nike-tn",
+        "size": "45",
+        "colorName": "Purple / Pink / Black",
+        "colorHex": "#8A2BE2",
+        "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-1-41",
+        "productId": "sneaker-nike-tn",
+        "size": "41",
+        "colorName": "Blue / Black",
+        "colorHex": "#1E90FF",
+        "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-1-42",
+        "productId": "sneaker-nike-tn",
+        "size": "42",
+        "colorName": "Blue / Black",
+        "colorHex": "#1E90FF",
+        "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-1-43",
+        "productId": "sneaker-nike-tn",
+        "size": "43",
+        "colorName": "Blue / Black",
+        "colorHex": "#1E90FF",
+        "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-1-44",
+        "productId": "sneaker-nike-tn",
+        "size": "44",
+        "colorName": "Blue / Black",
+        "colorHex": "#1E90FF",
+        "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-1-45",
+        "productId": "sneaker-nike-tn",
+        "size": "45",
+        "colorName": "Blue / Black",
+        "colorHex": "#1E90FF",
+        "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-2-41",
+        "productId": "sneaker-nike-tn",
+        "size": "41",
+        "colorName": "Black / off-White",
+        "colorHex": "#F5F5DC",
+        "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-2-42",
+        "productId": "sneaker-nike-tn",
+        "size": "42",
+        "colorName": "Black / off-White",
+        "colorHex": "#F5F5DC",
+        "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-2-43",
+        "productId": "sneaker-nike-tn",
+        "size": "43",
+        "colorName": "Black / off-White",
+        "colorHex": "#F5F5DC",
+        "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-2-44",
+        "productId": "sneaker-nike-tn",
+        "size": "44",
+        "colorName": "Black / off-White",
+        "colorHex": "#F5F5DC",
+        "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-2-45",
+        "productId": "sneaker-nike-tn",
+        "size": "45",
+        "colorName": "Black / off-White",
+        "colorHex": "#F5F5DC",
+        "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-3-41",
+        "productId": "sneaker-nike-tn",
+        "size": "41",
+        "colorName": "Cyan / Black",
+        "colorHex": "#00FFFF",
+        "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-3-42",
+        "productId": "sneaker-nike-tn",
+        "size": "42",
+        "colorName": "Cyan / Black",
+        "colorHex": "#00FFFF",
+        "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-3-43",
+        "productId": "sneaker-nike-tn",
+        "size": "43",
+        "colorName": "Cyan / Black",
+        "colorHex": "#00FFFF",
+        "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-3-44",
+        "productId": "sneaker-nike-tn",
+        "size": "44",
+        "colorName": "Cyan / Black",
+        "colorHex": "#00FFFF",
+        "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-niketn-3-45",
+        "productId": "sneaker-nike-tn",
+        "size": "45",
+        "colorName": "Cyan / Black",
+        "colorHex": "#00FFFF",
+        "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
+        "stock": 15
+      }
+    ]
+  },
+  {
     "id": "sneaker-jordan4-retro-high",
     "slug": "jordan-4-retro-high",
     "nameEn": "Jordan 4 Retro High",
