@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Heart, Eye, ShoppingBag, Check } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -26,7 +26,20 @@ export interface ProductCardProps {
   };
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product: initialProduct }: ProductCardProps) {
+  const [product, setProduct] = useState(initialProduct);
+
+  useEffect(() => {
+    try {
+      if (initialProduct?.id) {
+        const storedOverrides = JSON.parse(localStorage.getItem('bi_product_overrides') || '{}');
+        if (storedOverrides[initialProduct.id]) {
+          setProduct((prev: any) => ({ ...prev, ...storedOverrides[initialProduct.id] }));
+        }
+      }
+    } catch (e) {}
+  }, [initialProduct]);
+
   const { language, t } = useLanguage();
   const { wishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
