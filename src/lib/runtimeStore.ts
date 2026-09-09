@@ -3,8 +3,8 @@ import path from 'path';
 import os from 'os';
 
 const DEFAULT_CLOUD_DOC_IDS = [
+  'ff808181a067127101a085f39f325684',
   'ff808181a067127101a081fbdf054c68',
-  'ff808181a067127101a082548e004d1f',
 ];
 
 let currentCloudDocId = DEFAULT_CLOUD_DOC_IDS[0];
@@ -18,7 +18,7 @@ function cleanProductForCloud(p: any) {
   const images = Array.isArray(p.images) ? p.images : [];
   const cleanedImages = images.map((img: any) => {
     const url = typeof img === 'string' ? img : (img?.url || '');
-    if (typeof url === 'string' && url.startsWith('data:')) {
+    if (typeof url === 'string' && (url.startsWith('data:') || url.length > 1000)) {
       return typeof img === 'string'
         ? '/black_island_storefront.jpg'
         : { ...img, url: '/black_island_storefront.jpg' };
@@ -29,11 +29,11 @@ function cleanProductForCloud(p: any) {
   const variants = Array.isArray(p.variants) ? p.variants : [];
   const cleanedVariants = variants.map((v: any) => {
     let colorImage = v?.colorImage || '';
-    if (typeof colorImage === 'string' && colorImage.startsWith('data:')) {
+    if (typeof colorImage === 'string' && (colorImage.startsWith('data:') || colorImage.length > 1000)) {
       colorImage = '/black_island_storefront.jpg';
     }
     let colorImages = v?.colorImages || '';
-    if (typeof colorImages === 'string' && colorImages.startsWith('data:')) {
+    if (typeof colorImages === 'string' && (colorImages.startsWith('data:') || colorImages.length > 1000)) {
       colorImages = '/black_island_storefront.jpg';
     }
     return { ...v, colorImage, colorImages };
