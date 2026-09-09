@@ -118,6 +118,99 @@ async function main() {
   console.log('Seeding products, images, and variants...');
   const productsData = [
   {
+    "id": "sneaker-jordan4-retro-high",
+    "slug": "jordan-4-retro-high",
+    "nameEn": "Jordan 4 Retro High",
+    "nameAr": "Jordan 4 Retro High",
+    "descEn": "Iconic Jordan 4 Retro High in premium White and Grey leather silhouette.",
+    "descAr": "حذاء سنيكرز جوردان 4 ريترو هاي الفاخر باللون الأبيض والرمادي.",
+    "price": 65,
+    "salePrice": null,
+    "sku": "BI-JDN4-RETRO",
+    "featured": true,
+    "isNew": true,
+    "isSale": false,
+    "isActive": true,
+    "categorySlug": "sneakers-shoes",
+    "createdAt": "2026-09-09T15:04:15.704Z",
+    "updatedAt": "2026-09-09T15:04:15.705Z",
+    "images": [
+      {
+        "id": "img-jdn4-1",
+        "productId": "sneaker-jordan4-retro-high",
+        "url": "/uploads/jordan4_retro_high_1_1788966151161.jpg",
+        "isMain": true,
+        "order": 0
+      },
+      {
+        "id": "img-jdn4-2",
+        "productId": "sneaker-jordan4-retro-high",
+        "url": "/uploads/jordan4_retro_high_2_1788966151166.jpg",
+        "isMain": false,
+        "order": 1
+      },
+      {
+        "id": "img-jdn4-3",
+        "productId": "sneaker-jordan4-retro-high",
+        "url": "/uploads/jordan4_retro_high_3_1788966151167.jpg",
+        "isMain": false,
+        "order": 2
+      }
+    ],
+    "variants": [
+      {
+        "id": "var-jdn4-41",
+        "productId": "sneaker-jordan4-retro-high",
+        "size": "41",
+        "colorName": "White and Grey",
+        "colorHex": "#E5E5E5",
+        "colorImage": "/uploads/jordan4_retro_high_1_1788966151161.jpg",
+        "colorImages": "/uploads/jordan4_retro_high_1_1788966151161.jpg,/uploads/jordan4_retro_high_2_1788966151166.jpg,/uploads/jordan4_retro_high_3_1788966151167.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-jdn4-42",
+        "productId": "sneaker-jordan4-retro-high",
+        "size": "42",
+        "colorName": "White and Grey",
+        "colorHex": "#E5E5E5",
+        "colorImage": "/uploads/jordan4_retro_high_1_1788966151161.jpg",
+        "colorImages": "/uploads/jordan4_retro_high_1_1788966151161.jpg,/uploads/jordan4_retro_high_2_1788966151166.jpg,/uploads/jordan4_retro_high_3_1788966151167.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-jdn4-43",
+        "productId": "sneaker-jordan4-retro-high",
+        "size": "43",
+        "colorName": "White and Grey",
+        "colorHex": "#E5E5E5",
+        "colorImage": "/uploads/jordan4_retro_high_1_1788966151161.jpg",
+        "colorImages": "/uploads/jordan4_retro_high_1_1788966151161.jpg,/uploads/jordan4_retro_high_2_1788966151166.jpg,/uploads/jordan4_retro_high_3_1788966151167.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-jdn4-44",
+        "productId": "sneaker-jordan4-retro-high",
+        "size": "44",
+        "colorName": "White and Grey",
+        "colorHex": "#E5E5E5",
+        "colorImage": "/uploads/jordan4_retro_high_1_1788966151161.jpg",
+        "colorImages": "/uploads/jordan4_retro_high_1_1788966151161.jpg,/uploads/jordan4_retro_high_2_1788966151166.jpg,/uploads/jordan4_retro_high_3_1788966151167.jpg",
+        "stock": 15
+      },
+      {
+        "id": "var-jdn4-45",
+        "productId": "sneaker-jordan4-retro-high",
+        "size": "45",
+        "colorName": "White and Grey",
+        "colorHex": "#E5E5E5",
+        "colorImage": "/uploads/jordan4_retro_high_1_1788966151161.jpg",
+        "colorImages": "/uploads/jordan4_retro_high_1_1788966151161.jpg,/uploads/jordan4_retro_high_2_1788966151166.jpg,/uploads/jordan4_retro_high_3_1788966151167.jpg",
+        "stock": 15
+      }
+    ]
+  },
+  {
     "id": "edcaa936-c0ae-4b3c-b6b5-737c2c82db5e",
     "slug": "stwd-shorts-628",
     "nameEn": "STWD Shorts",
