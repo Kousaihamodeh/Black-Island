@@ -173,7 +173,7 @@ async function main() {
         "colorHex": "#8A2BE2",
         "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
         "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-0-42",
@@ -183,7 +183,7 @@ async function main() {
         "colorHex": "#8A2BE2",
         "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
         "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-0-43",
@@ -193,7 +193,7 @@ async function main() {
         "colorHex": "#8A2BE2",
         "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
         "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-0-44",
@@ -203,7 +203,7 @@ async function main() {
         "colorHex": "#8A2BE2",
         "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
         "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-0-45",
@@ -213,7 +213,7 @@ async function main() {
         "colorHex": "#8A2BE2",
         "colorImage": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
         "colorImages": "/uploads/nike_tn_purple_pink_black_1788968784810.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-1-41",
@@ -223,7 +223,7 @@ async function main() {
         "colorHex": "#1E90FF",
         "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
         "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-1-42",
@@ -233,7 +233,7 @@ async function main() {
         "colorHex": "#1E90FF",
         "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
         "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-1-43",
@@ -243,7 +243,7 @@ async function main() {
         "colorHex": "#1E90FF",
         "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
         "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-1-44",
@@ -253,7 +253,7 @@ async function main() {
         "colorHex": "#1E90FF",
         "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
         "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-1-45",
@@ -263,7 +263,7 @@ async function main() {
         "colorHex": "#1E90FF",
         "colorImage": "/uploads/nike_tn_blue_black_1788968784815.jpg",
         "colorImages": "/uploads/nike_tn_blue_black_1788968784815.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-2-41",
@@ -273,7 +273,7 @@ async function main() {
         "colorHex": "#F5F5DC",
         "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
         "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-2-42",
@@ -283,7 +283,7 @@ async function main() {
         "colorHex": "#F5F5DC",
         "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
         "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-2-43",
@@ -293,7 +293,7 @@ async function main() {
         "colorHex": "#F5F5DC",
         "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
         "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-2-44",
@@ -303,7 +303,7 @@ async function main() {
         "colorHex": "#F5F5DC",
         "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
         "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-2-45",
@@ -313,7 +313,7 @@ async function main() {
         "colorHex": "#F5F5DC",
         "colorImage": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
         "colorImages": "/uploads/nike_tn_black_offwhite_1788968784818.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-3-41",
@@ -323,7 +323,7 @@ async function main() {
         "colorHex": "#00FFFF",
         "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
         "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-3-42",
@@ -333,7 +333,7 @@ async function main() {
         "colorHex": "#00FFFF",
         "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
         "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-3-43",
@@ -343,7 +343,7 @@ async function main() {
         "colorHex": "#00FFFF",
         "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
         "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-3-44",
@@ -353,7 +353,7 @@ async function main() {
         "colorHex": "#00FFFF",
         "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
         "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
-        "stock": 15
+        "stock": 10
       },
       {
         "id": "var-niketn-3-45",
@@ -363,7 +363,7 @@ async function main() {
         "colorHex": "#00FFFF",
         "colorImage": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
         "colorImages": "/uploads/nike_tn_cyan_black_1788968784819.jpg",
-        "stock": 15
+        "stock": 10
       }
     ]
   },
