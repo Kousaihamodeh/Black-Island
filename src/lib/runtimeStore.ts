@@ -15,31 +15,35 @@ function getCloudUrl(docId = currentCloudDocId) {
 
 function cleanProductForCloud(p: any) {
   if (!p) return p;
-  const images = Array.isArray(p.images) ? p.images : [];
-  const cleanedImages = images.map((img: any) => {
-    const url = typeof img === 'string' ? img : (img?.url || '');
-    if (typeof url === 'string' && (url.startsWith('data:') || url.length > 1000)) {
-      return typeof img === 'string'
-        ? '/black_island_storefront.jpg'
-        : { ...img, url: '/black_island_storefront.jpg' };
-    }
-    return img;
-  });
+  const result: any = { ...p };
 
-  const variants = Array.isArray(p.variants) ? p.variants : [];
-  const cleanedVariants = variants.map((v: any) => {
-    let colorImage = v?.colorImage || '';
-    if (typeof colorImage === 'string' && (colorImage.startsWith('data:') || colorImage.length > 1000)) {
-      colorImage = '/black_island_storefront.jpg';
-    }
-    let colorImages = v?.colorImages || '';
-    if (typeof colorImages === 'string' && (colorImages.startsWith('data:') || colorImages.length > 1000)) {
-      colorImages = '/black_island_storefront.jpg';
-    }
-    return { ...v, colorImage, colorImages };
-  });
+  if (Array.isArray(p.images)) {
+    result.images = p.images.map((img: any) => {
+      const url = typeof img === 'string' ? img : (img?.url || '');
+      if (typeof url === 'string' && (url.startsWith('data:') || url.length > 1000)) {
+        return typeof img === 'string'
+          ? '/black_island_storefront.jpg'
+          : { ...img, url: '/black_island_storefront.jpg' };
+      }
+      return img;
+    });
+  }
 
-  return { ...p, images: cleanedImages, variants: cleanedVariants };
+  if (Array.isArray(p.variants)) {
+    result.variants = p.variants.map((v: any) => {
+      let colorImage = v?.colorImage || '';
+      if (typeof colorImage === 'string' && (colorImage.startsWith('data:') || colorImage.length > 1000)) {
+        colorImage = '/black_island_storefront.jpg';
+      }
+      let colorImages = v?.colorImages || '';
+      if (typeof colorImages === 'string' && (colorImages.startsWith('data:') || colorImages.length > 1000)) {
+        colorImages = '/black_island_storefront.jpg';
+      }
+      return { ...v, colorImage, colorImages };
+    });
+  }
+
+  return result;
 }
 
 async function createNewCloudDoc(): Promise<string | null> {
@@ -340,7 +344,16 @@ export function applyOverrides(products: any[]): any[] {
   for (const [id, overrideProduct] of globalForCatalog.productOverrides.entries()) {
     if (overrideProduct && overrideProduct.id) {
       const existing = map.get(id) || {};
-      map.set(id, { ...existing, ...overrideProduct });
+      const merged = { ...existing };
+      for (const [k, v] of Object.entries(overrideProduct)) {
+        if (v !== undefined && v !== null) {
+          if (Array.isArray(v) && v.length === 0 && Array.isArray(existing[k]) && existing[k].length > 0) {
+            continue;
+          }
+          merged[k] = v;
+        }
+      }
+      map.set(id, merged);
     }
   }
 
